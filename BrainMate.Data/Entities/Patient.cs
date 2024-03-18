@@ -16,7 +16,7 @@ namespace BrainMate.Data.Entities
 		[Display(Name = "Name")]
 		public string? NameEn { get; set; }
 		public string? Address { get; set; }
-		public int Age { get; set; }
+		public DateOnly? BirthDate { get; set; }
 		public string? Phone { get; set; }
 		public string? Image { get; set; }
 		public string? Job { get; set; }

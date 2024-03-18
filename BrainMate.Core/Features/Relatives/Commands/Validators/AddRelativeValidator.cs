@@ -1,17 +1,17 @@
-﻿using BrainMate.Core.Features.AlzheimerPatient.Commands.Models;
+﻿using BrainMate.Core.Features.Relatives.Commands.Models;
 using BrainMate.Core.Resources;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 
-namespace BrainMate.Core.Features.AlzheimerPatient.Commands.Validators
+namespace BrainMate.Core.Features.Relatives.Commands.Validators
 {
-	public class AddPatientValidator : AbstractValidator<AddPatientCommand>
+	public class AddRelativeValidator : AbstractValidator<AddRelativeCommand>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _localizer;
 		#endregion
 		#region Constructors
-		public AddPatientValidator(IStringLocalizer<SharedResources> localizer)
+		public AddRelativeValidator(IStringLocalizer<SharedResources> localizer)
 		{
 			_localizer = localizer;
 			ApplyValidationsRules();

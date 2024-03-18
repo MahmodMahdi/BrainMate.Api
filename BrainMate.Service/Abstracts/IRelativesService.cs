@@ -1,4 +1,5 @@
 ﻿using BrainMate.Data.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace BrainMate.Service.Abstracts
 {
@@ -8,5 +9,7 @@ namespace BrainMate.Service.Abstracts
 		public IQueryable<Relatives> FilterRelativesPaginatedQueryable();
 		public Task<Relatives> GetByIdAsync(int id);
 		public Task<Relatives> GetRelativeAsync(int id);
+		public Task<string> AddAsync(Relatives relatives, IFormFile file);
+		//public Task<string> EditAsync(Relatives relatives, IFormFile file);
 	}
 }

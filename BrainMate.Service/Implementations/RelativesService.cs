@@ -3,6 +3,7 @@ using BrainMate.Infrastructure.Interfaces;
 using BrainMate.Service.Abstracts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using SchoolProject.Service.Abstracts;
 
 namespace BrainMate.Service.Implementations
 {
@@ -11,16 +12,19 @@ namespace BrainMate.Service.Implementations
 		#region Fields
 		private readonly IRelativesRepository _relativesRepository;
 		private readonly IHttpContextAccessor _httpContextAccessor;
+		private readonly IFileService _fileService;
 		private readonly IWebHostEnvironment _webHost;
 		#endregion
 		#region Constructors
 		public RelativesService(IRelativesRepository relativesRepository,
 			IHttpContextAccessor httpContextAccessor,
-			IWebHostEnvironment webHost)
+			IWebHostEnvironment webHost,
+			IFileService fileService)
 		{
 			_relativesRepository = relativesRepository;
 			_httpContextAccessor = httpContextAccessor;
 			_webHost = webHost;
+			_fileService = fileService;
 		}
 		#endregion
 		#region Handle Functions
@@ -58,6 +62,32 @@ namespace BrainMate.Service.Implementations
 		{
 			var relative = await _relativesRepository.GetByIdAsync(id);
 			return relative;
+		}
+
+		public async Task<string> AddAsync(Relatives relative, IFormFile file)
+		{
+			var imageUrl = await _fileService.UploadImage("Relatives", file);
+			relative.Image = imageUrl;
+			switch (imageUrl)
+			{
+				case "NoImage": return "NoImage";
+				case "FailedToUploadImage": return "FailedToUploadImage";
+			}
+			var ExistPatient = _relativesRepository.
+				GetTableNoTracking()
+				.Where(x => x.NameEn!.Equals(relative.NameEn))
+				.FirstOrDefault();
+			if (ExistPatient != null) return "Exist";
+			// Add
+			try
+			{
+				await _relativesRepository.AddAsync(relative);
+				return "Success";
+			}
+			catch (Exception)
+			{
+				return "FailedToAdd";
+			}
 		}
 		#endregion
 	}
