@@ -9,6 +9,7 @@ namespace BrainMate.Infrastructure
 		public static IServiceCollection AddInfrastructureDependencies(this IServiceCollection services)
 		{
 			services.AddTransient<IPatientRepository, PatientRepository>();
+			services.AddTransient<IRelativesRepository, RelativesRepository>();
 			//services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
 			services.AddTransient(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
 			return services;
