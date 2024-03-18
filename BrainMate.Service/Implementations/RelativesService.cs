@@ -116,6 +116,25 @@ namespace BrainMate.Service.Implementations
 				return "FailedToUpdate";
 			}
 		}
+		public async Task<string> DeleteAsync(Relatives relative)
+		{
+			var transaction = await _relativesRepository.BeginTransactionAsync();
+			try
+			{
+				var OldUrl = relative.Image!;
+				var UrlRoot = _webHost.WebRootPath;
+				var path = $"{UrlRoot}{OldUrl}";
+				await _relativesRepository.DeleteAsync(relative);
+				System.IO.File.Delete(path);
+				await transaction.CommitAsync();
+				return "Success";
+			}
+			catch
+			{
+				await transaction.RollbackAsync();
+				return "Failed";
+			}
+		}
 		#endregion
 	}
 }

@@ -11,5 +11,6 @@ namespace BrainMate.Service.Abstracts
 		public Task<Relatives> GetRelativeAsync(int id);
 		public Task<string> AddAsync(Relatives relatives, IFormFile file);
 		public Task<string> UpdateAsync(Relatives relatives, IFormFile file);
+		public Task<string> DeleteAsync(Relatives relatives);
 	}
 }

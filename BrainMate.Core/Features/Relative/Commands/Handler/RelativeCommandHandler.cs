@@ -11,7 +11,8 @@ namespace BrainMate.Core.Features.Relative.Commands.Handler
 {
 	public class RelativeCommandHandler : ResponseHandler,
 				 IRequestHandler<AddRelativeCommand, Response<string>>,
-				 IRequestHandler<UpdateRelativeCommand, Response<string>>
+				 IRequestHandler<UpdateRelativeCommand, Response<string>>,
+				  IRequestHandler<DeleteRelativeCommand, Response<string>>
 
 	{
 		#region Fields
@@ -67,6 +68,18 @@ namespace BrainMate.Core.Features.Relative.Commands.Handler
 				case "FailedToUpdate": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]);
 			}
 			return Success($"{relativeMapper.Id} Updated Successfully");
+		}
+
+		public async Task<Response<string>> Handle(DeleteRelativeCommand request, CancellationToken cancellationToken)
+		{
+			// check if the id is exist or not 
+			var relative = await _relativeService.GetRelativeAsync(request.Id);
+			// return notFound
+			if (relative == null) return NotFound<string>("relative is not found");
+			// call service 
+			var result = await _relativeService.DeleteAsync(relative);
+			if (result == "Success") return Deleted<string>($"{request.Id} Deleted Successfully ");
+			else return BadRequest<string>();
 		}
 		#endregion
 	}
