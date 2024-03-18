@@ -11,6 +11,7 @@ namespace BrainMate.Service
 		public static IServiceCollection AddServiceDependencies(this IServiceCollection services)
 		{
 			services.AddTransient<IPatientService, PatientService>();
+			services.AddTransient<IRelativesService, RelativesService>();
 			//services.AddTransient<IAuthenticationService, AuthenticationService>();
 			//services.AddTransient<IAuthorizationService, AuthorizationService>();
 			//services.AddTransient<IEmailService, EmailService>();
