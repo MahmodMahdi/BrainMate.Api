@@ -12,7 +12,8 @@ using Microsoft.Extensions.Localization;
 namespace BrainMate.Core.Features.Relatives.Queries.Handler
 {
 	public class RelativesQueryHandler : ResponseHandler,
-									   IRequestHandler<GetRelativesPaginatedListQuery, PaginateResult<GetRelativesPaginatedListResponse>>
+									   IRequestHandler<GetRelativesPaginatedListQuery, PaginateResult<GetRelativesPaginatedListResponse>>,
+									   IRequestHandler<GetRelativesByIdQuery, Response<GetRelativesResponse>>
 	{
 		// Mediator
 		#region Fields
@@ -54,6 +55,18 @@ namespace BrainMate.Core.Features.Relatives.Queries.Handler
 				}
 			}
 			return paginatedList;
+		}
+
+		public async Task<Response<GetRelativesResponse>> Handle(GetRelativesByIdQuery request, CancellationToken cancellationToken)
+		{
+			var Relative = await _relativesService.GetByIdAsync(request.Id);
+			if (Relative == null)
+			{
+				// using the localization
+				return NotFound<GetRelativesResponse>(_stringLocalizer[SharedResourcesKeys.NotFound]);
+			}
+			var result = _mapper.Map<GetRelativesResponse>(Relative);
+			return Success(result);
 		}
 
 

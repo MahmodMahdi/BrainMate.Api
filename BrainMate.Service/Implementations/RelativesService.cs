@@ -24,20 +24,20 @@ namespace BrainMate.Service.Implementations
 		}
 		#endregion
 		#region Handle Functions
-		public async Task<List<Relatives>> GetRelativesListAsync()
-		{
-			var context = _httpContextAccessor.HttpContext!.Request;
-			var baseUrl = context.Scheme + "://" + context.Host;
-			var relatives = await _relativesRepository.GetRelativesAsync();
-			foreach (var relative in relatives)
-			{
-				if (relative.Image != null)
-				{
-					relative.Image = baseUrl + relative.Image;
-				}
-			}
-			return relatives;
-		}
+		//public async Task<List<Relatives>> GetRelativesListAsync()
+		//{
+		//	var context = _httpContextAccessor.HttpContext!.Request;
+		//	var baseUrl = context.Scheme + "://" + context.Host;
+		//	var relatives = await _relativesRepository.GetRelativesAsync();
+		//	foreach (var relative in relatives)
+		//	{
+		//		if (relative.Image != null)
+		//		{
+		//			relative.Image = baseUrl + relative.Image;
+		//		}
+		//	}
+		//	return relatives;
+		//}
 		public IQueryable<Relatives> FilterRelativesPaginatedQueryable()
 		{
 			var queryable = _relativesRepository.GetTableNoTracking().OrderBy(x => x.RelationShipDegree).AsQueryable();
@@ -52,6 +52,11 @@ namespace BrainMate.Service.Implementations
 			{
 				relative.Image = baseUrl + relative.Image;
 			}
+			return relative;
+		}
+		public async Task<Relatives> GetRelativeAsync(int id)
+		{
+			var relative = await _relativesRepository.GetByIdAsync(id);
 			return relative;
 		}
 		#endregion

@@ -7,6 +7,7 @@ namespace BrainMate.Core.Mapping.RelativesMapping
 		public RelativesProfile()
 		{
 			GetRelativesPaginationMapping();
+			GetRelativeByIdMapping();
 		}
 	}
 }
