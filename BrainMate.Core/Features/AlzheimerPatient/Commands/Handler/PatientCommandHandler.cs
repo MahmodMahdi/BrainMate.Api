@@ -50,13 +50,13 @@ namespace BrainMate.Core.Features.AlzheimerPatient.Commands.Handler
 		public async Task<Response<string>> Handle(UpdatePatientCommand request, CancellationToken cancellationToken)
 		{
 			// check if the id is exist or not 
-			var patient = await _patientService.GetPatient(request.Id);
+			var patient = await _patientService.GetPatientAsync(request.Id);
 			// return notFound
 			if (patient == null) return NotFound<string>("patient is not found");
 			// mapping 
 			var patientMapper = _mapper.Map(request, patient);
 			// call service 
-			var result = await _patientService.EditAsync(patientMapper, request.Image!);
+			var result = await _patientService.UpdateAsync(patientMapper, request.Image!);
 			//return response
 			switch (result)
 			{

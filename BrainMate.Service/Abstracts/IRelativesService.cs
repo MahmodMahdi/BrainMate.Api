@@ -10,6 +10,6 @@ namespace BrainMate.Service.Abstracts
 		public Task<Relatives> GetByIdAsync(int id);
 		public Task<Relatives> GetRelativeAsync(int id);
 		public Task<string> AddAsync(Relatives relatives, IFormFile file);
-		//public Task<string> EditAsync(Relatives relatives, IFormFile file);
+		public Task<string> UpdateAsync(Relatives relatives, IFormFile file);
 	}
 }

@@ -29,7 +29,7 @@ namespace BrainMate.Service.Implementations
 		#endregion
 		#region Handle Functions
 
-		public async Task<Patient> GetPatientById(int id)
+		public async Task<Patient> GetPatientByIdAsync(int id)
 		{
 			var context = _httpContextAccessor.HttpContext!.Request;
 			var baseUrl = context.Scheme + "://" + context.Host;
@@ -40,13 +40,13 @@ namespace BrainMate.Service.Implementations
 			}
 			return patient;
 		}
-		public async Task<Patient> GetPatient(int id)
+		public async Task<Patient> GetPatientAsync(int id)
 		{
 			var patient = await _patientRepository.GetByIdAsync(id);
 			return patient;
 		}
 
-		public async Task<string> AddAsync(Patient patient, IFormFile file)
+		public async Task<string> AddAsyncAsync(Patient patient, IFormFile file)
 		{
 			var imageUrl = await _fileService.UploadImage("Patient", file);
 			patient.Image = imageUrl;
@@ -72,7 +72,7 @@ namespace BrainMate.Service.Implementations
 			}
 		}
 
-		public async Task<string> EditAsync(Patient patient, IFormFile file)
+		public async Task<string> UpdateAsync(Patient patient, IFormFile file)
 		{
 			var OldUrl = patient.Image!;
 			var UrlRoot = _webHost.WebRootPath;

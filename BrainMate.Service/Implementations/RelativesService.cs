@@ -89,6 +89,30 @@ namespace BrainMate.Service.Implementations
 				return "FailedToAdd";
 			}
 		}
+		public async Task<string> UpdateAsync(Relatives relative, IFormFile file)
+		{
+			var OldUrl = relative.Image!;
+			var UrlRoot = _webHost.WebRootPath;
+			var path = $"{UrlRoot}{OldUrl}";
+			var imageUrl = await _fileService.UploadImage("Relatives", file);
+			System.IO.File.Delete(path);
+
+			relative.Image = imageUrl;
+			switch (imageUrl)
+			{
+				case "NoImage": return "NoImage";
+				case "FailedToUploadImage": return "FailedToUpdateImage";
+			}
+			try
+			{
+				await _relativesRepository.UpdateAsync(relative);
+				return "Success";
+			}
+			catch
+			{
+				return "FailedToUpdate";
+			}
+		}
 		#endregion
 	}
 }

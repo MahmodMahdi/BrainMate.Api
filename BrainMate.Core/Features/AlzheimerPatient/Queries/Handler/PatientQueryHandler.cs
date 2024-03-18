@@ -32,7 +32,7 @@ namespace BrainMate.Core.Features.AlzheimerPatient.Queries.Handler
 		#region Handle Functions
 		public async Task<Response<GetPatientResponse>> Handle(GetPatientByIdQuery request, CancellationToken cancellationToken)
 		{
-			var Patient = await _patientService.GetPatientById(request.Id);
+			var Patient = await _patientService.GetPatientByIdAsync(request.Id);
 			if (Patient == null)
 			{
 				return NotFound<GetPatientResponse>(_stringLocalizer[SharedResourcesKeys.NotFound]);
