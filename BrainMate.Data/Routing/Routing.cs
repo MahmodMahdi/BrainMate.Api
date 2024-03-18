@@ -8,10 +8,9 @@
 		public const string version = "V1";
 		public const string Rule = root + "/" + version + "/";
 
-		public static class StudentRouting
+		public static class RelativesRouting
 		{
-			public const string Prefix = Rule + "Student";
-			public const string GetAll = Prefix + "/GetAll";
+			public const string Prefix = Rule + "Relatives";
 			public const string GetById = Prefix + SingleRoute;
 			public const string Create = Prefix + "/Create";
 			public const string Update = Prefix + "/Update";
