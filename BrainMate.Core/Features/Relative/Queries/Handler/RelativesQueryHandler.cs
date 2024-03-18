@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BrainMate.Core.Bases;
-using BrainMate.Core.Features.Relatives.Queries.Dtos;
-using BrainMate.Core.Features.Relatives.Queries.Models;
+using BrainMate.Core.Features.Relative.Queries.Dtos;
+using BrainMate.Core.Features.Relative.Queries.Models;
 using BrainMate.Core.Resources;
 using BrainMate.Core.Wrappers;
 using BrainMate.Service.Abstracts;
@@ -9,7 +9,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 
-namespace BrainMate.Core.Features.Relatives.Queries.Handler
+namespace BrainMate.Core.Features.Relative.Queries.Handler
 {
 	public class RelativesQueryHandler : ResponseHandler,
 									   IRequestHandler<GetRelativesPaginatedListQuery, PaginateResult<GetRelativesPaginatedListResponse>>,

@@ -1,9 +1,9 @@
-﻿using BrainMate.Core.Features.Relatives.Commands.Models;
+﻿using BrainMate.Core.Features.Relative.Commands.Models;
 using BrainMate.Core.Resources;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 
-namespace BrainMate.Core.Features.Relatives.Commands.Validators
+namespace BrainMate.Core.Features.Relative.Commands.Validators
 {
 	public class AddRelativeValidator : AbstractValidator<AddRelativeCommand>
 	{

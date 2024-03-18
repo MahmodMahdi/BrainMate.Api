@@ -1,8 +1,8 @@
 ﻿using BrainMate.Core.Bases;
-using BrainMate.Core.Features.Relatives.Queries.Dtos;
+using BrainMate.Core.Features.Relative.Queries.Dtos;
 using MediatR;
 
-namespace BrainMate.Core.Features.Relatives.Queries.Models
+namespace BrainMate.Core.Features.Relative.Queries.Models
 {
 	public class GetRelativesByIdQuery : IRequest<Response<GetRelativesResponse>>
 	{

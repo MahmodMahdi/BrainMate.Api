@@ -1,8 +1,8 @@
-﻿using BrainMate.Core.Features.Relatives.Queries.Dtos;
+﻿using BrainMate.Core.Features.Relative.Queries.Dtos;
 using BrainMate.Core.Wrappers;
 using MediatR;
 
-namespace BrainMate.Core.Features.Relatives.Queries.Models
+namespace BrainMate.Core.Features.Relative.Queries.Models
 {
 	public class GetRelativesPaginatedListQuery : IRequest<PaginateResult<GetRelativesPaginatedListResponse>>
 	{

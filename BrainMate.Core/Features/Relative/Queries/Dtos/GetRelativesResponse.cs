@@ -1,4 +1,4 @@
-﻿namespace BrainMate.Core.Features.Relatives.Queries.Dtos
+﻿namespace BrainMate.Core.Features.Relative.Queries.Dtos
 {
 	public class GetRelativesResponse
 	{
