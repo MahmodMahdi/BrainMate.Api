@@ -28,7 +28,7 @@ namespace BrainMate.Service.Implementations
 		{
 			var context = _httpContextAccessor.HttpContext!.Request;
 			var baseUrl = context.Scheme + "://" + context.Host;
-			var relatives = await _relativesRepository.GetInstructorsAsync();
+			var relatives = await _relativesRepository.GetRelativesAsync();
 			foreach (var relative in relatives)
 			{
 				if (relative.Image != null)
@@ -38,14 +38,21 @@ namespace BrainMate.Service.Implementations
 			}
 			return relatives;
 		}
-		public IQueryable<Relatives> FilterRelativesPaginatedQueryable(string search)
+		public IQueryable<Relatives> FilterRelativesPaginatedQueryable()
 		{
 			var queryable = _relativesRepository.GetTableNoTracking().OrderBy(x => x.RelationShipDegree).AsQueryable();
-			if (search != null)
-			{
-				queryable = queryable.Where(x => x.NameEn!.Contains(search) || x.Address!.Contains(search));
-			}
 			return queryable;
+		}
+		public async Task<Relatives> GetByIdAsync(int id)
+		{
+			var context = _httpContextAccessor.HttpContext!.Request;
+			var baseUrl = context.Scheme + "://" + context.Host;
+			var relative = await _relativesRepository.GetByIdAsync(id);
+			if (relative.Image != null)
+			{
+				relative.Image = baseUrl + relative.Image;
+			}
+			return relative;
 		}
 		#endregion
 	}

@@ -5,6 +5,6 @@ namespace BrainMate.Infrastructure.Interfaces
 {
 	public interface IRelativesRepository : IGenericRepositoryAsync<Relatives>
 	{
-		public Task<List<Relatives>> GetInstructorsAsync();
+		public Task<List<Relatives>> GetRelativesAsync();
 	}
 }

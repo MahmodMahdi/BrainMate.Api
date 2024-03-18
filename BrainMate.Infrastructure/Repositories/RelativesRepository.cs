@@ -20,7 +20,7 @@ namespace BrainMate.Infrastructure.Repositories
 		#endregion
 
 		#region Handle Functions
-		public async Task<List<Relatives>> GetInstructorsAsync()
+		public async Task<List<Relatives>> GetRelativesAsync()
 		{
 			var relatives = await _dbContext.relatives.ToListAsync();
 			return relatives;
