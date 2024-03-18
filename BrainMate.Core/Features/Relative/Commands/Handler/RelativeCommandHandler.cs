@@ -10,7 +10,8 @@ using Microsoft.Extensions.Localization;
 namespace BrainMate.Core.Features.Relative.Commands.Handler
 {
 	public class RelativeCommandHandler : ResponseHandler,
-				 IRequestHandler<AddRelativeCommand, Response<string>>
+				 IRequestHandler<AddRelativeCommand, Response<string>>,
+				 IRequestHandler<UpdateRelativeCommand, Response<string>>
 
 	{
 		#region Fields
@@ -46,6 +47,26 @@ namespace BrainMate.Core.Features.Relative.Commands.Handler
 				case "FailedToAdd": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToAdd]);
 			}
 			return Created("Added Successfully");
+		}
+
+		public async Task<Response<string>> Handle(UpdateRelativeCommand request, CancellationToken cancellationToken)
+		{
+			// check if the id is exist or not 
+			var relative = await _relativeService.GetRelativeAsync(request.Id);
+			// return notFound
+			if (relative == null) return NotFound<string>("relative is not found");
+			// mapping 
+			var relativeMapper = _mapper.Map(request, relative);
+			// call service 
+			var result = await _relativeService.UpdateAsync(relativeMapper, request.Image!);
+			//return response
+			switch (result)
+			{
+				case "NoImage": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.NoImage]);
+				case "FailedToUpdateImage": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdateImage]);
+				case "FailedToUpdate": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]);
+			}
+			return Success($"{relativeMapper.Id} Updated Successfully");
 		}
 		#endregion
 	}

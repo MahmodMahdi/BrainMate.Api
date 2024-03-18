@@ -8,6 +8,8 @@ namespace BrainMate.Core.Mapping.RelativesMapping
 		{
 			GetRelativesPaginationMapping();
 			GetRelativeByIdMapping();
+			AddRelativeCommandMapping();
+			UpdateRelativeCommandMapping();
 		}
 	}
 }

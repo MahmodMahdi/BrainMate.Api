@@ -1,4 +1,4 @@
-﻿using BrainMate.Core.Features.Relatives.Queries.Dtos;
+﻿using BrainMate.Core.Features.Relative.Queries.Dtos;
 using BrainMate.Data.Entities;
 
 namespace BrainMate.Core.Mapping.RelativesMapping

@@ -95,7 +95,10 @@ namespace BrainMate.Service.Implementations
 			var UrlRoot = _webHost.WebRootPath;
 			var path = $"{UrlRoot}{OldUrl}";
 			var imageUrl = await _fileService.UploadImage("Relatives", file);
-			System.IO.File.Delete(path);
+			if (OldUrl != null)
+			{
+				System.IO.File.Delete(path);
+			}
 
 			relative.Image = imageUrl;
 			switch (imageUrl)

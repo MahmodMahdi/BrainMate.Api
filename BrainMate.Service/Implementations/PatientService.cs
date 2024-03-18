@@ -46,7 +46,7 @@ namespace BrainMate.Service.Implementations
 			return patient;
 		}
 
-		public async Task<string> AddAsyncAsync(Patient patient, IFormFile file)
+		public async Task<string> AddAsync(Patient patient, IFormFile file)
 		{
 			var imageUrl = await _fileService.UploadImage("Patient", file);
 			patient.Image = imageUrl;
@@ -78,8 +78,10 @@ namespace BrainMate.Service.Implementations
 			var UrlRoot = _webHost.WebRootPath;
 			var path = $"{UrlRoot}{OldUrl}";
 			var imageUrl = await _fileService.UploadImage("Patient", file);
-			System.IO.File.Delete(path);
-
+			if (OldUrl != null)
+			{
+				System.IO.File.Delete(path);
+			}
 			patient.Image = imageUrl;
 			switch (imageUrl)
 			{
