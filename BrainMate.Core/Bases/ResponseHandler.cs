@@ -5,6 +5,7 @@ namespace BrainMate.Core.Bases
 {
 	public class ResponseHandler
 	{
+		// Copy And Paste
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 		public ResponseHandler(IStringLocalizer<SharedResources> stringLocalizer)
 		{
@@ -80,4 +81,3 @@ namespace BrainMate.Core.Bases
 		}
 	}
 }
-

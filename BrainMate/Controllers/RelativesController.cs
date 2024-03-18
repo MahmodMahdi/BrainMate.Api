@@ -17,7 +17,7 @@ namespace BrainMate.Api.Controllers
 		[HttpGet(Routing.RelativesRouting.GetById)]
 		public async Task<IActionResult> GetRelativeById([FromRoute] int id)
 		{
-			var relative = Ok(await _mediator.Send(new GetRelativesByIdQuery(id)));
+			var relative = NewResult(await _mediator.Send(new GetRelativesByIdQuery(id)));
 			return relative;
 		}
 	}
