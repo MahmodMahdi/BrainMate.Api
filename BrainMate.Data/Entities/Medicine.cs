@@ -11,7 +11,7 @@ namespace BrainMate.Data.Entities
 		public int? Frequency { get; set; }
 		public DateTime? StartAt { get; set; }
 		public DateTime? EndAt { get; set; }
-		public int PatientId { get; set; }
+		public int? PatientId { get; set; }
 
 		[ForeignKey(nameof(PatientId))]
 		public virtual Patient? Patient { get; set; }

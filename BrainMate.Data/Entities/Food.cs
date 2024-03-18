@@ -9,7 +9,7 @@ namespace BrainMate.Data.Entities
 		public string? Name { get; set; }
 		public string? Type { get; set; }
 		public DateTime Date { get; set; }
-		public int PatientId { get; set; }
+		public int? PatientId { get; set; }
 
 		[ForeignKey(nameof(PatientId))]
 		public virtual Patient? Patient { get; set; }
