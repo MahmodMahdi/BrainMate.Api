@@ -9,8 +9,8 @@ namespace BrainMate.Data.Entities
 		public string? Name { get; set; }
 		public string? Image { get; set; }
 		public int? Frequency { get; set; }
-		public DateTime? StartAt { get; set; }
-		public DateTime? EndAt { get; set; }
+		public DateOnly? StartAt { get; set; }
+		public DateOnly? EndAt { get; set; }
 		public int? PatientId { get; set; }
 
 		[ForeignKey(nameof(PatientId))]
