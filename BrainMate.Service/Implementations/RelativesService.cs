@@ -38,6 +38,15 @@ namespace BrainMate.Service.Implementations
 			}
 			return relatives;
 		}
+		public IQueryable<Relatives> FilterRelativesPaginatedQueryable(string search)
+		{
+			var queryable = _relativesRepository.GetTableNoTracking().OrderBy(x => x.RelationShipDegree).AsQueryable();
+			if (search != null)
+			{
+				queryable = queryable.Where(x => x.NameEn!.Contains(search) || x.Address!.Contains(search));
+			}
+			return queryable;
+		}
 		#endregion
 	}
 }
