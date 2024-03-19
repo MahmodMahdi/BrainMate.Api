@@ -9,9 +9,10 @@ using Microsoft.Extensions.Localization;
 
 namespace BrainMate.Core.Features.Medicines.Commands.Handler
 {
-	internal class MedicineCommandHandler : ResponseHandler,
+	public class MedicineCommandHandler : ResponseHandler,
 				 IRequestHandler<AddMedicineCommand, Response<string>>,
-				  IRequestHandler<UpdateMedicineCommand, Response<string>>
+				 IRequestHandler<UpdateMedicineCommand, Response<string>>,
+				 IRequestHandler<DeleteMedicineCommand, Response<string>>
 
 	{
 		#region Fields
@@ -67,6 +68,17 @@ namespace BrainMate.Core.Features.Medicines.Commands.Handler
 				case "FailedToUpdate": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]);
 			}
 			return Success($"{medicineMapper.Id} Updated Successfully");
+		}
+		public async Task<Response<string>> Handle(DeleteMedicineCommand request, CancellationToken cancellationToken)
+		{
+			// check if the id is exist or not 
+			var medicine = await _medicineService.GetMedicineAsync(request.Id);
+			// return notFound
+			if (medicine == null) return NotFound<string>("medicine is not found");
+			// call service 
+			var result = await _medicineService.DeleteAsync(medicine);
+			if (result == "Success") return Deleted<string>($"{request.Id} Deleted Successfully ");
+			else return BadRequest<string>();
 		}
 		#endregion
 	}

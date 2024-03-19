@@ -39,5 +39,11 @@ namespace BrainMate.Api.Controllers
 			var result = NewResult(await _mediator.Send(command));
 			return result;
 		}
+		[HttpDelete(Routing.MedicineRouting.Delete)]
+		public async Task<IActionResult> Delete([FromRoute] int Id)
+		{
+			var result = NewResult(await _mediator.Send(new DeleteMedicineCommand(Id)));
+			return result;
+		}
 	}
 }
