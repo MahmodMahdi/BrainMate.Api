@@ -1,0 +1,52 @@
+﻿using AutoMapper;
+using BrainMate.Core.Bases;
+using BrainMate.Core.Features.Foods.Commands.Models;
+using BrainMate.Core.Resources;
+using BrainMate.Data.Entities;
+using BrainMate.Service.Abstracts;
+using MediatR;
+using Microsoft.Extensions.Localization;
+
+namespace BrainMate.Core.Features.Foods.Commands.Handler
+{
+	public class FoodCommandHandler : ResponseHandler,
+				 IRequestHandler<AddFoodCommand, Response<string>>
+
+	{
+		#region Fields
+		private readonly IFoodService _foodService;
+		private readonly IMapper _mapper;
+		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
+		#endregion
+		#region Constructor
+		public FoodCommandHandler(IFoodService foodService,
+									 IMapper mapper,
+									 IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+		{
+			_foodService = foodService;
+			_mapper = mapper;
+			_stringLocalizer = stringLocalizer;
+		}
+
+
+		#endregion
+		#region Handle Functions
+		public async Task<Response<string>> Handle(AddFoodCommand request, CancellationToken cancellationToken)
+		{
+			// mapping
+			var foodMapper = _mapper.Map<Food>(request);
+			// Add
+			var result = await _foodService.AddAsync(foodMapper, request.Image!);
+
+			// return response
+			switch (result)
+			{
+				case "NoImage": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.NoImage]);
+				case "FailedToUploadImage": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUploadImage]);
+				case "FailedToAdd": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToAdd]);
+			}
+			return Created("Added Successfully");
+		}
+		#endregion
+	}
+}

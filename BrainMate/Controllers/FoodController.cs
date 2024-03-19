@@ -1,4 +1,5 @@
 ﻿using BrainMate.Api.Base;
+using BrainMate.Core.Features.Foods.Commands.Models;
 using BrainMate.Core.Features.Foods.Queries.Models;
 using BrainMate.Data.Routing;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,12 @@ namespace BrainMate.Api.Controllers
 		{
 			var food = NewResult(await _mediator.Send(new GetFoodByIdQuery(id)));
 			return food;
+		}
+		[HttpPost(Routing.FoodRouting.Create)]
+		public async Task<IActionResult> Create([FromForm] AddFoodCommand command)
+		{
+			var result = NewResult(await _mediator.Send(command));
+			return result;
 		}
 	}
 }

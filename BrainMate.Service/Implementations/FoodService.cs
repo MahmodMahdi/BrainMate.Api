@@ -31,8 +31,20 @@ namespace BrainMate.Service.Implementations
 		#region Handle Functions
 		public async Task<List<Food>> GetAllAsync()
 		{
-			var result = await _foodRepository.GetTableNoTracking().OrderBy(x => x.NameEn).ToListAsync();
-			return result;
+			var context = _httpContextAccessor.HttpContext!.Request;
+			var baseUrl = context.Scheme + "://" + context.Host;
+			var Foods = await _foodRepository.GetTableNoTracking().OrderBy(x => x.NameEn).ToListAsync();
+			if (Foods != null)
+			{
+				foreach (var food in Foods)
+				{
+					if (food.Image != null)
+					{
+						food.Image = baseUrl + food.Image;
+					}
+				}
+			}
+			return Foods!;
 		}
 
 		public async Task<Food> GetByIdAsync(int id)

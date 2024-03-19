@@ -8,6 +8,7 @@ namespace BrainMate.Core.Mapping.Foods
 		{
 			GetFoodListMapping();
 			GetFoodByIdMapping();
+			AddFoodCommandMapping();
 		}
 	}
 }

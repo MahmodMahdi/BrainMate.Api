@@ -3,15 +3,15 @@ using BrainMate.Core.Resources;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 
-namespace BrainMate.Core.Features.Medicines.Commands.Validators
+namespace BrainMate.Core.Features.Foods.Commands.Validators
 {
-	public class AddMedicineValidator : AbstractValidator<AddMedicineCommand>
+	public class AddFoodValidator : AbstractValidator<AddMedicineCommand>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _localizer;
 		#endregion
 		#region Constructors
-		public AddMedicineValidator(IStringLocalizer<SharedResources> localizer)
+		public AddFoodValidator(IStringLocalizer<SharedResources> localizer)
 		{
 			_localizer = localizer;
 			ApplyValidationsRules();
