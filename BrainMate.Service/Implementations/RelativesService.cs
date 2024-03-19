@@ -47,6 +47,11 @@ namespace BrainMate.Service.Implementations
 			var queryable = _relativesRepository.GetTableNoTracking().OrderBy(x => x.RelationShipDegree).AsQueryable();
 			return queryable;
 		}
+		public IQueryable<Relatives> FilterRelativesSearchQueryable(string search)
+		{
+			var SearchString = _relativesRepository.GetTableNoTracking().Where(x => x.NameEn == search || x.NameAr == search).AsQueryable();
+			return SearchString;
+		}
 		public async Task<Relatives> GetByIdAsync(int id)
 		{
 			var context = _httpContextAccessor.HttpContext!.Request;

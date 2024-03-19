@@ -10,6 +10,7 @@ namespace BrainMate.Core.Mapping.RelativesMapping
 			GetRelativeByIdMapping();
 			AddRelativeCommandMapping();
 			UpdateRelativeCommandMapping();
+			SearchRelativesMapping();
 		}
 	}
 }

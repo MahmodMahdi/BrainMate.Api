@@ -16,16 +16,7 @@
 			public const string Update = Prefix + "/Update";
 			public const string Delete = Prefix + "/Delete/{Id}";
 			public const string Paginated = Prefix + "/Paginated";
-		}
-		public static class DepartmentRouting
-		{
-			public const string Prefix = Rule + "Department";
-			public const string GetAll = Prefix + "/GetAll";
-			public const string GetById = Prefix + "/Id";
-			public const string GetDepartmentOnlyById = "Api/V1/DepartmentOnly/{id}";
-			public const string Create = Prefix + "/Create";
-			public const string Update = Prefix + "/Update";
-			public const string Delete = Prefix + "/Delete/{Id}";
+			public const string Search = Prefix + "/Search";
 		}
 		public static class PatientRouting
 		{
@@ -33,16 +24,6 @@
 			public const string GetById = Prefix + SingleRoute;
 			public const string Create = Prefix + "/Create";
 			public const string Update = Prefix + "/Update";
-		}
-		public static class SubjectRouting
-		{
-			public const string Prefix = Rule + "Subject";
-			public const string GetAll = Prefix + "/GetAll";
-			public const string GetById = Prefix + SingleRoute;
-			public const string GetSubjectOnlyById = "Api/V1/SubjectOnly/{id}";
-			public const string Create = Prefix + "/Create";
-			public const string Update = Prefix + "/Update";
-			public const string Delete = Prefix + "/Delete/{Id}";
 		}
 		public static class UserRouting
 		{

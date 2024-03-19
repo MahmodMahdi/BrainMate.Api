@@ -21,6 +21,12 @@ namespace BrainMate.Api.Controllers
 			var relative = NewResult(await _mediator.Send(new GetRelativesByIdQuery(id)));
 			return relative;
 		}
+		[HttpGet(Routing.RelativesRouting.Search)]
+		public async Task<IActionResult> Search([FromQuery] SearchRelativesQuery query)
+		{
+			var relatives = Ok(await _mediator.Send(query));
+			return relatives;
+		}
 		[HttpPost(Routing.RelativesRouting.Create)]
 		public async Task<IActionResult> Create([FromForm] AddRelativeCommand command)
 		{
@@ -39,5 +45,6 @@ namespace BrainMate.Api.Controllers
 			var instructor = NewResult(await _mediator.Send(new DeleteRelativeCommand(Id)));
 			return instructor;
 		}
+
 	}
 }

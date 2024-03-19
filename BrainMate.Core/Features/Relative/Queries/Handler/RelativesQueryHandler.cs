@@ -13,6 +13,7 @@ namespace BrainMate.Core.Features.Relative.Queries.Handler
 {
 	public class RelativesQueryHandler : ResponseHandler,
 									   IRequestHandler<GetRelativesPaginatedListQuery, PaginateResult<GetRelativesPaginatedListResponse>>,
+									   IRequestHandler<SearchRelativesQuery, PaginateResult<SearchRelativesResponse>>,
 									   IRequestHandler<GetRelativesByIdQuery, Response<GetRelativesResponse>>
 	{
 		// Mediator
@@ -33,7 +34,8 @@ namespace BrainMate.Core.Features.Relative.Queries.Handler
 			_stringLocalizer = stringLocalizer;
 			_httpContextAccessor = httpContextAccessor;
 		}
-
+		#endregion
+		#region Handle Functions
 		public async Task<PaginateResult<GetRelativesPaginatedListResponse>> Handle(GetRelativesPaginatedListQuery request, CancellationToken cancellationToken)
 		{
 			var context = _httpContextAccessor.HttpContext!.Request;
@@ -69,11 +71,27 @@ namespace BrainMate.Core.Features.Relative.Queries.Handler
 			return Success(result);
 		}
 
+		public async Task<PaginateResult<SearchRelativesResponse>> Handle(SearchRelativesQuery request, CancellationToken cancellationToken)
+		{
+			var context = _httpContextAccessor.HttpContext!.Request;
+			var baseUrl = context.Scheme + "://" + context.Host;
+			var FilterQuery = _relativesService.FilterRelativesSearchQueryable(request.Search!);
+			var paginatedList = await _mapper.ProjectTo<SearchRelativesResponse>(FilterQuery).ToPaginatedListAsync(request.PageNumber, request.PageSize);
 
-		#endregion
-		#region Handle Functions
+			paginatedList.Meta = new
+			{
+				Count = paginatedList.Data!.Count
+			};
+			foreach (var relative in paginatedList.Data)
+			{
+				if (relative.Image != null)
+				{
+					relative.Image = baseUrl + relative.Image;
+				}
+			}
+			return paginatedList;
 
-
+		}
 
 		#endregion
 	}
