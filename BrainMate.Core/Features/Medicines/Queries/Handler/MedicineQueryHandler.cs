@@ -12,9 +12,10 @@ using Microsoft.Extensions.Localization;
 namespace BrainMate.Core.Features.Medicines.Queries.Handler
 {
 	public class MedicineQueryHandler : ResponseHandler,
-									   IRequestHandler<GetMedicinePaginatedListQuery, PaginateResult<GetMedicinePaginatedListResponse>>
+									   IRequestHandler<GetMedicinePaginatedListQuery, PaginateResult<GetMedicinePaginatedListResponse>>,
+									   IRequestHandler<GetMedicineByIdQuery, Response<GetMedicineResponse>>
 	//   IRequestHandler<SearchRelativesQuery, PaginateResult<SearchRelativesResponse>>,
-	//  IRequestHandler<GetRelativesByIdQuery, Response<GetRelativesResponse>>
+
 	{
 		// Mediator
 		#region Fields
@@ -51,6 +52,18 @@ namespace BrainMate.Core.Features.Medicines.Queries.Handler
 				}
 			}
 			return paginatedList;
+		}
+
+		public async Task<Response<GetMedicineResponse>> Handle(GetMedicineByIdQuery request, CancellationToken cancellationToken)
+		{
+			var medicine = await _medicineService.GetByIdAsync(request.Id);
+			if (medicine == null)
+			{
+				// using the localization
+				return NotFound<GetMedicineResponse>(_stringLocalizer[SharedResourcesKeys.NotFound]);
+			}
+			var result = _mapper.Map<GetMedicineResponse>(medicine);
+			return Success(result);
 		}
 		#endregion
 	}

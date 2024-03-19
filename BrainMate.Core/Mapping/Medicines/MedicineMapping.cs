@@ -7,6 +7,7 @@ namespace BrainMate.Core.Mapping.Medicines
 		public MedicineMapping()
 		{
 			GetMedicinePaginationMapping();
+			GetMedicineByIdMapping();
 		}
 	}
 }

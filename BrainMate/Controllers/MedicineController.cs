@@ -14,5 +14,11 @@ namespace BrainMate.Api.Controllers
 			var medicines = Ok(await _mediator.Send(query));
 			return medicines;
 		}
+		[HttpGet(Routing.MedicineRouting.GetById)]
+		public async Task<IActionResult> GetMedicineById([FromRoute] int id)
+		{
+			var medicine = NewResult(await _mediator.Send(new GetMedicineByIdQuery(id)));
+			return medicine;
+		}
 	}
 }
