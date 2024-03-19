@@ -12,7 +12,7 @@ namespace BrainMate.Core.Features.Relative.Commands.Handler
 	public class RelativeCommandHandler : ResponseHandler,
 				 IRequestHandler<AddRelativeCommand, Response<string>>,
 				 IRequestHandler<UpdateRelativeCommand, Response<string>>,
-				  IRequestHandler<DeleteRelativeCommand, Response<string>>
+				 IRequestHandler<DeleteRelativeCommand, Response<string>>
 
 	{
 		#region Fields

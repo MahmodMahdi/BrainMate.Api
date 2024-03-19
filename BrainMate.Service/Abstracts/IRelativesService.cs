@@ -15,5 +15,7 @@ namespace BrainMate.Service.Abstracts
 
 		public IQueryable<Relatives> FilterRelativesPaginatedQueryable();
 		public IQueryable<Relatives> FilterRelativesSearchQueryable(string search);
+		public Task<bool> IsPhoneExist(string phone);
+		public Task<bool> IsPhoneExcludeSelf(string phone, int id);
 	}
 }

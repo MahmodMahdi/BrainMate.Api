@@ -3,6 +3,7 @@ using BrainMate.Infrastructure.Interfaces;
 using BrainMate.Service.Abstracts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using SchoolProject.Service.Abstracts;
 
 namespace BrainMate.Service.Implementations
@@ -128,6 +129,21 @@ namespace BrainMate.Service.Implementations
 				await transaction.RollbackAsync();
 				return "Failed";
 			}
+		}
+		public async Task<bool> IsPhoneExist(string phone)
+		{
+			var item = await _relativesRepository.GetTableNoTracking()
+												  .Where(x => x.Phone!.Equals(phone)).FirstOrDefaultAsync();
+			if (item == null) { return false; }
+			else return true;
+		}
+		public async Task<bool> IsPhoneExcludeSelf(string phone, int id)
+		{
+			var item = await _relativesRepository.GetTableNoTracking()
+												  .Where(x => x.Phone!.Equals(phone) && !x.Id.Equals(id))
+												  .FirstOrDefaultAsync();
+			if (item == null) { return false; }
+			else return true;
 		}
 		#endregion
 	}
