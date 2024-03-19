@@ -1,4 +1,5 @@
 using BrainMate.Core;
+using BrainMate.Core.Middleware;
 using BrainMate.Data.Helpers;
 using BrainMate.Infrastructure;
 using BrainMate.Infrastructure.Context;
@@ -102,8 +103,10 @@ namespace BrainMate
 			var options = app.Services.GetService<IOptions<RequestLocalizationOptions>>()!;
 			app.UseRequestLocalization(options.Value);
 			#endregion
+			app.UseCors(MyCors);
 
 			app.UseHttpsRedirection();
+			app.UseMiddleware<ErrorHandlerMiddleware>();
 			app.UseStaticFiles();
 
 			app.UseAuthorization();
