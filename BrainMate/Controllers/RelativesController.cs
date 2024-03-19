@@ -42,8 +42,8 @@ namespace BrainMate.Api.Controllers
 		[HttpDelete(Routing.RelativesRouting.Delete)]
 		public async Task<IActionResult> Delete([FromRoute] int Id)
 		{
-			var instructor = NewResult(await _mediator.Send(new DeleteRelativeCommand(Id)));
-			return instructor;
+			var result = NewResult(await _mediator.Send(new DeleteRelativeCommand(Id)));
+			return result;
 		}
 
 	}

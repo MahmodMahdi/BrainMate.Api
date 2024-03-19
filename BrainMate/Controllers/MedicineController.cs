@@ -27,5 +27,11 @@ namespace BrainMate.Api.Controllers
 			var result = NewResult(await _mediator.Send(command));
 			return result;
 		}
+		[HttpPut(Routing.MedicineRouting.Update)]
+		public async Task<IActionResult> Update([FromForm] UpdateMedicineCommand command)
+		{
+			var result = NewResult(await _mediator.Send(command));
+			return result;
+		}
 	}
 }
