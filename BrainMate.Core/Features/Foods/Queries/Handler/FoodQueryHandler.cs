@@ -11,8 +11,8 @@ using Microsoft.Extensions.Localization;
 namespace BrainMate.Core.Features.Foods.Queries.Handler
 {
 	public class FoodQueryHandler : ResponseHandler,
-									   IRequestHandler<GetFoodListQuery, Response<List<GetFoodListResponse>>>
-
+									   IRequestHandler<GetFoodListQuery, Response<List<GetFoodListResponse>>>,
+									   IRequestHandler<GetFoodByIdQuery, Response<GetFoodResponse>>
 	{
 		// Mediator
 		#region Fields
@@ -42,6 +42,18 @@ namespace BrainMate.Core.Features.Foods.Queries.Handler
 			var result = Success(FoodListMapper);
 			result.Meta = new { Count = FoodListMapper.Count };
 			return result;
+		}
+
+		public async Task<Response<GetFoodResponse>> Handle(GetFoodByIdQuery request, CancellationToken cancellationToken)
+		{
+			var food = await _foodService.GetByIdAsync(request.Id);
+			if (food == null)
+			{
+				// using the localization
+				return NotFound<GetFoodResponse>(_stringLocalizer[SharedResourcesKeys.NotFound]);
+			}
+			var result = _mapper.Map<GetFoodResponse>(food);
+			return Success(result);
 		}
 		#endregion
 	}
