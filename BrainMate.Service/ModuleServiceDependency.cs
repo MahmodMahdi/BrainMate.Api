@@ -12,6 +12,7 @@ namespace BrainMate.Service
 		{
 			services.AddTransient<IPatientService, PatientService>();
 			services.AddTransient<IRelativesService, RelativesService>();
+			services.AddTransient<IMedicineService, MedicineService>();
 			//services.AddTransient<IAuthenticationService, AuthenticationService>();
 			//services.AddTransient<IAuthorizationService, AuthorizationService>();
 			//services.AddTransient<IEmailService, EmailService>();

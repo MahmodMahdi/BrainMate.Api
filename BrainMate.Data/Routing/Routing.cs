@@ -15,7 +15,17 @@
 			public const string Create = Prefix + "/Create";
 			public const string Update = Prefix + "/Update";
 			public const string Delete = Prefix + "/Delete/{Id}";
-			public const string Paginated = Prefix + "/Paginated";
+			public const string Paginated = Prefix + "/Paginated-List";
+			public const string Search = Prefix + "/Search";
+		}
+		public static class MedicineRouting
+		{
+			public const string Prefix = Rule + "Medicine";
+			public const string GetById = Prefix + SingleRoute;
+			public const string Create = Prefix + "/Create";
+			public const string Update = Prefix + "/Update";
+			public const string Delete = Prefix + "/Delete/{Id}";
+			public const string Paginated = Prefix + "/Paginated-List";
 			public const string Search = Prefix + "/Search";
 		}
 		public static class PatientRouting

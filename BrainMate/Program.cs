@@ -1,7 +1,7 @@
-
 using BrainMate.Core;
 using BrainMate.Infrastructure;
 using BrainMate.Infrastructure.Context;
+using BrainMate.Infrastructure.Helper;
 using BrainMate.Service;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +21,10 @@ namespace BrainMate
 
 			// Add services to the container.
 
-			builder.Services.AddControllers();
+			builder.Services.AddControllers().AddJsonOptions(options =>
+			{
+				options.JsonSerializerOptions.Converters.Add(new DateConverter());
+			});
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
