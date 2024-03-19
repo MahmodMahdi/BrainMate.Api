@@ -21,6 +21,12 @@ namespace BrainMate.Api.Controllers
 			var food = NewResult(await _mediator.Send(new GetFoodByIdQuery(id)));
 			return food;
 		}
+		[HttpGet(Routing.FoodRouting.Search)]
+		public async Task<IActionResult> Search([FromQuery] SearchFoodQuery query)
+		{
+			var food = NewResult(await _mediator.Send(query));
+			return food;
+		}
 		[HttpPost(Routing.FoodRouting.Create)]
 		public async Task<IActionResult> Create([FromForm] AddFoodCommand command)
 		{
@@ -31,6 +37,12 @@ namespace BrainMate.Api.Controllers
 		public async Task<IActionResult> Update([FromForm] UpdateFoodCommand command)
 		{
 			var result = NewResult(await _mediator.Send(command));
+			return result;
+		}
+		[HttpDelete(Routing.FoodRouting.Delete)]
+		public async Task<IActionResult> Delete([FromRoute] int Id)
+		{
+			var result = NewResult(await _mediator.Send(new DeleteFoodCommand(Id)));
 			return result;
 		}
 	}

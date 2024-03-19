@@ -12,7 +12,8 @@ namespace BrainMate.Core.Features.Foods.Queries.Handler
 {
 	public class FoodQueryHandler : ResponseHandler,
 									   IRequestHandler<GetFoodListQuery, Response<List<GetFoodListResponse>>>,
-									   IRequestHandler<GetFoodByIdQuery, Response<GetFoodResponse>>
+									   IRequestHandler<GetFoodByIdQuery, Response<GetFoodResponse>>,
+									   IRequestHandler<SearchFoodQuery, Response<List<SearchFoodResponse>>>
 	{
 		// Mediator
 		#region Fields
@@ -54,6 +55,14 @@ namespace BrainMate.Core.Features.Foods.Queries.Handler
 			}
 			var result = _mapper.Map<GetFoodResponse>(food);
 			return Success(result);
+		}
+		public async Task<Response<List<SearchFoodResponse>>> Handle(SearchFoodQuery request, CancellationToken cancellationToken)
+		{
+			var foods = await _foodService.SearchAsync(request.Search!);
+			var foodMapped = _mapper.Map<List<SearchFoodResponse>>(foods);
+			var result = Success(foodMapped);
+			result.Meta = new { Count = foodMapped.Count };
+			return result;
 		}
 		#endregion
 	}

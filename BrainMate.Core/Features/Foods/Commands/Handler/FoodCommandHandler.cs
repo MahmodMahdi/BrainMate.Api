@@ -11,7 +11,8 @@ namespace BrainMate.Core.Features.Foods.Commands.Handler
 {
 	public class FoodCommandHandler : ResponseHandler,
 				 IRequestHandler<AddFoodCommand, Response<string>>,
-				  IRequestHandler<UpdateFoodCommand, Response<string>>
+				 IRequestHandler<UpdateFoodCommand, Response<string>>,
+				 IRequestHandler<DeleteFoodCommand, Response<string>>
 
 	{
 		#region Fields
@@ -66,6 +67,17 @@ namespace BrainMate.Core.Features.Foods.Commands.Handler
 				case "FailedToUpdate": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]);
 			}
 			return Success($"{foodMapper.Id} Updated Successfully");
+		}
+		public async Task<Response<string>> Handle(DeleteFoodCommand request, CancellationToken cancellationToken)
+		{
+			// check if the id is exist or not 
+			var food = await _foodService.GetFoodAsync(request.Id);
+			// return notFound
+			if (food == null) return NotFound<string>("Food is not found");
+			// call service 
+			var result = await _foodService.DeleteAsync(food);
+			if (result == "Success") return Deleted<string>($"{request.Id} Deleted Successfully ");
+			else return BadRequest<string>();
 		}
 		#endregion
 	}

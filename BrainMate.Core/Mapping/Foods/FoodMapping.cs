@@ -10,6 +10,7 @@ namespace BrainMate.Core.Mapping.Foods
 			GetFoodByIdMapping();
 			AddFoodCommandMapping();
 			UpdateFoodCommandMapping();
+			SearchFoodMapping();
 		}
 	}
 }
