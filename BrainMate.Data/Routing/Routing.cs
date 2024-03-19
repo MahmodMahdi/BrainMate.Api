@@ -8,6 +8,13 @@
 		public const string version = "V1";
 		public const string Rule = root + "/" + version + "/";
 
+		public static class PatientRouting
+		{
+			public const string Prefix = Rule + "Patient";
+			public const string GetById = Prefix + SingleRoute;
+			public const string Create = Prefix + "/Create";
+			public const string Update = Prefix + "/Update";
+		}
 		public static class RelativesRouting
 		{
 			public const string Prefix = Rule + "Relatives";
@@ -28,12 +35,15 @@
 			public const string Paginated = Prefix + "/Paginated-List";
 			public const string Search = Prefix + "/Search";
 		}
-		public static class PatientRouting
+		public static class FoodRouting
 		{
-			public const string Prefix = Rule + "Patient";
+			public const string Prefix = Rule + "Food";
 			public const string GetById = Prefix + SingleRoute;
 			public const string Create = Prefix + "/Create";
 			public const string Update = Prefix + "/Update";
+			public const string Delete = Prefix + "/Delete/{Id}";
+			public const string GetAll = Prefix + "/GetAll";
+			public const string Search = Prefix + "/Search";
 		}
 		public static class UserRouting
 		{
