@@ -30,6 +30,9 @@ namespace BrainMate.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NameAr")
                         .HasColumnType("nvarchar(max)");
 
@@ -39,7 +42,7 @@ namespace BrainMate.Infrastructure.Migrations
                     b.Property<int?>("PatientId")
                         .HasColumnType("int");
 
-                    b.Property<TimeOnly>("Time")
+                    b.Property<TimeOnly?>("Time")
                         .HasColumnType("time");
 
                     b.Property<string>("Type")

@@ -10,6 +10,7 @@ namespace BrainMate.Data.Entities
 		public string? NameEn { get; set; }
 		public string? Type { get; set; }
 		public TimeOnly? Time { get; set; }
+		public string? Image { get; set; }
 		public int? PatientId { get; set; }
 
 		[ForeignKey(nameof(PatientId))]

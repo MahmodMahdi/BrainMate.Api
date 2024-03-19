@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BrainMate.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240319143320_ChangeFoodColumnTime")]
-    partial class ChangeFoodColumnTime
+    [Migration("20240319150833_ChangeFoodColomnDateAndAddImgColumn")]
+    partial class ChangeFoodColomnDateAndAddImgColumn
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace BrainMate.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NameAr")
                         .HasColumnType("nvarchar(max)");
 
@@ -42,7 +45,7 @@ namespace BrainMate.Infrastructure.Migrations
                     b.Property<int?>("PatientId")
                         .HasColumnType("int");
 
-                    b.Property<TimeOnly>("Time")
+                    b.Property<TimeOnly?>("Time")
                         .HasColumnType("time");
 
                     b.Property<string>("Type")
