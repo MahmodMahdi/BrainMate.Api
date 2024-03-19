@@ -10,7 +10,8 @@ using Microsoft.Extensions.Localization;
 namespace BrainMate.Core.Features.Foods.Commands.Handler
 {
 	public class FoodCommandHandler : ResponseHandler,
-				 IRequestHandler<AddFoodCommand, Response<string>>
+				 IRequestHandler<AddFoodCommand, Response<string>>,
+				  IRequestHandler<UpdateFoodCommand, Response<string>>
 
 	{
 		#region Fields
@@ -46,6 +47,25 @@ namespace BrainMate.Core.Features.Foods.Commands.Handler
 				case "FailedToAdd": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToAdd]);
 			}
 			return Created("Added Successfully");
+		}
+		public async Task<Response<string>> Handle(UpdateFoodCommand request, CancellationToken cancellationToken)
+		{
+			// check if the id is exist or not 
+			var food = await _foodService.GetFoodAsync(request.Id);
+			// return notFound
+			if (food == null) return NotFound<string>("relative is not found");
+			// mapping 
+			var foodMapper = _mapper.Map(request, food);
+			// call service 
+			var result = await _foodService.UpdateAsync(foodMapper, request.Image!);
+			//return response
+			switch (result)
+			{
+				case "NoImage": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.NoImage]);
+				case "FailedToUpdateImage": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdateImage]);
+				case "FailedToUpdate": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]);
+			}
+			return Success($"{foodMapper.Id} Updated Successfully");
 		}
 		#endregion
 	}

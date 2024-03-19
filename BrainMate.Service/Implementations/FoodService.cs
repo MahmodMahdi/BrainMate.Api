@@ -33,7 +33,7 @@ namespace BrainMate.Service.Implementations
 		{
 			var context = _httpContextAccessor.HttpContext!.Request;
 			var baseUrl = context.Scheme + "://" + context.Host;
-			var Foods = await _foodRepository.GetTableNoTracking().OrderBy(x => x.NameEn).ToListAsync();
+			var Foods = await _foodRepository.GetTableNoTracking().OrderBy(x => x.Time).ToListAsync();
 			if (Foods != null)
 			{
 				foreach (var food in Foods)

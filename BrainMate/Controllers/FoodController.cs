@@ -27,5 +27,11 @@ namespace BrainMate.Api.Controllers
 			var result = NewResult(await _mediator.Send(command));
 			return result;
 		}
+		[HttpPut(Routing.FoodRouting.Update)]
+		public async Task<IActionResult> Update([FromForm] UpdateFoodCommand command)
+		{
+			var result = NewResult(await _mediator.Send(command));
+			return result;
+		}
 	}
 }
