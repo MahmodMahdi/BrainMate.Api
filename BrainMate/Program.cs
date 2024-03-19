@@ -1,7 +1,7 @@
 using BrainMate.Core;
+using BrainMate.Data.Helpers;
 using BrainMate.Infrastructure;
 using BrainMate.Infrastructure.Context;
-using BrainMate.Infrastructure.Helper;
 using BrainMate.Service;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
