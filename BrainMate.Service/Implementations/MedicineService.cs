@@ -44,11 +44,14 @@ namespace BrainMate.Service.Implementations
 			var context = _httpContextAccessor.HttpContext!.Request;
 			var baseUrl = context.Scheme + "://" + context.Host;
 			var Medicine = await _medicineRepository.GetByIdAsync(id);
-			if (Medicine.Image != null)
+			if (Medicine != null)
 			{
-				Medicine.Image = baseUrl + Medicine.Image;
+				if (Medicine.Image != null)
+				{
+					Medicine.Image = baseUrl + Medicine.Image;
+				}
 			}
-			return Medicine;
+			return Medicine!;
 		}
 		public async Task<Medicine> GetMedicineAsync(int id)
 		{

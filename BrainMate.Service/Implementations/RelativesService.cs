@@ -43,11 +43,14 @@ namespace BrainMate.Service.Implementations
 			var context = _httpContextAccessor.HttpContext!.Request;
 			var baseUrl = context.Scheme + "://" + context.Host;
 			var relative = await _relativesRepository.GetByIdAsync(id);
-			if (relative.Image != null)
+			if (relative != null)
 			{
-				relative.Image = baseUrl + relative.Image;
+				if (relative.Image != null)
+				{
+					relative.Image = baseUrl + relative.Image;
+				}
 			}
-			return relative;
+			return relative!;
 		}
 		public async Task<Relatives> GetRelativeAsync(int id)
 		{
