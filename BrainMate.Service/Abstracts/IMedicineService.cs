@@ -12,6 +12,6 @@ namespace BrainMate.Service.Abstracts
 		public Task<string> DeleteAsync(Medicine Medicines);
 
 		public IQueryable<Medicine> FilterMedicinesPaginatedQueryable();
-		public IQueryable<Medicine> FilterMedicinesSearchQueryable(string search);
+		public Task<List<Medicine>> SearchAsync(string search);
 	}
 }

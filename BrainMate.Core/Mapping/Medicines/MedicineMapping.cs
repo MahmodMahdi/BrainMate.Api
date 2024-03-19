@@ -10,6 +10,7 @@ namespace BrainMate.Core.Mapping.Medicines
 			GetMedicineByIdMapping();
 			AddMedicineCommandMapping();
 			UpdateMedicineCommandMapping();
+			SearchMedicineMapping();
 		}
 	}
 }

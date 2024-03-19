@@ -13,8 +13,8 @@ namespace BrainMate.Core.Features.Medicines.Queries.Handler
 {
 	public class MedicineQueryHandler : ResponseHandler,
 									   IRequestHandler<GetMedicinePaginatedListQuery, PaginateResult<GetMedicinePaginatedListResponse>>,
-									   IRequestHandler<GetMedicineByIdQuery, Response<GetMedicineResponse>>
-	//   IRequestHandler<SearchRelativesQuery, PaginateResult<SearchRelativesResponse>>,
+									   IRequestHandler<GetMedicineByIdQuery, Response<GetMedicineResponse>>,
+									   IRequestHandler<SearchMedicineQuery, Response<List<SearchMedicineResponse>>>
 
 	{
 		// Mediator
@@ -64,6 +64,15 @@ namespace BrainMate.Core.Features.Medicines.Queries.Handler
 			}
 			var result = _mapper.Map<GetMedicineResponse>(medicine);
 			return Success(result);
+		}
+
+		public async Task<Response<List<SearchMedicineResponse>>> Handle(SearchMedicineQuery request, CancellationToken cancellationToken)
+		{
+			var medicines = await _medicineService.SearchAsync(request.Search!);
+			var medicine = _mapper.Map<List<SearchMedicineResponse>>(medicines);
+			var result = Success(medicine);
+			result.Meta = new { Count = medicine.Count };
+			return result;
 		}
 		#endregion
 	}

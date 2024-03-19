@@ -3,6 +3,7 @@ using BrainMate.Infrastructure.Interfaces;
 using BrainMate.Service.Abstracts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using SchoolProject.Service.Abstracts;
 
 namespace BrainMate.Service.Implementations
@@ -33,9 +34,9 @@ namespace BrainMate.Service.Implementations
 			var queryable = _medicineRepository.GetTableNoTracking().OrderBy(x => x.NameEn).AsQueryable();
 			return queryable;
 		}
-		public IQueryable<Medicine> FilterMedicinesSearchQueryable(string search)
+		public async Task<List<Medicine>> SearchAsync(string search)
 		{
-			var SearchString = _medicineRepository.GetTableNoTracking().Where(x => x.NameEn == search || x.NameAr == search).AsQueryable();
+			var SearchString = await _medicineRepository.GetTableNoTracking().Where(x => x.NameEn == search || x.NameAr == search).ToListAsync();
 			return SearchString;
 		}
 		public async Task<Medicine> GetByIdAsync(int id)

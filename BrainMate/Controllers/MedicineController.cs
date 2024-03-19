@@ -21,6 +21,12 @@ namespace BrainMate.Api.Controllers
 			var medicine = NewResult(await _mediator.Send(new GetMedicineByIdQuery(id)));
 			return medicine;
 		}
+		[HttpGet(Routing.MedicineRouting.Search)]
+		public async Task<IActionResult> Search([FromQuery] SearchMedicineQuery query)
+		{
+			var medicine = Ok(await _mediator.Send(query));
+			return medicine;
+		}
 		[HttpPost(Routing.MedicineRouting.Create)]
 		public async Task<IActionResult> Create([FromForm] AddMedicineCommand command)
 		{
