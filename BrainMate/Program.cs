@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using SchoolProject.Infrastructure;
 using System.Globalization;
 
 namespace BrainMate
@@ -38,10 +39,11 @@ namespace BrainMate
 				options.UseSqlServer(DB);
 			});
 			#endregion
-			#region Dependecy Injection
 
+			#region Dependecy Injection
 			builder.Services.AddInfrastructureDependencies()
 				.AddServiceDependencies()
+				.AddRegistration(builder.Configuration)
 				.AddCoreDependencies();
 			#endregion
 			#region Localization
