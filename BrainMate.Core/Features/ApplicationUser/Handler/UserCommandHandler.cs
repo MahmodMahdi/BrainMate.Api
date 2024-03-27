@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BrainMate.Core.Bases;
+using BrainMate.Core.Features.ApplicationUser.Commands.Models;
 using BrainMate.Core.Features.ApplicationUser.Models;
 using BrainMate.Core.Resources;
 using BrainMate.Data.Entities.Identity;
@@ -12,7 +13,9 @@ using SchoolProject.Service.Abstracts;
 namespace BrainMate.Core.Features.ApplicationUser.Handler
 {
 	public class UserCommandHandler : ResponseHandler,
-		IRequestHandler<AddUserCommand, Response<string>>
+		IRequestHandler<AddUserCommand, Response<string>>,
+		IRequestHandler<UpdateUserCommand, Response<string>>,
+		IRequestHandler<DeleteUserCommand, Response<string>>
 	{
 		#region Fields
 		private readonly IMapper _mapper;
@@ -56,50 +59,50 @@ namespace BrainMate.Core.Features.ApplicationUser.Handler
 				default: return BadRequest<string>(Result);
 			}
 		}
-		//public async Task<Response<string>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
-		//{
-		//	// Check if user exist 
-		//	// var user = await _userManager.FindByIdAsync(request.Id.ToString());
-		//	var existUser = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == request.Id);
+		public async Task<Response<string>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+		{
+			// Check if user exist 
+			// var user = await _userManager.FindByIdAsync(request.Id.ToString());
+			var existUser = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == request.Id);
 
-		//	// Not exist
-		//	if (existUser == null) return NotFound<string>();
+			// Not exist
+			if (existUser == null) return NotFound<string>();
 
-		//	// mapping
-		//	var newUser = _mapper.Map(request, existUser);
+			// mapping
+			var newUser = _mapper.Map(request, existUser);
 
-		//	//Check on Phone Number (can't dublicate)
-		//	var SearchByPhone = await _userManager.Users.FirstOrDefaultAsync(x => x.PhoneNumber == newUser.PhoneNumber && x.Id != newUser.Id);
-		//	if (SearchByPhone != null) return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.PhoneExist]);
+			//Check on Phone Number (can't duplicate)
+			var SearchByPhone = await _userManager.Users.FirstOrDefaultAsync(x => x.PhoneNumber == newUser.PhoneNumber && x.Id != newUser.Id);
+			if (SearchByPhone != null) return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.PhoneExist]);
 
-		//	//update
-		//	var result = await _userManager.UpdateAsync(newUser);
+			//update
+			var result = await _userManager.UpdateAsync(newUser);
 
-		//	//Not success 
-		//	if (!result.Succeeded) return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.UpdatedFailed]);
+			//Not success 
+			if (!result.Succeeded) return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.UpdatedFailed]);
 
-		//	//Success messege
-		//	return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
-		//}
+			//Success message
+			return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
+		}
 
-		//public async Task<Response<string>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
-		//{
-		//	// Check if user exist 
-		//	// var user = await _userManager.FindByIdAsync(request.Id.ToString());
-		//	var User = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == request.Id);
+		public async Task<Response<string>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+		{
+			// Check if user exist 
+			// var user = await _userManager.FindByIdAsync(request.Id.ToString());
+			var User = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == request.Id);
 
-		//	// Not exist
-		//	if (User == null) return NotFound<string>();
+			// Not exist
+			if (User == null) return NotFound<string>();
 
-		//	// Delete the item
-		//	var result = await _userManager.DeleteAsync(User);
+			// Delete the item
+			var result = await _userManager.DeleteAsync(User);
 
-		//	//Not success 
-		//	if (!result.Succeeded) return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.DeletedFailed]);
+			//Not success 
+			if (!result.Succeeded) return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.DeletedFailed]);
 
-		//	//Success message
-		//	return Success<string>(_stringLocalizer[SharedResourcesKeys.Deleted]);
-		//}
+			//Success message
+			return Success<string>(_stringLocalizer[SharedResourcesKeys.Deleted]);
+		}
 
 		//public async Task<Response<string>> Handle(ChangeUserPasswordCommand request, CancellationToken cancellationToken)
 		//{
