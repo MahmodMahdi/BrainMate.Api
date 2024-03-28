@@ -15,7 +15,8 @@ namespace BrainMate.Core.Features.ApplicationUser.Handler
 	public class UserCommandHandler : ResponseHandler,
 		IRequestHandler<AddUserCommand, Response<string>>,
 		IRequestHandler<UpdateUserCommand, Response<string>>,
-		IRequestHandler<DeleteUserCommand, Response<string>>
+		IRequestHandler<DeleteUserCommand, Response<string>>,
+		IRequestHandler<ChangeUserPasswordCommand, Response<string>>
 	{
 		#region Fields
 		private readonly IMapper _mapper;
@@ -104,21 +105,21 @@ namespace BrainMate.Core.Features.ApplicationUser.Handler
 			return Success<string>(_stringLocalizer[SharedResourcesKeys.Deleted]);
 		}
 
-		//public async Task<Response<string>> Handle(ChangeUserPasswordCommand request, CancellationToken cancellationToken)
-		//{
-		//	// Get User
-		//	var User = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == request.Id);
+		public async Task<Response<string>> Handle(ChangeUserPasswordCommand request, CancellationToken cancellationToken)
+		{
+			// Get User
+			var User = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == request.Id);
 
-		//	// If not exist => Not found
-		//	if (User == null) return NotFound<string>();
+			// If not exist => Not found
+			if (User == null) return NotFound<string>();
 
-		//	// if exist => change password
-		//	var result = await _userManager.ChangePasswordAsync(User, request.CurrentPassword!, request.NewPassword!);
-		//	// Not Success
-		//	if (!result.Succeeded) return BadRequest<string>(result.Errors.FirstOrDefault()!.Description);
+			// if exist => change password
+			var result = await _userManager.ChangePasswordAsync(User, request.CurrentPassword!, request.NewPassword!);
+			// Not Success
+			if (!result.Succeeded) return BadRequest<string>(result.Errors.FirstOrDefault()!.Description);
 
-		//	return Success<string>(_stringLocalizer[SharedResourcesKeys.Success]);
-		//}
+			return Success<string>(_stringLocalizer[SharedResourcesKeys.Success]);
+		}
 		#endregion
 	}
 }

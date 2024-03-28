@@ -31,5 +31,11 @@ namespace BrainMate.Api.Controllers
 			var user = NewResult(await _mediator.Send(new DeleteUserCommand(Id)));
 			return user;
 		}
+		[HttpPut(Routing.UserRouting.ChangePassword)]
+		public async Task<IActionResult> Update([FromBody] ChangeUserPasswordCommand command)
+		{
+			var ChangePassword = NewResult(await _mediator.Send(command));
+			return ChangePassword;
+		}
 	}
 }
