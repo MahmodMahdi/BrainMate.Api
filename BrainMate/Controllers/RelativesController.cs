@@ -2,6 +2,7 @@
 using BrainMate.Core.Features.Relative.Commands.Models;
 using BrainMate.Core.Features.Relative.Queries.Models;
 using BrainMate.Data.Routing;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BrainMate.Api.Controllers
@@ -9,18 +10,21 @@ namespace BrainMate.Api.Controllers
 	[ApiController]
 	public class RelativesController : AppControllerBase
 	{
+		[Authorize]
 		[HttpGet(Routing.RelativesRouting.Paginated)]
 		public async Task<IActionResult> PaginatedList([FromQuery] GetRelativesPaginatedListQuery query)
 		{
 			var relatives = Ok(await _mediator.Send(query));
 			return relatives;
 		}
+		[Authorize]
 		[HttpGet(Routing.RelativesRouting.GetById)]
 		public async Task<IActionResult> GetRelativeById([FromRoute] int id)
 		{
 			var relative = NewResult(await _mediator.Send(new GetRelativesByIdQuery(id)));
 			return relative;
 		}
+		[Authorize]
 		[HttpGet(Routing.RelativesRouting.Search)]
 		public async Task<IActionResult> Search([FromQuery] SearchRelativesQuery query)
 		{

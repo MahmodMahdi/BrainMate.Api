@@ -2,6 +2,7 @@
 using BrainMate.Core.Features.ApplicationUser.Commands.Models;
 using BrainMate.Core.Features.ApplicationUser.Models;
 using BrainMate.Data.Routing;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BrainMate.Api.Controllers
@@ -9,18 +10,21 @@ namespace BrainMate.Api.Controllers
 	[ApiController]
 	public class ApplicationUserController : AppControllerBase
 	{
+		[Authorize]
 		[HttpPost(Routing.UserRouting.Create)]
-		public async Task<IActionResult> Create([FromBody] AddUserCommand command)
+		public async Task<IActionResult> Register([FromBody] AddUserCommand command)
 		{
 			var user = NewResult(await _mediator.Send(command));
 			return user;
 		}
+		[Authorize]
 		[HttpPut(Routing.UserRouting.Update)]
 		public async Task<IActionResult> Update([FromBody] UpdateUserCommand command)
 		{
 			var user = NewResult(await _mediator.Send(command));
 			return user;
 		}
+		[Authorize]
 		[HttpDelete(Routing.UserRouting.Delete)]
 		public async Task<IActionResult> Delete([FromRoute] int Id)
 		{

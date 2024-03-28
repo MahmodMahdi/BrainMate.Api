@@ -2,6 +2,7 @@
 using BrainMate.Core.Features.AlzheimerPatient.Commands.Models;
 using BrainMate.Core.Features.AlzheimerPatient.Queries.Models;
 using BrainMate.Data.Routing;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BrainMate.Api.Controllers
@@ -9,6 +10,7 @@ namespace BrainMate.Api.Controllers
 	[ApiController]
 	public class PatientController : AppControllerBase
 	{
+		[Authorize]
 		[HttpGet(Routing.PatientRouting.GetById)]
 		public async Task<IActionResult> GetPatientById([FromRoute] int id)
 		{

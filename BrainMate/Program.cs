@@ -1,9 +1,12 @@
 using BrainMate.Core;
 using BrainMate.Core.Middleware;
+using BrainMate.Data.Entities.Identity;
 using BrainMate.Data.Helpers;
 using BrainMate.Infrastructure;
 using BrainMate.Infrastructure.Context;
+using BrainMate.Infrastructure.Seeding;
 using BrainMate.Service;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -94,6 +97,11 @@ namespace BrainMate
 
 			var app = builder.Build();
 
+			using (var scope = app.Services.CreateScope())
+			{
+				var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
+				RoleSeeding.SeedAsync(roleManager);
+			}
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())
 			{
@@ -105,15 +113,18 @@ namespace BrainMate
 			var options = app.Services.GetService<IOptions<RequestLocalizationOptions>>()!;
 			app.UseRequestLocalization(options.Value);
 			#endregion
-			app.UseCors(MyCors);
+
 
 			app.UseHttpsRedirection();
 			app.UseMiddleware<ErrorHandlerMiddleware>();
+
+			app.UseCors(MyCors);
 			app.UseStaticFiles();
 
+			app.UseAuthentication();
 			app.UseAuthorization();
 
-			app.UseAuthentication();
+
 			app.MapControllers();
 
 			app.Run();
