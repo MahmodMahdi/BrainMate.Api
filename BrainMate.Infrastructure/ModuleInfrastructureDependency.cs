@@ -12,7 +12,7 @@ namespace BrainMate.Infrastructure
 			services.AddTransient<IRelativesRepository, RelativesRepository>();
 			services.AddTransient<IMedicineRepository, MedicineRepository>();
 			services.AddTransient<IFoodRepository, FoodRepository>();
-			//services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
+			services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
 			services.AddTransient(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
 			return services;
 		}
