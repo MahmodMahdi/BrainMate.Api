@@ -12,8 +12,9 @@ namespace BrainMate.Core.Features.Authentication.Commands.Handler
 {
 	public class AuthenticationCommandHandler : ResponseHandler,
 										IRequestHandler<SignInCommand, Response<JwtAuthenticationResponse>>,
-										  IRequestHandler<SendResetPasswordCommand, Response<string>>,
-										   IRequestHandler<ResetPasswordCommand, Response<string>>
+										IRequestHandler<RefreshTokenCommand, Response<JwtAuthenticationResponse>>,
+										IRequestHandler<SendResetPasswordCommand, Response<string>>,
+										IRequestHandler<ResetPasswordCommand, Response<string>>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -53,6 +54,24 @@ namespace BrainMate.Core.Features.Authentication.Commands.Handler
 			// return token
 			return Success(token);
 		}
+		public async Task<Response<JwtAuthenticationResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
+		{
+			var jwtToken = _authenticationService.ReadJwtToken(request.Token!);
+			var userIdAndExpireDate = await _authenticationService.ValidateDetails(jwtToken, request.Token!, request.RefreshToken!);
+			switch (userIdAndExpireDate)
+			{
+				case ("AlgorithmIsWrong", null): return Unauthorized<JwtAuthenticationResponse>(_stringLocalizer[SharedResourcesKeys.AlgorithmIsWrong]);
+				case ("TokenIsNotExpired", null): return Unauthorized<JwtAuthenticationResponse>(_stringLocalizer[SharedResourcesKeys.TokenIsNotExpired]);
+				case ("RefreshTokenIsNotFound", null): return Unauthorized<JwtAuthenticationResponse>(_stringLocalizer[SharedResourcesKeys.RefreshTokenIsNotFound]);
+				case ("RefreshTokenIsExpired", null): return Unauthorized<JwtAuthenticationResponse>(_stringLocalizer[SharedResourcesKeys.RefreshTokenIsExpired]);
+			}
+			var (userId, expireDate) = userIdAndExpireDate;
+			var user = await _userManager.FindByIdAsync(userId);
+			if (user == null) return NotFound<JwtAuthenticationResponse>();
+			var result = await _authenticationService.GetRefreshToken(user, jwtToken, expireDate, request.RefreshToken!);
+			return Success(result);
+		}
+
 		public async Task<Response<string>> Handle(SendResetPasswordCommand request, CancellationToken cancellationToken)
 		{
 			var result = await _authenticationService.SendResetPasswordCode(request.Email);

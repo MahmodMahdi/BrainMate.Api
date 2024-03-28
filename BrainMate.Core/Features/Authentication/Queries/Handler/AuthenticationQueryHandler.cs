@@ -8,7 +8,7 @@ using Microsoft.Extensions.Localization;
 namespace SchoolProject.Core.Features.Authentication.Queries.Handler
 {
 	public class AuthenticationQueryHandler : ResponseHandler,
-										//IRequestHandler<AuthorizeUserQuery, Response<string>>,
+										IRequestHandler<AuthorizeUserQuery, Response<string>>,
 										IRequestHandler<ConfirmEmailQuery, Response<string>>,
 										IRequestHandler<ConfirmResetPasswordQuery, Response<string>>
 	{
@@ -28,13 +28,13 @@ namespace SchoolProject.Core.Features.Authentication.Queries.Handler
 
 		#endregion
 		#region Handle Functions
-		//public async Task<Response<string>> Handle(AuthorizeUserQuery request, CancellationToken cancellationToken)
-		//{
-		//	var result = await _authenticationService.ValidateToken(request.AccessToken!);
-		//	if (result == "NotExpired")
-		//	{ return Success(result); }
-		//	return BadRequest<string>("Expired");
-		//}
+		public async Task<Response<string>> Handle(AuthorizeUserQuery request, CancellationToken cancellationToken)
+		{
+			var result = await _authenticationService.ValidateToken(request.AccessToken!);
+			if (result == "NotExpired")
+			{ return Success(result); }
+			return BadRequest<string>("Expired");
+		}
 		public async Task<Response<string>> Handle(ConfirmEmailQuery request, CancellationToken cancellationToken)
 		{
 			var confirmEmail = await _authenticationService.ConfirmEmail(request.UserId, request.Code!);

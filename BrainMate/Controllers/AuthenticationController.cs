@@ -47,5 +47,19 @@ namespace BrainMate.Api.Controllers
 			var response = NewResult(await _mediator.Send(command));
 			return response;
 		}
+		[SwaggerOperation(Summary = "آخر إذا كان منتهي Token وإعطاء  Token التحقق من", OperationId = "SendResetPasswordCode")]
+		[HttpPost(Routing.AuthenticationRouting.RefreshToken)]
+		public async Task<IActionResult> RefreshToken([FromForm] RefreshTokenCommand command)
+		{
+			var user = NewResult(await _mediator.Send(command));
+			return user;
+		}
+		[SwaggerOperation(Summary = "Token التحقق من صلاحية", OperationId = "SendResetPasswordCode")]
+		[HttpPost(Routing.AuthenticationRouting.ValidateToken)]
+		public async Task<IActionResult> ValidateToken([FromForm] AuthorizeUserQuery command)
+		{
+			var user = NewResult(await _mediator.Send(command));
+			return user;
+		}
 	}
 }
