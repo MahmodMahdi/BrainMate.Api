@@ -12,8 +12,8 @@ using SchoolProject.Service.Abstracts;
 
 namespace BrainMate.Core.Features.ApplicationUser.Handler
 {
-	public class UserCommandHandler : ResponseHandler,
-		IRequestHandler<AddUserCommand, Response<string>>,
+	public class RegisterCommandHandler : ResponseHandler,
+		IRequestHandler<RegisterCommand, Response<string>>,
 		IRequestHandler<UpdateUserCommand, Response<string>>,
 		IRequestHandler<DeleteUserCommand, Response<string>>,
 		IRequestHandler<ChangeUserPasswordCommand, Response<string>>
@@ -27,7 +27,7 @@ namespace BrainMate.Core.Features.ApplicationUser.Handler
 
 		#endregion
 		#region Constructor
-		public UserCommandHandler(IMapper mapper,
+		public RegisterCommandHandler(IMapper mapper,
 								  IStringLocalizer<SharedResources> stringLocalizer,
 								  UserManager<User> userManager,
 								   IApplicationUserService applicationUserService) : base(stringLocalizer)
@@ -40,7 +40,7 @@ namespace BrainMate.Core.Features.ApplicationUser.Handler
 		}
 		#endregion
 		#region Handle Function
-		public async Task<Response<string>> Handle(AddUserCommand request, CancellationToken cancellationToken)
+		public async Task<Response<string>> Handle(RegisterCommand request, CancellationToken cancellationToken)
 		{
 			//Mapping
 			var IdentityUser = _mapper.Map<User>(request);

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BrainMate.Core.Features.ApplicationUser.Models
 {
-	public class AddUserCommand : IRequest<Response<string>>
+	public class RegisterCommand : IRequest<Response<string>>
 	{
 		public string? FirstName { get; set; }
 		public string? LastName { get; set; }

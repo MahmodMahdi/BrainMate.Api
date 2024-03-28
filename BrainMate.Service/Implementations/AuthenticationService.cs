@@ -69,6 +69,7 @@ namespace BrainMate.Service.Implementations
 			return result;
 			#endregion
 		}
+		//
 		private async Task<(JwtSecurityToken, string)> GenerateJwtToken(User user)
 		{
 			var claims = await GetClaims(user);
@@ -83,6 +84,7 @@ namespace BrainMate.Service.Implementations
 			var Token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
 			return (jwtToken, Token);
 		}
+		//
 		public async Task<List<Claim>> GetClaims(User user)
 		{
 			var roles = await _userManager.GetRolesAsync(user);
@@ -101,6 +103,7 @@ namespace BrainMate.Service.Implementations
 			claims.AddRange(userClaims);
 			return claims;
 		}
+		//
 		private RefreshToken GetRefreshToken(string Email)
 		{
 			// Refresh Token
@@ -148,6 +151,7 @@ namespace BrainMate.Service.Implementations
 			var expireDate = userRT.ExpireDate;
 			return (Id, expireDate);
 		}
+
 		public JwtSecurityToken ReadJwtToken(string Token)
 		{
 			if (string.IsNullOrEmpty(Token)) throw new ArgumentNullException(nameof(Token));
@@ -155,6 +159,7 @@ namespace BrainMate.Service.Implementations
 			var result = handler.ReadJwtToken(Token);
 			return result;
 		}
+
 		public async Task<string> ValidateToken(string Token)
 		{
 			var handler = new JwtSecurityTokenHandler();
@@ -180,6 +185,7 @@ namespace BrainMate.Service.Implementations
 				return e.Message;
 			}
 		}
+
 		public async Task<string> ConfirmEmail(int? UserId, string Code)
 		{
 			if (UserId == null || Code == null) { return "ErrorInConfirmEmail"; }
@@ -188,6 +194,71 @@ namespace BrainMate.Service.Implementations
 			if (!ConfirmEmail.Succeeded) { return "ErrorInConfirmEmail"; }
 			return "Success";
 		}
+
+		public async Task<string> SendResetPasswordCode(string Email)
+		{
+			var transaction = await _context.Database.BeginTransactionAsync();
+			try
+			{
+				// get user 
+				var user = await _userManager.FindByEmailAsync(Email);
+				// if not exist => not found
+				if (user == null) { return "UserNotFound"; }
+				// generate random number
+				Random generator = new Random();
+				string random = generator.Next(0, 1000000).ToString("D6");
+				// update user in db code
+				user.Code = random;
+				var Updated = await _userManager.UpdateAsync(user);
+				if (!Updated.Succeeded) { return "ErrorInUpdateUser"; }
+				// Send code to email 
+				var message = "Code to Reset Password : " + user.Code;
+				await _emailService.SendEmailAsync(user.Email!, message, "Reset Password");
+				await transaction.CommitAsync();
+				return "Success";
+			}
+
+			catch (Exception)
+			{
+				await transaction.RollbackAsync();
+				return "Failed";
+			}
+		}
+
+		public async Task<string> ConfirmResetPassword(string Code, string Email)
+		{
+			// get code from db
+			var user = await _userManager.FindByEmailAsync(Email);
+			if (user == null) return "UserNotFound";
+			// decrypt code from db
+			var UserCode = user.Code;
+			if (UserCode == Code) return "Success";
+			return "Failed";
+
+
+		}
+
+		public async Task<string> ResetPassword(string Email, string Password)
+		{
+			var transaction = await _context.Database.BeginTransactionAsync();
+			try
+			{
+				// get code from db
+				var user = await _userManager.FindByEmailAsync(Email);
+				if (user == null) return "UserNotFound";
+				await _userManager.RemovePasswordAsync(user);
+				await _userManager.AddPasswordAsync(user, Password);
+				await transaction.CommitAsync();
+				return "Success";
+			}
+
+			catch (Exception)
+			{
+				await transaction.RollbackAsync();
+				return "Failed";
+			}
+		}
+		//
 		private string GenerateRefreshToken()
 		{
 			var RandomNumber = new byte[32];

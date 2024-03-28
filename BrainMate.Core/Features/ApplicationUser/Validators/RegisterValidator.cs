@@ -5,13 +5,13 @@ using Microsoft.Extensions.Localization;
 
 namespace BrainMate.Core.Features.ApplicationUser.Validators
 {
-	public class AddUserValidator : AbstractValidator<AddUserCommand>
+	public class RegisterValidator : AbstractValidator<RegisterCommand>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _localizer;
 		#endregion
 		#region Constructors
-		public AddUserValidator(IStringLocalizer<SharedResources> localizer)
+		public RegisterValidator(IStringLocalizer<SharedResources> localizer)
 		{
 			_localizer = localizer;
 			ApplyValidationsRules();

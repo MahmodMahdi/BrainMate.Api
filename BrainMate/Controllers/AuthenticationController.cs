@@ -11,10 +11,10 @@ namespace BrainMate.Api.Controllers
 	public class AuthenticationController : AppControllerBase
 	{
 		[HttpPost(Routing.AuthenticationRouting.SignIn)]
-		public async Task<IActionResult> Create([FromForm] SignInCommand command)
+		public async Task<IActionResult> SignIn([FromForm] SignInCommand command)
 		{
-			var user = NewResult(await _mediator.Send(command));
-			return user;
+			var patient = NewResult(await _mediator.Send(command));
+			return patient;
 		}
 		[Authorize]
 		[HttpGet(Routing.AuthenticationRouting.ConfirmEmail)]

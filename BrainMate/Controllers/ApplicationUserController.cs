@@ -12,7 +12,7 @@ namespace BrainMate.Api.Controllers
 	{
 		[Authorize]
 		[HttpPost(Routing.UserRouting.Create)]
-		public async Task<IActionResult> Register([FromBody] AddUserCommand command)
+		public async Task<IActionResult> Register([FromBody] RegisterCommand command)
 		{
 			var user = NewResult(await _mediator.Send(command));
 			return user;
