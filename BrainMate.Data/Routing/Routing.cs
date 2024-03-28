@@ -49,6 +49,7 @@
 		{
 			public const string Prefix = Rule + "User";
 			public const string Register = Prefix + "/Register";
+			public const string CaregiverRegister = Prefix + "/CaregiverRegister";
 			public const string GetById = Prefix + SingleRoute;
 			public const string Update = Prefix + "/Update";
 			public const string Delete = Prefix + "/Delete/{Id}";

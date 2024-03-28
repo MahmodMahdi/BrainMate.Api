@@ -2,7 +2,6 @@
 using BrainMate.Core.Features.Authentication.Commands.Models;
 using BrainMate.Core.Features.Authentication.Queries.Dtos;
 using BrainMate.Data.Routing;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -18,7 +17,6 @@ namespace BrainMate.Api.Controllers
 			var patient = NewResult(await _mediator.Send(command));
 			return patient;
 		}
-		[Authorize]
 		[SwaggerOperation(Summary = " تأكيد الإيميل ", OperationId = "ConfirmEmail")]
 		[HttpGet(Routing.AuthenticationRouting.ConfirmEmail)]
 		public async Task<IActionResult> ConfirmEmail([FromQuery] ConfirmEmailQuery query)
@@ -47,7 +45,7 @@ namespace BrainMate.Api.Controllers
 			var response = NewResult(await _mediator.Send(command));
 			return response;
 		}
-		[SwaggerOperation(Summary = "آخر إذا كان منتهي Token وإعطاء  Token التحقق من", OperationId = "SendResetPasswordCode")]
+		[SwaggerOperation(Summary = "آخر إذا كان منتهي Token وإعطاء Token التحقق من", OperationId = "SendResetPasswordCode")]
 		[HttpPost(Routing.AuthenticationRouting.RefreshToken)]
 		public async Task<IActionResult> RefreshToken([FromForm] RefreshTokenCommand command)
 		{

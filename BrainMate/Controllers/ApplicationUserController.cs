@@ -11,7 +11,7 @@ namespace BrainMate.Api.Controllers
 	[ApiController]
 	public class ApplicationUserController : AppControllerBase
 	{
-		[Authorize]
+
 		[SwaggerOperation(Summary = " إنشاء حساب جديد ", OperationId = "Register")]
 		[HttpPost(Routing.UserRouting.Register)]
 		public async Task<IActionResult> Register([FromBody] RegisterCommand command)

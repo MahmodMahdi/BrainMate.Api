@@ -13,7 +13,7 @@ namespace BrainMate.Infrastructure.Seeding
 			{
 				roleManager.CreateAsync(new Role()
 				{
-					Name = "Shepherd"
+					Name = "Caregiver"
 				}).GetAwaiter().GetResult();
 				roleManager.CreateAsync(new Role()
 				{

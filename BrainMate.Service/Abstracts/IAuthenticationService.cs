@@ -12,6 +12,7 @@ namespace BrainMate.Service.Abstracts
 		public Task<string> ValidateToken(string Token);
 		public Task<(string, DateTime?)> ValidateDetails(JwtSecurityToken jwtToken, string Token, string refreshToken);
 		public Task<string> ConfirmEmail(int? UserId, string Code);
+
 		public Task<string> SendResetPasswordCode(string Email);
 		public Task<string> ConfirmResetPassword(string Code, string Email);
 		public Task<string> ResetPassword(string Email, string Password);

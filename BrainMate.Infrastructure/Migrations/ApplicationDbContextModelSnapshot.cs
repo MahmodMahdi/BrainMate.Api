@@ -52,7 +52,7 @@ namespace BrainMate.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("foods");
+                    b.ToTable("foods", (string)null);
                 });
 
             modelBuilder.Entity("BrainMate.Data.Entities.Identity.Role", b =>
@@ -201,7 +201,7 @@ namespace BrainMate.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("userRefreshTokens");
+                    b.ToTable("userRefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("BrainMate.Data.Entities.Medicine", b =>
@@ -237,7 +237,7 @@ namespace BrainMate.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("medicines");
+                    b.ToTable("medicines", (string)null);
                 });
 
             modelBuilder.Entity("BrainMate.Data.Entities.Patient", b =>
@@ -271,7 +271,7 @@ namespace BrainMate.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("patients");
+                    b.ToTable("patients", (string)null);
                 });
 
             modelBuilder.Entity("BrainMate.Data.Entities.Relatives", b =>
@@ -319,7 +319,7 @@ namespace BrainMate.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("relatives");
+                    b.ToTable("relatives", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

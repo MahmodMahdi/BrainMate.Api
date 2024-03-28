@@ -6,7 +6,7 @@ namespace BrainMate.Core.Mapping.Authentication.ApplicationUser
 	{
 		public ApplicationUserProfile()
 		{
-			AddUserMapping();
+			RegisterMapping();
 			UpdateUserMapping();
 		}
 	}

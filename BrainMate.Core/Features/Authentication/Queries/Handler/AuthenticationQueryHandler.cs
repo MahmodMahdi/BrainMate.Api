@@ -44,7 +44,7 @@ namespace SchoolProject.Core.Features.Authentication.Queries.Handler
 
 		public async Task<Response<string>> Handle(ConfirmResetPasswordQuery request, CancellationToken cancellationToken)
 		{
-			var result = await _authenticationService.ConfirmResetPassword(request.Code, request.Email);
+			var result = await _authenticationService.ConfirmResetPassword(request.Code!, request.Email!);
 			switch (result)
 			{
 				case ("UserNotFound"): return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.UserIsNotFound]);

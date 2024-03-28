@@ -5,7 +5,7 @@ namespace BrainMate.Core.Mapping.Authentication.ApplicationUser
 {
 	public partial class ApplicationUserProfile
 	{
-		public void AddUserMapping()
+		public void RegisterMapping()
 		{
 			CreateMap<RegisterCommand, User>()
 			.ForMember(dest => dest.Email, op => op.MapFrom(src => src.Email))
