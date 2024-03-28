@@ -11,7 +11,9 @@ using Microsoft.Extensions.Localization;
 namespace BrainMate.Core.Features.Authentication.Commands.Handler
 {
 	public class AuthenticationCommandHandler : ResponseHandler,
-										IRequestHandler<SignInCommand, Response<JwtAuthenticationResponse>>
+										IRequestHandler<SignInCommand, Response<JwtAuthenticationResponse>>,
+										  IRequestHandler<SendResetPasswordCommand, Response<string>>,
+										   IRequestHandler<ResetPasswordCommand, Response<string>>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -50,6 +52,30 @@ namespace BrainMate.Core.Features.Authentication.Commands.Handler
 			var token = await _authenticationService.GetJWTToken(user);
 			// return token
 			return Success(token);
+		}
+		public async Task<Response<string>> Handle(SendResetPasswordCommand request, CancellationToken cancellationToken)
+		{
+			var result = await _authenticationService.SendResetPasswordCode(request.Email);
+			switch (result)
+			{
+				case ("UserNotFound"): return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.UserIsNotFound]);
+				case ("ErrorInUpdateUser"): return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.SomeThingGoesWrong]);
+				case ("Failed"): return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.SomeThingGoesWrong]);
+				case ("Success"): return Success<string>(_stringLocalizer[SharedResourcesKeys.Success]);
+				default: return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.SomeThingGoesWrong]);
+			}
+		}
+
+		public async Task<Response<string>> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
+		{
+			var result = await _authenticationService.ResetPassword(request.Email, request.Password);
+			switch (result)
+			{
+				case ("UserNotFound"): return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.UserIsNotFound]);
+				case ("Failed"): return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.SomeThingGoesWrong]);
+				case ("Success"): return Success<string>(_stringLocalizer[SharedResourcesKeys.Success]);
+				default: return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.SomeThingGoesWrong]);
+			}
 		}
 		#endregion
 	}

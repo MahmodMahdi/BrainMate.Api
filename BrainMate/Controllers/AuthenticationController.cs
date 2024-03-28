@@ -4,12 +4,14 @@ using BrainMate.Core.Features.Authentication.Queries.Dtos;
 using BrainMate.Data.Routing;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace BrainMate.Api.Controllers
 {
 	[ApiController]
 	public class AuthenticationController : AppControllerBase
 	{
+		[SwaggerOperation(Summary = " تسجيل دخول ", OperationId = "SignIn")]
 		[HttpPost(Routing.AuthenticationRouting.SignIn)]
 		public async Task<IActionResult> SignIn([FromForm] SignInCommand command)
 		{
@@ -17,11 +19,33 @@ namespace BrainMate.Api.Controllers
 			return patient;
 		}
 		[Authorize]
+		[SwaggerOperation(Summary = " تأكيد الإيميل ", OperationId = "ConfirmEmail")]
 		[HttpGet(Routing.AuthenticationRouting.ConfirmEmail)]
 		public async Task<IActionResult> ConfirmEmail([FromQuery] ConfirmEmailQuery query)
 		{
 			var email = NewResult(await _mediator.Send(query));
 			return email;
+		}
+		[SwaggerOperation(Summary = " تأكيد كود الباسورد ", OperationId = "ConfirmResetPassword")]
+		[HttpGet(Routing.AuthenticationRouting.ConfirmResetPassword)]
+		public async Task<IActionResult> ConfirmResetPassword([FromQuery] ConfirmResetPasswordQuery query)
+		{
+			var response = NewResult(await _mediator.Send(query));
+			return response;
+		}
+		[SwaggerOperation(Summary = "إرسال كود تأكيد الباسورد", OperationId = "SendResetPasswordCode")]
+		[HttpPost(Routing.AuthenticationRouting.SendResetPasswordCode)]
+		public async Task<IActionResult> SendResetPasswordCode([FromQuery] SendResetPasswordCommand command)
+		{
+			var response = NewResult(await _mediator.Send(command));
+			return response;
+		}
+		[SwaggerOperation(Summary = " تغيير الباسورد ", OperationId = "ResetPassword")]
+		[HttpPost(Routing.AuthenticationRouting.ResetPassword)]
+		public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordCommand command)
+		{
+			var response = NewResult(await _mediator.Send(command));
+			return response;
 		}
 	}
 }

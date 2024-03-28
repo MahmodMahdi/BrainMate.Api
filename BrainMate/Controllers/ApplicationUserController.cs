@@ -4,6 +4,7 @@ using BrainMate.Core.Features.ApplicationUser.Models;
 using BrainMate.Data.Routing;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace BrainMate.Api.Controllers
 {
@@ -11,13 +12,15 @@ namespace BrainMate.Api.Controllers
 	public class ApplicationUserController : AppControllerBase
 	{
 		[Authorize]
-		[HttpPost(Routing.UserRouting.Create)]
+		[SwaggerOperation(Summary = " إنشاء حساب جديد ", OperationId = "Register")]
+		[HttpPost(Routing.UserRouting.Register)]
 		public async Task<IActionResult> Register([FromBody] RegisterCommand command)
 		{
 			var user = NewResult(await _mediator.Send(command));
 			return user;
 		}
 		[Authorize]
+		[SwaggerOperation(Summary = " تعديل حساب المستخدم ", OperationId = "Update")]
 		[HttpPut(Routing.UserRouting.Update)]
 		public async Task<IActionResult> Update([FromBody] UpdateUserCommand command)
 		{
@@ -25,6 +28,7 @@ namespace BrainMate.Api.Controllers
 			return user;
 		}
 		[Authorize]
+		[SwaggerOperation(Summary = " حذف حساب المستخدم ", OperationId = "Delete")]
 		[HttpDelete(Routing.UserRouting.Delete)]
 		public async Task<IActionResult> Delete([FromRoute] int Id)
 		{
@@ -32,6 +36,7 @@ namespace BrainMate.Api.Controllers
 			return user;
 		}
 		[HttpPut(Routing.UserRouting.ChangePassword)]
+		[SwaggerOperation(Summary = " تغيير الباسورد ", OperationId = "ChangePassword")]
 		public async Task<IActionResult> Update([FromBody] ChangeUserPasswordCommand command)
 		{
 			var ChangePassword = NewResult(await _mediator.Send(command));
