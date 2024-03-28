@@ -14,6 +14,7 @@ namespace BrainMate.Core.Features.ApplicationUser.Handler
 {
 	public class RegisterCommandHandler : ResponseHandler,
 		IRequestHandler<RegisterCommand, Response<string>>,
+		IRequestHandler<CaregiverRegisterCommand, Response<string>>,
 		IRequestHandler<UpdateUserCommand, Response<string>>,
 		IRequestHandler<DeleteUserCommand, Response<string>>,
 		IRequestHandler<ChangeUserPasswordCommand, Response<string>>
@@ -50,6 +51,21 @@ namespace BrainMate.Core.Features.ApplicationUser.Handler
 			if (SearchByPhone != null) return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.PhoneExist]);
 
 			var Result = await _applicationUserService.RegisterAsync(IdentityUser, request.Password!);
+			// Failed
+			switch (Result)
+			{
+				case "EmailIsExist": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.EmailIsExist]);
+				case "PhoneExist": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.PhoneExist]);
+				case "Failed": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.SomeThingGoesWrong]);
+				case "Success": return Success<string>("");
+				default: return BadRequest<string>(Result);
+			}
+		}
+		public async Task<Response<string>> Handle(CaregiverRegisterCommand request, CancellationToken cancellationToken)
+		{
+			//Mapping
+			var IdentityCaregiver = _mapper.Map<Caregiver>(request);
+			var Result = await _applicationUserService.CaregiverRegisterAsync(IdentityCaregiver, request.Password!);
 			// Failed
 			switch (Result)
 			{
@@ -120,6 +136,8 @@ namespace BrainMate.Core.Features.ApplicationUser.Handler
 
 			return Success<string>(_stringLocalizer[SharedResourcesKeys.Success]);
 		}
+
+
 		#endregion
 	}
 }

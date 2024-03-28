@@ -14,6 +14,8 @@ namespace BrainMate.Infrastructure.Context
 		{
 
 		}
+		public DbSet<User> users { get; set; }
+		public DbSet<Caregiver> caregivers { get; set; }
 		public DbSet<UserRefreshToken> userRefreshTokens { get; set; }
 		public DbSet<Patient> patients { get; set; }
 		public DbSet<Medicine> medicines { get; set; }

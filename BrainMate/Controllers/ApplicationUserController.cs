@@ -19,6 +19,13 @@ namespace BrainMate.Api.Controllers
 			var user = NewResult(await _mediator.Send(command));
 			return user;
 		}
+		[SwaggerOperation(Summary = " إنشاء حساب مرافق جديد ", OperationId = "CaregiverRegister")]
+		[HttpPost(Routing.UserRouting.CaregiverRegister)]
+		public async Task<IActionResult> CaregiverRegister([FromBody] CaregiverRegisterCommand command)
+		{
+			var caregiver = NewResult(await _mediator.Send(command));
+			return caregiver;
+		}
 		[Authorize]
 		[SwaggerOperation(Summary = " تعديل حساب المستخدم ", OperationId = "Update")]
 		[HttpPut(Routing.UserRouting.Update)]

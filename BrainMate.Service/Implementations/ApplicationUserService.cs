@@ -73,6 +73,55 @@ namespace SchoolProject.Service.Implementations
 				return "Failed";
 			}
 		}
+		public async Task<string> CaregiverRegisterAsync(Caregiver caregiver, string password)
+		{
+			var transaction = await _context.Database.BeginTransactionAsync();
+			try
+			{
+				// If Email is exist
+				var OldCaregiver = await _userManager.FindByEmailAsync(caregiver.Email!);
+				// Email is Already Exist
+				if (OldCaregiver != null) return "EmailIsExist";
+
+
+				var ExistUser = await _userManager.Users.AnyAsync(x => x.Email == caregiver.PatientEmail);
+				//Create
+				if (ExistUser == true)
+				{
+					var SearchByPhone = await _userManager.Users.AnyAsync(x => x.PhoneNumber == caregiver.PhoneNumber);
+					if (SearchByPhone != true)
+					{
+						var Result = await _userManager.CreateAsync(caregiver, password!);
+
+						// Failed
+						if (!Result.Succeeded) return string.Join(",", Result.Errors.Select(x => x.Description).ToList());
+						await _userManager.AddToRoleAsync(caregiver, "Caregiver");
+						// Send Confirm Email
+						var code = await _userManager.GenerateEmailConfirmationTokenAsync(caregiver);
+						var requestAccessor = _httpContextAccessor.HttpContext!.Request;
+						var returnUrl = requestAccessor.Scheme + "://" + requestAccessor.Host + _urlHelper
+							.Action("ConfirmEmail", "Authentication", new { userId = caregiver.Id, Code = code });
+						var message = $"To Confirm Email Click Link: {returnUrl}";
+						await _emailService.SendEmailAsync(caregiver.PatientEmail!, message, "Confirm Email");
+						await transaction.CommitAsync();
+						return "Success";
+					}
+					else
+					{
+						return "Phone Number is already exist";
+					}
+				}
+				else
+				{
+					return "This Patient Email is not exist";
+				}
+			}
+			catch (Exception)
+			{
+				await transaction.RollbackAsync();
+				return "Failed";
+			}
+		}
 		#endregion
 	}
 }
