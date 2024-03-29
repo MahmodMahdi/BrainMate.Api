@@ -59,6 +59,7 @@
 		{
 			public const string prefix = Rule + "Authentication";
 			public const string SignIn = prefix + "/SignIn";
+			public const string CaregiverSignIn = prefix + "/Caregiver/SignIn";
 			public const string RefreshToken = prefix + "/Refresh-Token";
 			public const string ValidateToken = prefix + "/Validate-Token";
 

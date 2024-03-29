@@ -7,7 +7,7 @@ public partial class ApplicationUserProfile
 {
 	public void CaregiverRegisterMapping()
 	{
-		CreateMap<CaregiverRegisterCommand, Caregiver>()
+		CreateMap<CaregiverRegisterCommand, User>()
 		.ForMember(dest => dest.Email, op => op.MapFrom(src => src.Email))
 		.ForMember(dest => dest.PatientEmail, op => op.MapFrom(src => src.PatientEmail))
 		.ForMember(dest => dest.UserName, op => op.MapFrom(src => src.Email))

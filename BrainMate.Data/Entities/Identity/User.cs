@@ -13,6 +13,7 @@ namespace BrainMate.Data.Entities.Identity
 		public string? LastName { get; set; }
 		public override string? UserName { get; set; }
 		public string? Address { get; set; }
+		public string? PatientEmail { get; set; }
 		[EncryptColumn]
 		public string? Code { get; set; }
 		public virtual ICollection<UserRefreshToken>? UserRefreshTokens { get; set; }
