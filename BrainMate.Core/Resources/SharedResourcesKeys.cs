@@ -14,8 +14,6 @@ public static class SharedResourcesKeys
 	public const string UnAuthorized = "UnAuthorized";
 	public const string BadRequest = "BadRequest";
 	public const string UnprocessableEntity = "UnprocessableEntity";
-	public const string DepartmentId = "DepartmentId";
-	public const string SuperVisorId = "SuperVisorId";
 	public const string PasswordNotEqualConfirmPassword = "PasswordNotEqualConfirmPassword";
 	public const string EmailIsExist = "EmailIsExist";
 	public const string FailedToAddUser = "FailedToAddUser";
@@ -36,12 +34,6 @@ public static class SharedResourcesKeys
 	public const string RoleIsUsed = "RoleIsUsed";
 	public const string RoleNotExist = "RoleNotExist";
 	public const string UserIsNotFound = "UserIsNotFound";
-	public const string FailedToRemoveOldRoles = "FailedToRemoveOldRoles";
-	public const string FailedToAddNewRoles = "FailedToAddNewRoles";
-	public const string FailedToUpdateUserRoles = "FailedToUpdateUserRoles";
-	public const string FailedToUpdateUserClaims = "FailedToUpdateUserClaims";
-	public const string FailedToAddNewClaims = "FailedToAddNewClaims";
-	public const string FailedToRemoveOldClaims = "FailedToRemoveOldClaims";
 	public const string Message = "Message";
 	public const string SendEmailFailed = "SendEmailFailed";
 	public const string ErrorInCreateUser = "ErrorInCreateUser";

@@ -138,12 +138,6 @@
   <data name="DeletedFailed" xml:space="preserve">
     <value>حدث خطأ أثناء عملية الحذف</value>
   </data>
-  <data name="DepartmentId" xml:space="preserve">
-    <value>رقم القسم</value>
-  </data>
-  <data name="DepartmentManager" xml:space="preserve">
-    <value>رئيس القسم</value>
-  </data>
   <data name="Email" xml:space="preserve">
     <value>الإيميل</value>
   </data>
@@ -164,9 +158,6 @@
   </data>
   <data name="FailedToAdd" xml:space="preserve">
     <value>فشلت عملية الإضافة</value>
-  </data>
-  <data name="FailedToAddNewClaims" xml:space="preserve">
-    <value>حدث خطأ أثناء إضافة صلاحية إستخدام جديدة</value>
   </data>
   <data name="FailedToAddNewRoles" xml:space="preserve">
     <value>حدث خطأ أثناء إضافة صلاحية جديدة</value>

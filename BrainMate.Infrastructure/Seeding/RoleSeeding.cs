@@ -17,7 +17,7 @@ namespace BrainMate.Infrastructure.Seeding
 				}).GetAwaiter().GetResult();
 				roleManager.CreateAsync(new Role()
 				{
-					Name = "Patient"
+					Name = "User"
 				}).GetAwaiter().GetResult();
 			}
 		}

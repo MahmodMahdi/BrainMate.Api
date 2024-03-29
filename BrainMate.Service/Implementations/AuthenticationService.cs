@@ -4,6 +4,8 @@ using BrainMate.Data.Responses;
 using BrainMate.Infrastructure.Context;
 using BrainMate.Infrastructure.Interfaces;
 using BrainMate.Service.Abstracts;
+using EntityFrameworkCore.EncryptColumn.Interfaces;
+using EntityFrameworkCore.EncryptColumn.Util;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -22,7 +24,7 @@ namespace BrainMate.Service.Implementations
 		private readonly UserManager<User> _userManager;
 		private readonly IEmailService _emailService;
 		private readonly ApplicationDbContext _context;
-		//private readonly IEncryptionProvider _encryptionProvider;
+		private readonly IEncryptionProvider _encryptionProvider;
 		#endregion
 
 		#region Constructor
@@ -37,10 +39,14 @@ namespace BrainMate.Service.Implementations
 			_userManager = userManager;
 			_emailService = emailService;
 			_context = context;
-			//_encryptionProvider = new GenerateEncryptionProvider("8a4dcaaec64d412380fe4b02193cd26f");
+			_encryptionProvider = new GenerateEncryptionProvider("8a4dcaaec64d412380fe4b02193cd26f");
 		}
 		#endregion
+
 		#region Handle Functions
+
+		////////////////////////////////////
+		#region User (Patient)
 		public async Task<JwtAuthenticationResponse> GetJWTToken(User user)
 		{
 			#region Token
@@ -84,6 +90,7 @@ namespace BrainMate.Service.Implementations
 			var Token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
 			return (jwtToken, Token);
 		}
+
 		//
 		public async Task<List<Claim>> GetClaims(User user)
 		{
@@ -103,6 +110,7 @@ namespace BrainMate.Service.Implementations
 			claims.AddRange(userClaims);
 			return claims;
 		}
+
 		//
 		private RefreshToken GetRefreshToken(string Email)
 		{
@@ -185,7 +193,92 @@ namespace BrainMate.Service.Implementations
 				return e.Message;
 			}
 		}
+		#endregion
+		////////////////////////////////////
 
+		////////////////////////////////////
+		#region Caregiver
+		//Caregiver part
+		public async Task<JwtAuthenticationResponse> CaregiverGetJWTToken(Caregiver caregiver)
+		{
+			#region Token
+			var (jwtToken, Token) = await CaregiverGenerateJwtToken(caregiver);
+			#endregion
+			#region RefreshToken
+			var refreshToken = GetRefreshToken(caregiver.Email!);
+
+			// save items of refresh token
+			var userRefreshToken = new UserRefreshToken
+			{
+				UserId = caregiver.Id,
+				Token = Token,
+				RefreshToken = refreshToken.refreshTokenString,
+				JwtId = jwtToken.Id,
+				IsUsed = true,
+				IsRevoked = false,
+				AddedTime = DateTime.Now,
+				ExpireDate = DateTime.Now.AddDays(_jwtSettings.RefreshTokenExpireDate),
+			};
+			await _refreshTokenRepository.AddAsync(userRefreshToken);
+
+			var result = new JwtAuthenticationResponse();
+			result.RefreshToken = refreshToken;
+			result.Token = Token;
+			return result;
+			#endregion
+		}
+
+		private async Task<(JwtSecurityToken, string)> CaregiverGenerateJwtToken(Caregiver caregiver)
+		{
+			var claims = await GetCaregiverClaims(caregiver);
+
+			var jwtToken = new JwtSecurityToken(
+				_jwtSettings.Issuer,
+				_jwtSettings.Audience,
+				claims,
+				expires: DateTime.Now.AddDays(_jwtSettings.TokenExpireDate),
+				signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtSettings.Secret!)),
+				SecurityAlgorithms.HmacSha256Signature));
+			var Token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+			return (jwtToken, Token);
+		}
+
+		public async Task<List<Claim>> GetCaregiverClaims(Caregiver caregiver)
+		{
+			var roles = await _userManager.GetRolesAsync(caregiver);
+			var claims = new List<Claim>()
+			 {
+				new Claim(nameof(UserClaimsModel.Id), caregiver.Id!.ToString()),
+				new Claim(nameof(ClaimTypes.NameIdentifier),caregiver.UserName!),
+				new Claim(nameof(UserClaimsModel.PhoneNumber), caregiver.PhoneNumber!),
+				new Claim(nameof(ClaimTypes.Email), caregiver.Email!),
+			};
+			foreach (var role in roles)
+			{
+				claims.Add(new Claim(ClaimTypes.Role, role));
+			}
+			var userClaims = await _userManager.GetClaimsAsync(caregiver);
+			claims.AddRange(userClaims);
+			return claims;
+		}
+
+		public async Task<JwtAuthenticationResponse> GetCaregiverRefreshToken(Caregiver caregiver, JwtSecurityToken JwtToken, DateTime? ExpireDate, string RefreshToken)
+		{
+			var (jwtSecurityToken, newToken) = await GenerateJwtToken(caregiver!);
+
+			var Result = new JwtAuthenticationResponse();
+			Result.Token = newToken;
+			var RefreshTokenResult = new RefreshToken();
+			RefreshTokenResult.Email = JwtToken.Claims.FirstOrDefault(x => x.Type == nameof(UserClaimsModel.Email))!.Value;
+			RefreshTokenResult.refreshTokenString = RefreshToken;
+			RefreshTokenResult.ExpireAt = (DateTime)ExpireDate!;
+			Result.RefreshToken = RefreshTokenResult;
+			return Result;
+		}
+		#endregion
+		////////////////////////////////////
+
+		#region Confirm Email
 		public async Task<string> ConfirmEmail(int? UserId, string Code)
 		{
 			if (UserId == null || Code == null) { return "ErrorInConfirmEmail"; }
@@ -194,7 +287,10 @@ namespace BrainMate.Service.Implementations
 			if (!ConfirmEmail.Succeeded) { return "ErrorInConfirmEmail"; }
 			return "Success";
 		}
+		#endregion
 
+		/////////////////////////////////////
+		#region Reset Password
 		public async Task<string> SendResetPasswordCode(string Email)
 		{
 			var transaction = await _context.Database.BeginTransactionAsync();
@@ -258,7 +354,10 @@ namespace BrainMate.Service.Implementations
 				return "Failed";
 			}
 		}
-		//
+		#endregion
+		////////////////////////////////////
+
+		#region Helper
 		private string GenerateRefreshToken()
 		{
 			var RandomNumber = new byte[32];
@@ -266,6 +365,8 @@ namespace BrainMate.Service.Implementations
 			randomNumberGenerator.GetBytes(RandomNumber);
 			return Convert.ToBase64String(RandomNumber);
 		}
+		#endregion
+
 		#endregion
 	}
 }

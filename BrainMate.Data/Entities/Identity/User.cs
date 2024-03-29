@@ -5,6 +5,10 @@ namespace BrainMate.Data.Entities.Identity
 {
 	public class User : IdentityUser<int>
 	{
+		public User()
+		{
+			UserRefreshTokens = new HashSet<UserRefreshToken>();
+		}
 		public string? FirstName { get; set; }
 		public string? LastName { get; set; }
 		public override string? UserName { get; set; }

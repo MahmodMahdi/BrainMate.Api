@@ -30,21 +30,6 @@ namespace SchoolProject.Infrastructure
 				  .AddDefaultUI()
 				  .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders()
 				  .AddSignInManager<SignInManager<User>>();
-			//services.AddIdentity<Caregiver, Role>(
-			//  options =>
-			//  {
-			//	  options.Password.RequireLowercase = true;
-			//	  options.Password.RequireUppercase = true;
-			//	  options.Password.RequireNonAlphanumeric = false;
-			//	  options.Password.RequiredLength = 8;
-			//	  options.Password.RequireDigit = false;
-
-			//	  options.User.RequireUniqueEmail = true;
-
-			//  })
-			//	  .AddDefaultUI()
-			//	  .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders()
-			//	  .AddSignInManager<SignInManager<Caregiver>>();
 			//JWT Authentication
 			var jwtSettings = new jwtSettings();
 			var emailSettings = new EmailSettings();

@@ -55,7 +55,7 @@ namespace SchoolProject.Service.Implementations
 
 				// Failed
 				if (!Result.Succeeded) return string.Join(",", Result.Errors.Select(x => x.Description).ToList());
-				await _userManager.AddToRoleAsync(user, "Patient");
+				await _userManager.AddToRoleAsync(user, "User");
 
 				// Send Confirm Email
 				var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
