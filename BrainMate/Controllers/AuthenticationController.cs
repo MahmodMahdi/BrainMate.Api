@@ -17,12 +17,6 @@ namespace BrainMate.Api.Controllers
 			var patient = NewResult(await _mediator.Send(command));
 			return patient;
 		}
-		//[HttpPost(Routing.AuthenticationRouting.CaregiverSignIn)]
-		//public async Task<IActionResult> CaregiverSignIn([FromForm] CaregiverSignInCommand command)
-		//{
-		//	var patient = NewResult(await _mediator.Send(command));
-		//	return patient;
-		//}
 		[SwaggerOperation(Summary = " تأكيد الإيميل ", OperationId = "ConfirmEmail")]
 		[HttpGet(Routing.AuthenticationRouting.ConfirmEmail)]
 		public async Task<IActionResult> ConfirmEmail([FromQuery] ConfirmEmailQuery query)
@@ -40,6 +34,13 @@ namespace BrainMate.Api.Controllers
 		[SwaggerOperation(Summary = "إرسال كود تأكيد الباسورد", OperationId = "SendResetPasswordCode")]
 		[HttpPost(Routing.AuthenticationRouting.SendResetPasswordCode)]
 		public async Task<IActionResult> SendResetPasswordCode([FromQuery] SendResetPasswordCommand command)
+		{
+			var response = NewResult(await _mediator.Send(command));
+			return response;
+		}
+		[SwaggerOperation(Summary = "إرسال كود تأكيد الباسورد", OperationId = "CaregiverSendResetPasswordCode")]
+		[HttpPost(Routing.AuthenticationRouting.CaregiverSendResetPassword)]
+		public async Task<IActionResult> CaregiverSignIn([FromForm] CaregiverSendResetPasswordCommand command)
 		{
 			var response = NewResult(await _mediator.Send(command));
 			return response;
