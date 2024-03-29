@@ -15,6 +15,7 @@ namespace BrainMate.Core.Features.Authentication.Commands.Handler
 										IRequestHandler<CaregiverSignInCommand, Response<JwtAuthenticationResponse>>,
 										IRequestHandler<RefreshTokenCommand, Response<JwtAuthenticationResponse>>,
 										IRequestHandler<SendResetPasswordCommand, Response<string>>,
+										IRequestHandler<CaregiverSendResetPasswordCommand, Response<string>>,
 										IRequestHandler<ResetPasswordCommand, Response<string>>
 	{
 		#region Fields
@@ -92,6 +93,18 @@ namespace BrainMate.Core.Features.Authentication.Commands.Handler
 		}
 
 		public async Task<Response<string>> Handle(SendResetPasswordCommand request, CancellationToken cancellationToken)
+		{
+			var result = await _authenticationService.SendResetPasswordCode(request.Email!);
+			switch (result)
+			{
+				case ("UserNotFound"): return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.UserIsNotFound]);
+				case ("ErrorInUpdateUser"): return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.SomeThingGoesWrong]);
+				case ("Failed"): return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.SomeThingGoesWrong]);
+				case ("Success"): return Success<string>(_stringLocalizer[SharedResourcesKeys.Success]);
+				default: return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.SomeThingGoesWrong]);
+			}
+		}
+		public async Task<Response<string>> Handle(CaregiverSendResetPasswordCommand request, CancellationToken cancellationToken)
 		{
 			var result = await _authenticationService.SendResetPasswordCode(request.Email!);
 			switch (result)

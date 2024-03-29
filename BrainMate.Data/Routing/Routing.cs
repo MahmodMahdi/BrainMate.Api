@@ -59,13 +59,13 @@
 		{
 			public const string prefix = Rule + "Authentication";
 			public const string SignIn = prefix + "/SignIn";
-			public const string CaregiverSignIn = prefix + "/Caregiver/SignIn";
 			public const string RefreshToken = prefix + "/Refresh-Token";
 			public const string ValidateToken = prefix + "/Validate-Token";
 
 			public const string ConfirmEmail = "Api/V1/Authentication/ConfirmEmail";
 
 			public const string SendResetPasswordCode = prefix + "/SendResetPasswordCode";
+			public const string CaregiverSendResetPassword = prefix + "/CaregiverSendResetPassword";
 			public const string ConfirmResetPassword = prefix + "/ConfirmResetPassword";
 			public const string ResetPassword = prefix + "/ResetPassword";
 		}
