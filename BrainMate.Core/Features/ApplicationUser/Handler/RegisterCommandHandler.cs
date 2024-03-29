@@ -36,7 +36,6 @@ namespace BrainMate.Core.Features.ApplicationUser.Handler
 			_mapper = mapper;
 			_stringLocalizer = stringLocalizer;
 			_userManager = userManager;
-
 			_applicationUserService = applicationUserService;
 		}
 		#endregion
@@ -64,7 +63,7 @@ namespace BrainMate.Core.Features.ApplicationUser.Handler
 		public async Task<Response<string>> Handle(CaregiverRegisterCommand request, CancellationToken cancellationToken)
 		{
 			//Mapping
-			var IdentityCaregiver = _mapper.Map<Caregiver>(request);
+			var IdentityCaregiver = _mapper.Map<User>(request);
 			var Result = await _applicationUserService.CaregiverRegisterAsync(IdentityCaregiver, request.Password!);
 			// Failed
 			switch (Result)

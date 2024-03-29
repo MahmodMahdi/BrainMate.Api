@@ -13,10 +13,6 @@ namespace BrainMate.Service.Abstracts
 		public Task<string> ValidateToken(string Token);
 		public Task<(string, DateTime?)> ValidateDetails(JwtSecurityToken jwtToken, string Token, string refreshToken);
 		#endregion
-		#region Admin (Caregiver)
-		public Task<JwtAuthenticationResponse> CaregiverGetJWTToken(Caregiver caregiver);
-		public Task<JwtAuthenticationResponse> GetCaregiverRefreshToken(Caregiver caregiver, JwtSecurityToken JwtToken, DateTime? ExpireDate, string RefreshToken);
-		#endregion
 		#region Email Confirmation
 		public Task<string> ConfirmEmail(int? UserId, string Code);
 		#endregion
