@@ -6,7 +6,7 @@ namespace BrainMate.Service.Abstracts
 {
 	public interface IAuthenticationService
 	{
-		#region User (Patient)
+		#region User 
 		public Task<JwtAuthenticationResponse> GetJWTToken(User user);
 		public JwtSecurityToken ReadJwtToken(string Token);
 		public Task<JwtAuthenticationResponse> GetRefreshToken(User user, JwtSecurityToken JwtToken, DateTime? ExpireDate, string RefreshToken);
@@ -18,6 +18,7 @@ namespace BrainMate.Service.Abstracts
 		#endregion
 		#region Reset Password
 		public Task<string> SendResetPasswordCode(string Email);
+		public Task<string> SendCaregiverResetPasswordCode(string Email);
 		public Task<string> ConfirmResetPassword(string Code, string Email);
 		public Task<string> ResetPassword(string Email, string Password);
 		#endregion

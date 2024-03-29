@@ -238,7 +238,35 @@ namespace BrainMate.Service.Implementations
 				return "Failed";
 			}
 		}
+		public async Task<string> SendCaregiverResetPasswordCode(string Email)
+		{
+			var transaction = await _context.Database.BeginTransactionAsync();
+			try
+			{
+				// get user 
+				var user = await _userManager.FindByEmailAsync(Email);
+				// if not exist => not found
+				if (user == null) { return "UserNotFound"; }
+				// generate random number
+				Random generator = new Random();
+				string random = generator.Next(0, 1000000).ToString("D6");
+				// update user in db code
+				user.Code = random;
+				var Updated = await _userManager.UpdateAsync(user);
+				if (!Updated.Succeeded) { return "ErrorInUpdateUser"; }
+				// Send code to email 
+				var message = "Code to Reset Password : " + user.Code;
+				await _emailService.SendEmailAsync(user.PatientEmail!, message, "Reset Password");
+				await transaction.CommitAsync();
+				return "Success";
+			}
 
+			catch (Exception)
+			{
+				await transaction.RollbackAsync();
+				return "Failed";
+			}
+		}
 		public async Task<string> ConfirmResetPassword(string Code, string Email)
 		{
 			// get code from db
