@@ -1,10 +1,10 @@
 ﻿using BrainMate.Core.Bases;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Text.Json;
-
 namespace BrainMate.Core.Middleware
 {
 	// Copy And Paste
@@ -28,6 +28,8 @@ namespace BrainMate.Core.Middleware
 				var response = context.Response;
 				response.ContentType = "application/json";
 				var responseModel = new Response<string>() { Succeeded = false, Message = error?.Message };
+				// Logger
+				Log.Error(error, error.Message, context.Request, "");
 				//TODO:: cover all validation errors
 				switch (error)
 				{

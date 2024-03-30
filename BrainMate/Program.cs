@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SchoolProject.Infrastructure;
+using Serilog;
 using System.Globalization;
 
 namespace BrainMate
@@ -94,6 +95,12 @@ namespace BrainMate
 				var factory = x.GetRequiredService<IUrlHelperFactory>();
 				return factory.GetUrlHelper(actionContext!);
 			});
+
+			//Serilog Configure
+			Log.Logger = new LoggerConfiguration()
+						  .ReadFrom.Configuration(builder.Configuration).CreateLogger();
+
+			builder.Services.AddSerilog();
 
 			var app = builder.Build();
 
