@@ -1,5 +1,5 @@
 ﻿using BrainMate.Data.Entities;
-using BrainMate.Infrastructure.Interfaces;
+using BrainMate.Infrastructure.UnitofWork;
 using BrainMate.Service.Abstracts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,18 +11,18 @@ namespace BrainMate.Service.Implementations
 	public class MedicineService : IMedicineService
 	{
 		#region Fields
-		private readonly IMedicineRepository _medicineRepository;
+		private readonly IUnitOfWork _unitOfWork;
 		private readonly IHttpContextAccessor _httpContextAccessor;
 		private readonly IFileService _fileService;
 		private readonly IWebHostEnvironment _webHost;
 		#endregion
 		#region Constructors
-		public MedicineService(IMedicineRepository medicineRepository,
-			IHttpContextAccessor httpContextAccessor,
+		public MedicineService(IHttpContextAccessor httpContextAccessor,
 			IWebHostEnvironment webHost,
-			IFileService fileService)
+			IFileService fileService,
+			IUnitOfWork unitOfWork)
 		{
-			_medicineRepository = medicineRepository;
+			_unitOfWork = unitOfWork;
 			_httpContextAccessor = httpContextAccessor;
 			_webHost = webHost;
 			_fileService = fileService;
@@ -31,19 +31,19 @@ namespace BrainMate.Service.Implementations
 		#region Handle Functions
 		public IQueryable<Medicine> FilterMedicinesPaginatedQueryable()
 		{
-			var queryable = _medicineRepository.GetTableNoTracking().OrderBy(x => x.NameEn).AsQueryable();
+			var queryable = _unitOfWork.medicines.GetTableNoTracking().OrderBy(x => x.NameEn).AsQueryable();
 			return queryable;
 		}
 		public async Task<List<Medicine>> SearchAsync(string search)
 		{
-			var SearchString = await _medicineRepository.GetTableNoTracking().Where(x => x.NameEn == search || x.NameAr == search).ToListAsync();
+			var SearchString = await _unitOfWork.medicines.GetTableNoTracking().Where(x => x.NameEn == search || x.NameAr == search).ToListAsync();
 			return SearchString;
 		}
 		public async Task<Medicine> GetByIdAsync(int id)
 		{
 			var context = _httpContextAccessor.HttpContext!.Request;
 			var baseUrl = context.Scheme + "://" + context.Host;
-			var Medicine = await _medicineRepository.GetByIdAsync(id);
+			var Medicine = await _unitOfWork.medicines.GetByIdAsync(id);
 			if (Medicine != null)
 			{
 				if (Medicine.Image != null)
@@ -55,7 +55,7 @@ namespace BrainMate.Service.Implementations
 		}
 		public async Task<Medicine> GetMedicineAsync(int id)
 		{
-			var Medicine = await _medicineRepository.GetByIdAsync(id);
+			var Medicine = await _unitOfWork.medicines.GetByIdAsync(id);
 			return Medicine;
 		}
 
@@ -68,15 +68,15 @@ namespace BrainMate.Service.Implementations
 				case "NoImage": return "NoImage";
 				case "FailedToUploadImage": return "FailedToUploadImage";
 			}
-			var ExistPatient = _medicineRepository.
+			var ExistPatient = await _unitOfWork.medicines.
 				GetTableNoTracking()
 				.Where(x => x.NameEn!.Equals(Medicine.NameEn))
-				.FirstOrDefault();
+				.FirstOrDefaultAsync();
 			if (ExistPatient != null) return "Exist";
 			// Add
 			try
 			{
-				await _medicineRepository.AddAsync(Medicine);
+				await _unitOfWork.medicines.AddAsync(Medicine);
 				return "Success";
 			}
 			catch (Exception)
@@ -103,7 +103,7 @@ namespace BrainMate.Service.Implementations
 			}
 			try
 			{
-				await _medicineRepository.UpdateAsync(Medicine);
+				await _unitOfWork.medicines.UpdateAsync(Medicine);
 				return "Success";
 			}
 			catch
@@ -113,13 +113,13 @@ namespace BrainMate.Service.Implementations
 		}
 		public async Task<string> DeleteAsync(Medicine Medicine)
 		{
-			var transaction = await _medicineRepository.BeginTransactionAsync();
+			var transaction = await _unitOfWork.medicines.BeginTransactionAsync();
 			try
 			{
 				var OldUrl = Medicine.Image!;
 				var UrlRoot = _webHost.WebRootPath;
 				var path = $"{UrlRoot}{OldUrl}";
-				await _medicineRepository.DeleteAsync(Medicine);
+				await _unitOfWork.medicines.DeleteAsync(Medicine);
 				System.IO.File.Delete(path);
 				await transaction.CommitAsync();
 				return "Success";

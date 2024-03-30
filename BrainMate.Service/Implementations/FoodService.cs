@@ -1,5 +1,5 @@
 ﻿using BrainMate.Data.Entities;
-using BrainMate.Infrastructure.Interfaces;
+using BrainMate.Infrastructure.UnitofWork;
 using BrainMate.Service.Abstracts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,18 +11,18 @@ namespace BrainMate.Service.Implementations
 	public class FoodService : IFoodService
 	{
 		#region Fields
-		private readonly IFoodRepository _foodRepository;
+		private readonly IUnitOfWork _unitOfWork;
 		private readonly IHttpContextAccessor _httpContextAccessor;
 		private readonly IFileService _fileService;
 		private readonly IWebHostEnvironment _webHost;
 		#endregion
 		#region Constructors
-		public FoodService(IFoodRepository foodRepository,
+		public FoodService(IUnitOfWork unitOfWork,
 			IHttpContextAccessor httpContextAccessor,
 			IWebHostEnvironment webHost,
 			IFileService fileService)
 		{
-			_foodRepository = foodRepository;
+			_unitOfWork = unitOfWork;
 			_httpContextAccessor = httpContextAccessor;
 			_webHost = webHost;
 			_fileService = fileService;
@@ -33,7 +33,7 @@ namespace BrainMate.Service.Implementations
 		{
 			var context = _httpContextAccessor.HttpContext!.Request;
 			var baseUrl = context.Scheme + "://" + context.Host;
-			var Foods = await _foodRepository.GetTableNoTracking().OrderBy(x => x.Time).ToListAsync();
+			var Foods = await _unitOfWork.foods.GetTableNoTracking().OrderBy(x => x.Time).ToListAsync();
 			if (Foods != null)
 			{
 				foreach (var food in Foods)
@@ -46,12 +46,11 @@ namespace BrainMate.Service.Implementations
 			}
 			return Foods!;
 		}
-
 		public async Task<Food> GetByIdAsync(int id)
 		{
 			var context = _httpContextAccessor.HttpContext!.Request;
 			var baseUrl = context.Scheme + "://" + context.Host;
-			var Food = await _foodRepository.GetByIdAsync(id);
+			var Food = await _unitOfWork.foods.GetByIdAsync(id);
 			if (Food != null)
 			{
 				if (Food.Image != null)
@@ -63,12 +62,12 @@ namespace BrainMate.Service.Implementations
 		}
 		public async Task<Food> GetFoodAsync(int id)
 		{
-			var Food = await _foodRepository.GetByIdAsync(id);
+			var Food = await _unitOfWork.foods.GetByIdAsync(id);
 			return Food;
 		}
 		public async Task<List<Food>> SearchAsync(string search)
 		{
-			var SearchString = await _foodRepository.GetTableNoTracking().Where(x => x.NameEn == search || x.NameAr == search).ToListAsync();
+			var SearchString = await _unitOfWork.foods.GetTableNoTracking().Where(x => x.NameEn == search || x.NameAr == search).ToListAsync();
 			return SearchString!;
 		}
 		public async Task<string> AddAsync(Food Food, IFormFile file)
@@ -80,15 +79,15 @@ namespace BrainMate.Service.Implementations
 				case "NoImage": return "NoImage";
 				case "FailedToUploadImage": return "FailedToUploadImage";
 			}
-			var ExistPatient = _foodRepository.
+			var ExistPatient = await _unitOfWork.foods.
 				GetTableNoTracking()
 				.Where(x => x.NameEn!.Equals(Food.NameEn))
-				.FirstOrDefault();
+				.FirstOrDefaultAsync();
 			if (ExistPatient != null) return "Exist";
 			// Add
 			try
 			{
-				await _foodRepository.AddAsync(Food);
+				await _unitOfWork.foods.AddAsync(Food);
 				return "Success";
 			}
 			catch (Exception)
@@ -115,7 +114,7 @@ namespace BrainMate.Service.Implementations
 			}
 			try
 			{
-				await _foodRepository.UpdateAsync(Food);
+				await _unitOfWork.foods.UpdateAsync(Food);
 				return "Success";
 			}
 			catch
@@ -125,13 +124,13 @@ namespace BrainMate.Service.Implementations
 		}
 		public async Task<string> DeleteAsync(Food Food)
 		{
-			var transaction = await _foodRepository.BeginTransactionAsync();
+			var transaction = await _unitOfWork.foods.BeginTransactionAsync();
 			try
 			{
 				var OldUrl = Food.Image!;
 				var UrlRoot = _webHost.WebRootPath;
 				var path = $"{UrlRoot}{OldUrl}";
-				await _foodRepository.DeleteAsync(Food);
+				await _unitOfWork.foods.DeleteAsync(Food);
 				System.IO.File.Delete(path);
 				await transaction.CommitAsync();
 				return "Success";

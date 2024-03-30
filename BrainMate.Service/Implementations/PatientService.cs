@@ -1,8 +1,9 @@
 ﻿using BrainMate.Data.Entities;
-using BrainMate.Infrastructure.Interfaces;
+using BrainMate.Infrastructure.UnitofWork;
 using BrainMate.Service.Abstracts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using SchoolProject.Service.Abstracts;
 
 namespace BrainMate.Service.Implementations
@@ -10,21 +11,23 @@ namespace BrainMate.Service.Implementations
 	public class PatientService : IPatientService
 	{
 		#region Fields
-		private readonly IPatientRepository _patientRepository;
+		private readonly IUnitOfWork _unitOfWork;
 		private readonly IFileService _fileService;
 		private readonly IHttpContextAccessor _httpContextAccessor;
 		private readonly IWebHostEnvironment _webHost;
 		#endregion
 		#region Constructor
-		public PatientService(IPatientRepository patientRepository,
+		public PatientService(
 			IFileService fileService,
 			IHttpContextAccessor httpContextAccessor,
-			IWebHostEnvironment webHost)
+			IWebHostEnvironment webHost,
+			IUnitOfWork unitOfWork)
 		{
-			_patientRepository = patientRepository;
+
 			_fileService = fileService;
 			_httpContextAccessor = httpContextAccessor;
 			_webHost = webHost;
+			_unitOfWork = unitOfWork;
 		}
 		#endregion
 		#region Handle Functions
@@ -33,7 +36,7 @@ namespace BrainMate.Service.Implementations
 		{
 			var context = _httpContextAccessor.HttpContext!.Request;
 			var baseUrl = context.Scheme + "://" + context.Host;
-			var patient = await _patientRepository.GetByIdAsync(id);
+			var patient = await _unitOfWork.patients.GetByIdAsync(id);
 			if (patient != null)
 			{
 				if (patient.Image != null)
@@ -45,7 +48,7 @@ namespace BrainMate.Service.Implementations
 		}
 		public async Task<Patient> GetPatientAsync(int id)
 		{
-			var patient = await _patientRepository.GetByIdAsync(id);
+			var patient = await _unitOfWork.patients.GetByIdAsync(id);
 			return patient;
 		}
 
@@ -58,15 +61,15 @@ namespace BrainMate.Service.Implementations
 				case "NoImage": return "NoImage";
 				case "FailedToUploadImage": return "FailedToUploadImage";
 			}
-			var ExistPatient = _patientRepository.
+			var ExistPatient = await _unitOfWork.patients.
 				GetTableNoTracking()
 				.Where(x => x.NameEn!.Equals(patient.NameEn))
-				.FirstOrDefault();
+				.FirstOrDefaultAsync();
 			if (ExistPatient != null) return "Exist";
 			// Add
 			try
 			{
-				await _patientRepository.AddAsync(patient);
+				await _unitOfWork.patients.AddAsync(patient);
 				return "Success";
 			}
 			catch (Exception)
@@ -93,7 +96,7 @@ namespace BrainMate.Service.Implementations
 			}
 			try
 			{
-				await _patientRepository.UpdateAsync(patient);
+				await _unitOfWork.patients.UpdateAsync(patient);
 				return "Success";
 			}
 			catch

@@ -1,5 +1,5 @@
 ﻿using BrainMate.Data.Entities;
-using BrainMate.Infrastructure.Interfaces;
+using BrainMate.Infrastructure.UnitofWork;
 using BrainMate.Service.Abstracts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,18 +11,18 @@ namespace BrainMate.Service.Implementations
 	public class RelativesService : IRelativesService
 	{
 		#region Fields
-		private readonly IRelativesRepository _relativesRepository;
+		private readonly IUnitOfWork _unitOfWork;
 		private readonly IHttpContextAccessor _httpContextAccessor;
 		private readonly IFileService _fileService;
 		private readonly IWebHostEnvironment _webHost;
 		#endregion
 		#region Constructors
-		public RelativesService(IRelativesRepository relativesRepository,
+		public RelativesService(IUnitOfWork unitOfWork,
 			IHttpContextAccessor httpContextAccessor,
 			IWebHostEnvironment webHost,
 			IFileService fileService)
 		{
-			_relativesRepository = relativesRepository;
+			_unitOfWork = unitOfWork;
 			_httpContextAccessor = httpContextAccessor;
 			_webHost = webHost;
 			_fileService = fileService;
@@ -31,19 +31,19 @@ namespace BrainMate.Service.Implementations
 		#region Handle Functions
 		public IQueryable<Relatives> FilterRelativesPaginatedQueryable()
 		{
-			var queryable = _relativesRepository.GetTableNoTracking().OrderBy(x => x.RelationShipDegree).AsQueryable();
+			var queryable = _unitOfWork.relatives.GetTableNoTracking().OrderBy(x => x.RelationShipDegree).AsQueryable();
 			return queryable;
 		}
 		public IQueryable<Relatives> FilterRelativesSearchQueryable(string search)
 		{
-			var SearchString = _relativesRepository.GetTableNoTracking().Where(x => x.NameEn == search || x.NameAr == search).AsQueryable();
+			var SearchString = _unitOfWork.relatives.GetTableNoTracking().Where(x => x.NameEn == search || x.NameAr == search).AsQueryable();
 			return SearchString;
 		}
 		public async Task<Relatives> GetByIdAsync(int id)
 		{
 			var context = _httpContextAccessor.HttpContext!.Request;
 			var baseUrl = context.Scheme + "://" + context.Host;
-			var relative = await _relativesRepository.GetByIdAsync(id);
+			var relative = await _unitOfWork.relatives.GetByIdAsync(id);
 			if (relative != null)
 			{
 				if (relative.Image != null)
@@ -55,7 +55,7 @@ namespace BrainMate.Service.Implementations
 		}
 		public async Task<Relatives> GetRelativeAsync(int id)
 		{
-			var relative = await _relativesRepository.GetByIdAsync(id);
+			var relative = await _unitOfWork.relatives.GetByIdAsync(id);
 			return relative;
 		}
 
@@ -68,7 +68,7 @@ namespace BrainMate.Service.Implementations
 				case "NoImage": return "NoImage";
 				case "FailedToUploadImage": return "FailedToUploadImage";
 			}
-			var ExistPatient = _relativesRepository.
+			var ExistPatient = _unitOfWork.relatives.
 				GetTableNoTracking()
 				.Where(x => x.NameEn!.Equals(relative.NameEn))
 				.FirstOrDefault();
@@ -76,7 +76,7 @@ namespace BrainMate.Service.Implementations
 			// Add
 			try
 			{
-				await _relativesRepository.AddAsync(relative);
+				await _unitOfWork.relatives.AddAsync(relative);
 				return "Success";
 			}
 			catch (Exception)
@@ -103,7 +103,7 @@ namespace BrainMate.Service.Implementations
 			}
 			try
 			{
-				await _relativesRepository.UpdateAsync(relative);
+				await _unitOfWork.relatives.UpdateAsync(relative);
 				return "Success";
 			}
 			catch
@@ -113,13 +113,13 @@ namespace BrainMate.Service.Implementations
 		}
 		public async Task<string> DeleteAsync(Relatives relative)
 		{
-			var transaction = await _relativesRepository.BeginTransactionAsync();
+			var transaction = await _unitOfWork.relatives.BeginTransactionAsync();
 			try
 			{
 				var OldUrl = relative.Image!;
 				var UrlRoot = _webHost.WebRootPath;
 				var path = $"{UrlRoot}{OldUrl}";
-				await _relativesRepository.DeleteAsync(relative);
+				await _unitOfWork.relatives.DeleteAsync(relative);
 				System.IO.File.Delete(path);
 				await transaction.CommitAsync();
 				return "Success";
@@ -132,14 +132,14 @@ namespace BrainMate.Service.Implementations
 		}
 		public async Task<bool> IsPhoneExist(string phone)
 		{
-			var item = await _relativesRepository.GetTableNoTracking()
+			var item = await _unitOfWork.relatives.GetTableNoTracking()
 												  .Where(x => x.Phone!.Equals(phone)).FirstOrDefaultAsync();
 			if (item == null) { return false; }
 			else return true;
 		}
 		public async Task<bool> IsPhoneExcludeSelf(string phone, int id)
 		{
-			var item = await _relativesRepository.GetTableNoTracking()
+			var item = await _unitOfWork.relatives.GetTableNoTracking()
 												  .Where(x => x.Phone!.Equals(phone) && !x.Id.Equals(id))
 												  .FirstOrDefaultAsync();
 			if (item == null) { return false; }
