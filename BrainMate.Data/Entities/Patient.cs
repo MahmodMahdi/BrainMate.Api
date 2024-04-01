@@ -10,6 +10,7 @@ namespace BrainMate.Data.Entities
 			Relatives = new HashSet<Relatives>();
 			Medicines = new HashSet<Medicine>();
 			Food = new HashSet<Food>();
+			Events = new HashSet<Event>();
 		}
 		public int Id { get; set; }
 		public string? NameAr { get; set; }
@@ -23,5 +24,6 @@ namespace BrainMate.Data.Entities
 		public virtual ICollection<Relatives>? Relatives { get; set; }
 		public virtual ICollection<Medicine>? Medicines { get; set; }
 		public virtual ICollection<Food>? Food { get; set; }
+		public virtual ICollection<Event> Events { get; set; }
 	}
 }
