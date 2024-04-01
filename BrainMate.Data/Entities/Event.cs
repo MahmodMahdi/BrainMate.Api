@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using BrainMate.Data.Commons;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BrainMate.Data.Entities
 {
-	public class Event
+	public class Event : GeneralLocalizableEntity
 	{
 		public int Id { get; set; }
 		public string? TaskAr { get; set; }
