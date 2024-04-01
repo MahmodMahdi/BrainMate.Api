@@ -14,9 +14,9 @@ namespace BrainMate.Service
 			services.AddTransient<IRelativesService, RelativesService>();
 			services.AddTransient<IMedicineService, MedicineService>();
 			services.AddTransient<IFoodService, FoodService>();
+			services.AddTransient<IEventService, EventService>();
 			services.AddTransient<IApplicationUserService, ApplicationUserService>();
 			services.AddTransient<IAuthenticationService, AuthenticationService>();
-			//services.AddTransient<IAuthorizationService, AuthorizationService>();
 			services.AddTransient<IEmailService, EmailService>();
 			services.AddTransient<IFileService, FileService>();
 			return services;

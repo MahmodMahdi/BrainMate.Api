@@ -68,11 +68,11 @@ namespace BrainMate.Service.Implementations
 				case "NoImage": return "NoImage";
 				case "FailedToUploadImage": return "FailedToUploadImage";
 			}
-			var ExistPatient = _unitOfWork.relatives.
+			var ExistRelative = _unitOfWork.relatives.
 				GetTableNoTracking()
 				.Where(x => x.NameEn!.Equals(relative.NameEn))
 				.FirstOrDefault();
-			if (ExistPatient != null) return "Exist";
+			if (ExistRelative != null) return "Exist";
 			// Add
 			try
 			{
