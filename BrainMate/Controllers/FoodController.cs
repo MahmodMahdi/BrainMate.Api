@@ -10,14 +10,14 @@ namespace BrainMate.Api.Controllers
 	[ApiController]
 	public class FoodController : AppControllerBase
 	{
-		[Authorize]
+		//[Authorize]
 		[HttpGet(Routing.FoodRouting.GetAll)]
 		public async Task<IActionResult> GetInstructorList()
 		{
 			var foods = NewResult(await _mediator.Send(new GetFoodListQuery()));
 			return foods;
 		}
-		[Authorize]
+		//[Authorize]
 		[HttpGet(Routing.FoodRouting.GetById)]
 		public async Task<IActionResult> GetById([FromRoute] int id)
 		{
