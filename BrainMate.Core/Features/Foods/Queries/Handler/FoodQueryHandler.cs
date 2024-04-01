@@ -5,7 +5,6 @@ using BrainMate.Core.Features.Foods.Queries.Models;
 using BrainMate.Core.Resources;
 using BrainMate.Service.Abstracts;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 
 namespace BrainMate.Core.Features.Foods.Queries.Handler
@@ -19,19 +18,16 @@ namespace BrainMate.Core.Features.Foods.Queries.Handler
 		#region Fields
 		private readonly IFoodService _foodService;
 		private readonly IMapper _mapper;
-		private readonly IHttpContextAccessor _httpContextAccessor;
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 		#endregion
 		#region Constructors
 		public FoodQueryHandler(IFoodService foodService,
 								   IMapper mapper,
-								   IStringLocalizer<SharedResources> stringLocalizer,
-								   IHttpContextAccessor httpContextAccessor) : base(stringLocalizer)
+								   IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
 		{
 			_foodService = foodService;
 			_mapper = mapper;
 			_stringLocalizer = stringLocalizer;
-			_httpContextAccessor = httpContextAccessor;
 		}
 
 		#endregion

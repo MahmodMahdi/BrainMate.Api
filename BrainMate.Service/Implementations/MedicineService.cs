@@ -68,11 +68,6 @@ namespace BrainMate.Service.Implementations
 				case "NoImage": return "NoImage";
 				case "FailedToUploadImage": return "FailedToUploadImage";
 			}
-			//var ExistMedicine = await _unitOfWork.medicines.
-			//	GetTableNoTracking()
-			//	.Where(x => x.NameEn!.Equals(Medicine.NameEn))
-			//	.FirstOrDefaultAsync();
-			//if (ExistMedicine != null) return "Exist";
 			// Add
 			try
 			{
