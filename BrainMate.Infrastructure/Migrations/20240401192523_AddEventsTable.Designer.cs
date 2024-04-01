@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BrainMate.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240401153537_AddEventsTable")]
+    [Migration("20240401192523_AddEventsTable")]
     partial class AddEventsTable
     {
         /// <inheritdoc />
@@ -36,17 +36,20 @@ namespace BrainMate.Infrastructure.Migrations
                     b.Property<int?>("PatientId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Task")
+                    b.Property<string>("TaskAr")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeOnly>("Time")
+                    b.Property<string>("TaskEn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeOnly?>("Time")
                         .HasColumnType("time");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Event");
+                    b.ToTable("events");
                 });
 
             modelBuilder.Entity("BrainMate.Data.Entities.Food", b =>

@@ -8,6 +8,7 @@ namespace BrainMate.Infrastructure.UnitofWork
 		IMedicineRepository medicines { get; }
 		IRelativesRepository relatives { get; }
 		IFoodRepository foods { get; }
+		IEventRepository events { get; }
 		IRefreshTokenRepository refreshTokens { get; }
 		Task<int> CompleteAsync();
 		public new void Dispose();

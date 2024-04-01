@@ -14,6 +14,7 @@ namespace BrainMate.Infrastructure.UnitofWork
 			relatives = new RelativesRepository(_context);
 			medicines = new MedicineRepository(_context);
 			foods = new FoodRepository(_context);
+			events = new EventRepository(_context);
 			refreshTokens = new RefreshTokenRepository(_context);
 		}
 		public IPatientRepository patients { get; private set; }
@@ -23,6 +24,8 @@ namespace BrainMate.Infrastructure.UnitofWork
 		public IRelativesRepository relatives { get; private set; }
 
 		public IFoodRepository foods { get; private set; }
+
+		public IEventRepository events { get; private set; }
 
 		public IRefreshTokenRepository refreshTokens { get; private set; }
 
