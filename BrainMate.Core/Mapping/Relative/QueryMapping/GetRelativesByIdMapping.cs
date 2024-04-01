@@ -1,13 +1,13 @@
 ﻿using BrainMate.Core.Features.Relative.Queries.Dtos;
 using BrainMate.Data.Entities;
 
-namespace BrainMate.Core.Mapping.RelativesMapping
+namespace BrainMate.Core.Mapping.Relative
 {
 	public partial class RelativesProfile
 	{
-		public void GetRelativesPaginationMapping()
+		public void GetRelativeByIdMapping()
 		{
-			CreateMap<Relatives, GetRelativesPaginatedListResponse>()
+			CreateMap<Relatives, GetRelativesResponse>()
 		   .ForMember(dest => dest.Name, op => op.MapFrom(src => src.Localize(src.NameAr!, src.NameEn!)));
 		}
 	}

@@ -1,6 +1,6 @@
 ﻿using BrainMate.Core.Features.Relative.Commands.Models;
 using BrainMate.Data.Entities;
-namespace BrainMate.Core.Mapping.RelativesMapping;
+namespace BrainMate.Core.Mapping.Relative;
 public partial class RelativesProfile
 {
 	public void UpdateRelativeCommandMapping()

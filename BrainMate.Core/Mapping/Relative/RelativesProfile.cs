@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace BrainMate.Core.Mapping.RelativesMapping
+namespace BrainMate.Core.Mapping.Relative
 {
 	public partial class RelativesProfile : Profile
 	{

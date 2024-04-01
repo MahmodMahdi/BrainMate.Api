@@ -11,6 +11,6 @@
 		public string? Job { get; set; }
 		public string? Description { get; set; }
 		public string? RelationShip { get; set; }
-		public int RelationShipDegree { get; set; }
+		//	public int RelationShipDegree { get; set; }
 	}
 }
