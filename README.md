@@ -1,34 +1,58 @@
 # BrainMate.Api
 
-## Description
-BrainMate.Api Using Asp.net Core Web Api Using Clean Architecture Based On Code First
+## <h1>Description</h1>
+<h2>BrainMate.Api Using Asp.net Core Web Api Using Clean Architecture Based On Code First</h2>
 
-### Components
+<h3>This project robust CQRS architecture,
+and security with JWT.</h3> 
+<h3>Technologies</h3> :
+-Asp.Net Core 7
+-Entity Framework Core
+-SQLServer
+-JWT
 
-1.CQRS Design Pattern
+<h3>Component and Tools</h3>:
 
-2.Generic(Repository) Design Pattern
+- Design pattern
 
-3.Pagination Schema
+- Repository Pattern and UnitOfWork
 
-4.Localizations Of Data And Responses
+- mediator to handle requests
 
-5.Fluent Validations 
+- separate between Queries and Commands of Endpoints
 
-6.Configurations Using Data Annotations
+- Solid Principles 
 
-7.Configurations using Fluent API
+- Dependency Injection
 
-8.EndPoints Of Operations
+- Generic(Repository)
 
-9.Allow CORS
+- Pagination Schema
 
-10.Using Identity
+- Localizations Of Data And Responses (Arabic , English)
 
-11.Added Authentication
+- Fluent Validations
 
-12.Added JWT Token And SwaggerGen
+- Auto Mapper
 
-13.Authorizations(Roles)
+- Configurations Using Data Annotations
 
-14.Service Like Send (Email,Upload Image)
+- EndPoints Of Operations.   -Allow CORS
+
+- Using Identity
+
+- Added Authentication
+
+- Added JWT Token And SwaggerGen
+
+- Authorizations(Roles,Claims)
+
+- Claims and Roles Operations
+
+- Reset Password by Sending code to Email 
+
+- Service Like Send Email
+
+- (Upload , Update , Delete) Image
+
+- Filters
