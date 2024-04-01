@@ -17,6 +17,7 @@ namespace BrainMate.Infrastructure.Context
 		}
 		public DbSet<User> users { get; set; }
 		public DbSet<UserRefreshToken> userRefreshTokens { get; set; }
+		public DbSet<Event> events { get; set; }
 		public DbSet<Patient> patients { get; set; }
 		public DbSet<Medicine> medicines { get; set; }
 		public DbSet<Relatives> relatives { get; set; }
