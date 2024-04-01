@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="4.4.0" />
-  </ItemGroup>
+  </ItemGroup> 
 
   <ItemGroup>
     <ProjectReference Include="..\BrainMate.Data\BrainMate.Data.csproj" />

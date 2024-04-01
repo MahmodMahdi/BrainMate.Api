@@ -22,5 +22,6 @@ namespace BrainMate.Service.Abstracts
 		public Task<string> ConfirmResetPassword(string Code, string Email);
 		public Task<string> ResetPassword(string Email, string Password);
 		#endregion
+		//public Task<string> Logout();
 	}
 }

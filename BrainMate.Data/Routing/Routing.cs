@@ -61,6 +61,7 @@
 			public const string SignIn = prefix + "/SignIn";
 			public const string RefreshToken = prefix + "/Refresh-Token";
 			public const string ValidateToken = prefix + "/Validate-Token";
+			public const string Logout = prefix + "/Logout";
 
 			public const string ConfirmEmail = "Api/V1/Authentication/ConfirmEmail";
 
@@ -69,19 +70,7 @@
 			public const string ConfirmResetPassword = prefix + "/ConfirmResetPassword";
 			public const string ResetPassword = prefix + "/ResetPassword";
 		}
-		//public static class AuthorizationRouting
-		//{
-		//	public const string prefix = Rule + "Authorization";
-		//	public const string Roles = prefix + "/Roles";
-		//	public const string Claims = prefix + "/Claims";
-		//	public const string Create = Roles + "/Create";
-		//	public const string Update = Roles + "/Update";
-		//	public const string Delete = Roles + "/Delete/{id}";
-		//	public const string GetAll = Roles + "/GetAll";
-		//	public const string GetById = Roles + SingleRoute;
 
-
-		//}
 		public static class EmailRouting
 		{
 			public const string prefix = Rule + "Email";

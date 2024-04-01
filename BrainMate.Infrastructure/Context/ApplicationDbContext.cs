@@ -1,7 +1,5 @@
 ﻿using BrainMate.Data.Entities;
 using BrainMate.Data.Entities.Identity;
-using EntityFrameworkCore.EncryptColumn.Interfaces;
-using EntityFrameworkCore.EncryptColumn.Util;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -11,11 +9,11 @@ namespace BrainMate.Infrastructure.Context
 	public class ApplicationDbContext : IdentityDbContext<User, Role, int,
 																IdentityUserClaim<int>, IdentityUserRole<int>, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
 	{
-		private readonly IEncryptionProvider? _encryptionProvider;
+		//private readonly IEncryptionProvider? _encryptionProvider;
 		public ApplicationDbContext() { }
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
 		{
-			_encryptionProvider = new GenerateEncryptionProvider("8a4dcaaec64d412380fe4b02193cd26f");
+			//_encryptionProvider = new GenerateEncryptionProvider("8a4dcaaec64d412380fe4b02193cd26f");
 		}
 		public DbSet<User> users { get; set; }
 		public DbSet<UserRefreshToken> userRefreshTokens { get; set; }

@@ -4,8 +4,6 @@ using BrainMate.Data.Responses;
 using BrainMate.Infrastructure.Context;
 using BrainMate.Infrastructure.Interfaces;
 using BrainMate.Service.Abstracts;
-using EntityFrameworkCore.EncryptColumn.Interfaces;
-using EntityFrameworkCore.EncryptColumn.Util;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -20,11 +18,12 @@ namespace BrainMate.Service.Implementations
 	{
 		#region Fields
 		private readonly jwtSettings _jwtSettings;
+		private readonly SignInManager<User> _signInManager;
 		private readonly IRefreshTokenRepository _refreshTokenRepository;
 		private readonly UserManager<User> _userManager;
 		private readonly IEmailService _emailService;
 		private readonly ApplicationDbContext _context;
-		private readonly IEncryptionProvider _encryptionProvider;
+		//private readonly IEncryptionProvider _encryptionProvider;
 		#endregion
 
 		#region Constructor
@@ -32,14 +31,16 @@ namespace BrainMate.Service.Implementations
 		IRefreshTokenRepository refreshTokenRepository,
 			UserManager<User> userManager,
 			IEmailService emailService,
-			ApplicationDbContext context)
+			ApplicationDbContext context,
+			SignInManager<User> signInManager)
 		{
 			_jwtSettings = jwtSettings;
 			_refreshTokenRepository = refreshTokenRepository;
 			_userManager = userManager;
+			_signInManager = signInManager;
 			_emailService = emailService;
 			_context = context;
-			_encryptionProvider = new GenerateEncryptionProvider("8a4dcaaec64d412380fe4b02193cd26f");
+			//_encryptionProvider = new GenerateEncryptionProvider("8a4dcaaec64d412380fe4b02193cd26f");
 		}
 		#endregion
 
@@ -302,6 +303,11 @@ namespace BrainMate.Service.Implementations
 		}
 		#endregion
 		////////////////////////////////////
+		//public async Task<string> Logout()
+		//{
+		//    await _signInManager.SignOutAsync();
+		//	return "Success";
+		//}
 
 		#region Helper
 		private string GenerateRefreshToken()

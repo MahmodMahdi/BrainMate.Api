@@ -31,6 +31,12 @@ namespace BrainMate.Api.Controllers
 			var response = NewResult(await _mediator.Send(query));
 			return response;
 		}
+		//[HttpGet(Routing.AuthenticationRouting.Logout)]
+		//public async Task<IActionResult> Logout([FromQuery] LogoutQuery query)
+		//{
+		//	var response = NewResult(await _mediator.Send(query));
+		//	return response;
+		//}
 		[SwaggerOperation(Summary = "إرسال كود تأكيد الباسورد", OperationId = "SendResetPasswordCode")]
 		[HttpPost(Routing.AuthenticationRouting.SendResetPasswordCode)]
 		public async Task<IActionResult> SendResetPasswordCode([FromQuery] SendResetPasswordCommand command)

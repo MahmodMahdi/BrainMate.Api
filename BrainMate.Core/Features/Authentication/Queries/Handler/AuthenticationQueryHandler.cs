@@ -11,6 +11,7 @@ namespace SchoolProject.Core.Features.Authentication.Queries.Handler
 										IRequestHandler<AuthorizeUserQuery, Response<string>>,
 										IRequestHandler<ConfirmEmailQuery, Response<string>>,
 										IRequestHandler<ConfirmResetPasswordQuery, Response<string>>
+	//	IRequestHandler<LogoutQuery, Response<string>>
 	{
 		#region Fields
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
@@ -53,6 +54,12 @@ namespace SchoolProject.Core.Features.Authentication.Queries.Handler
 				default: return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.InvalidCode]);
 			}
 		}
+
+		//public async Task<Response<string>> Handle(LogoutQuery request, CancellationToken cancellationToken)
+		//{
+		//	var result = await _authenticationService.Logout();
+		//	return Success<string>(_stringLocalizer[SharedResourcesKeys.Success]);
+		//}
 		#endregion
 	}
 }
