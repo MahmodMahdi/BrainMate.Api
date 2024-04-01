@@ -68,11 +68,6 @@ namespace BrainMate.Service.Implementations
 				case "NoImage": return "NoImage";
 				case "FailedToUploadImage": return "FailedToUploadImage";
 			}
-			var ExistRelative = _unitOfWork.relatives.
-				GetTableNoTracking()
-				.Where(x => x.NameEn!.Equals(relative.NameEn))
-				.FirstOrDefault();
-			if (ExistRelative != null) return "Exist";
 			// Add
 			try
 			{
@@ -144,6 +139,11 @@ namespace BrainMate.Service.Implementations
 												  .FirstOrDefaultAsync();
 			if (item == null) { return false; }
 			else return true;
+		}
+		public async Task<bool> IsPatientIdExist(int? patientId)
+		{
+			var PatientId = await _unitOfWork.relatives.GetTableNoTracking().AnyAsync(x => x.PatientId!.Equals(patientId));
+			return PatientId;
 		}
 		#endregion
 	}

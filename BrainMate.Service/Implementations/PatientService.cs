@@ -3,7 +3,6 @@ using BrainMate.Infrastructure.UnitofWork;
 using BrainMate.Service.Abstracts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using SchoolProject.Service.Abstracts;
 
 namespace BrainMate.Service.Implementations
@@ -61,11 +60,6 @@ namespace BrainMate.Service.Implementations
 				case "NoImage": return "NoImage";
 				case "FailedToUploadImage": return "FailedToUploadImage";
 			}
-			var ExistPatient = await _unitOfWork.patients.
-				GetTableNoTracking()
-				.Where(x => x.NameEn!.Equals(patient.NameEn))
-				.FirstOrDefaultAsync();
-			if (ExistPatient != null) return "Exist";
 			// Add
 			try
 			{

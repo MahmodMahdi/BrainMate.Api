@@ -40,6 +40,10 @@ namespace BrainMate.Core.Features.Relative.Commands.Validators
 			RuleFor(x => x.Phone)
 				.MustAsync(async (Key, CancellationToken) => !await _relativesService.IsPhoneExist(Key!))
 				.WithMessage(_localizer[SharedResourcesKeys.IsExist]);
+
+			//RuleFor(x => x.PatientId)
+			//	.MustAsync(async (Key, CancellationToken) => !await _relativesService.IsPatientIdExist(Key!))
+			//	.WithMessage(_localizer[SharedResourcesKeys.IsNotExist]);
 		}
 		#endregion
 	}

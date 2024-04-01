@@ -2,7 +2,6 @@
 using BrainMate.Core.Features.Medicines.Commands.Models;
 using BrainMate.Core.Features.Medicines.Queries.Modes;
 using BrainMate.Data.Routing;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BrainMate.Api.Controllers
@@ -10,21 +9,21 @@ namespace BrainMate.Api.Controllers
 	[ApiController]
 	public class MedicineController : AppControllerBase
 	{
-		[Authorize]
+		//[Authorize]
 		[HttpGet(Routing.MedicineRouting.Paginated)]
 		public async Task<IActionResult> PaginatedList([FromQuery] GetMedicinePaginatedListQuery query)
 		{
 			var medicines = Ok(await _mediator.Send(query));
 			return medicines;
 		}
-		[Authorize]
+		//[Authorize]
 		[HttpGet(Routing.MedicineRouting.GetById)]
 		public async Task<IActionResult> GetMedicineById([FromRoute] int id)
 		{
 			var medicine = NewResult(await _mediator.Send(new GetMedicineByIdQuery(id)));
 			return medicine;
 		}
-		[Authorize]
+		//[Authorize]
 		[HttpGet(Routing.MedicineRouting.Search)]
 		public async Task<IActionResult> Search([FromQuery] SearchMedicineQuery query)
 		{

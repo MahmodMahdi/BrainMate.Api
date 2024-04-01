@@ -11,6 +11,8 @@ namespace BrainMate.Service.Abstracts
 		public Task<string> UpdateAsync(Medicine Medicines, IFormFile file);
 		public Task<string> DeleteAsync(Medicine Medicines);
 
+		public Task<bool> IsNameExist(string name);
+		public Task<bool> IsNameExcludeSelf(string name, int id);
 		public IQueryable<Medicine> FilterMedicinesPaginatedQueryable();
 		public Task<List<Medicine>> SearchAsync(string search);
 	}

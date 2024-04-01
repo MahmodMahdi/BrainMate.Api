@@ -12,5 +12,8 @@ namespace BrainMate.Service.Abstracts
 		public Task<string> UpdateAsync(Food food, IFormFile file);
 		public Task<string> DeleteAsync(Food food);
 		public Task<List<Food>> SearchAsync(string search);
+
+		public Task<bool> IsNameExist(string name);
+		public Task<bool> IsNameExcludeSelf(string name, int id);
 	}
 }

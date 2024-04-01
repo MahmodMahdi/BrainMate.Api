@@ -68,11 +68,11 @@ namespace BrainMate.Service.Implementations
 				case "NoImage": return "NoImage";
 				case "FailedToUploadImage": return "FailedToUploadImage";
 			}
-			var ExistPatient = await _unitOfWork.medicines.
-				GetTableNoTracking()
-				.Where(x => x.NameEn!.Equals(Medicine.NameEn))
-				.FirstOrDefaultAsync();
-			if (ExistPatient != null) return "Exist";
+			//var ExistMedicine = await _unitOfWork.medicines.
+			//	GetTableNoTracking()
+			//	.Where(x => x.NameEn!.Equals(Medicine.NameEn))
+			//	.FirstOrDefaultAsync();
+			//if (ExistMedicine != null) return "Exist";
 			// Add
 			try
 			{
@@ -129,6 +129,24 @@ namespace BrainMate.Service.Implementations
 				await transaction.RollbackAsync();
 				return "Failed";
 			}
+		}
+
+		public async Task<bool> IsNameExist(string name)
+		{
+			var medicine = await _unitOfWork.medicines.GetTableNoTracking()
+												  .Where(x => x.NameAr!.Equals(name) || x.NameEn!.Equals(name))
+												  .FirstOrDefaultAsync();
+			if (medicine == null) { return false; }
+			else return true;
+		}
+		public async Task<bool> IsNameExcludeSelf(string name, int id)
+		{
+			var medicine = await _unitOfWork.medicines.GetTableNoTracking()
+										.Where(x => x.NameEn!.Equals(name) && !x.Id.Equals(id)
+											|| x.NameAr!.Equals(name) && !x.Id.Equals(id))
+										.FirstOrDefaultAsync();
+			if (medicine == null) { return false; }
+			else return true;
 		}
 		#endregion
 	}

@@ -12,6 +12,6 @@ namespace BrainMate.Core.Features.Foods.Commands.Models
 		public string? Type { get; set; }
 		public TimeOnly? Time { get; set; }
 		public IFormFile? Image { get; set; }
-		public int? PatientId { get; set; }
+		//public int? PatientId { get; set; }
 	}
 }

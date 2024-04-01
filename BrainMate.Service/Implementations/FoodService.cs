@@ -79,11 +79,6 @@ namespace BrainMate.Service.Implementations
 				case "NoImage": return "NoImage";
 				case "FailedToUploadImage": return "FailedToUploadImage";
 			}
-			var ExistPatient = await _unitOfWork.foods.
-				GetTableNoTracking()
-				.Where(x => x.NameEn!.Equals(Food.NameEn))
-				.FirstOrDefaultAsync();
-			if (ExistPatient != null) return "Exist";
 			// Add
 			try
 			{
@@ -140,6 +135,23 @@ namespace BrainMate.Service.Implementations
 				await transaction.RollbackAsync();
 				return "Failed";
 			}
+		}
+		public async Task<bool> IsNameExist(string name)
+		{
+			var student = await _unitOfWork.foods.GetTableNoTracking()
+												  .Where(x => x.NameAr!.Equals(name) || x.NameEn!.Equals(name))
+												  .FirstOrDefaultAsync();
+			if (student == null) { return false; }
+			else return true;
+		}
+		public async Task<bool> IsNameExcludeSelf(string name, int id)
+		{
+			var Department = await _unitOfWork.foods.GetTableNoTracking()
+										.Where(x => x.NameEn!.Equals(name) && !x.Id.Equals(id)
+											|| x.NameAr!.Equals(name) && !x.Id.Equals(id))
+										.FirstOrDefaultAsync();
+			if (Department == null) { return false; }
+			else return true;
 		}
 		#endregion
 	}

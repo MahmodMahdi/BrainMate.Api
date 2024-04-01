@@ -19,6 +19,6 @@ namespace BrainMate.Core.Features.Relative.Commands.Models
 		public string? Description { get; set; }
 		public string? RelationShip { get; set; }
 		public int RelationShipDegree { get; set; }
-		public int? PatientId { get; set; }
+		//public int? PatientId { get; set; }
 	}
 }

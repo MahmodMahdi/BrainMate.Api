@@ -1,6 +1,7 @@
 ﻿using BrainMate.Data.Entities;
 using BrainMate.Infrastructure.UnitofWork;
 using BrainMate.Service.Abstracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace BrainMate.Service.Implementations
 {
@@ -83,7 +84,23 @@ namespace BrainMate.Service.Implementations
 				return "Failed";
 			}
 		}
-
+		public async Task<bool> IsNameExist(string name)
+		{
+			var student = await _unitOfWork.events.GetTableNoTracking()
+												  .Where(x => x.TaskAr!.Equals(name) || x.TaskEn!.Equals(name))
+												  .FirstOrDefaultAsync();
+			if (student == null) { return false; }
+			else return true;
+		}
+		public async Task<bool> IsNameExcludeSelf(string name, int id)
+		{
+			var Department = await _unitOfWork.events.GetTableNoTracking()
+										.Where(x => x.TaskEn!.Equals(name) && !x.Id.Equals(id)
+											|| x.TaskAr!.Equals(name) && !x.Id.Equals(id))
+										.FirstOrDefaultAsync();
+			if (Department == null) { return false; }
+			else return true;
+		}
 		#endregion
 	}
 }
