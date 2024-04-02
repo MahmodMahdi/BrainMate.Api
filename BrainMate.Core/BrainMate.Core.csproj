@@ -24,11 +24,4 @@
     <ProjectReference Include="..\BrainMate.Service\BrainMate.Service.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Events\Commands\" />
-    <Folder Include="Features\Events\Queries\Dtos\" />
-    <Folder Include="Features\Events\Queries\Handler\" />
-    <Folder Include="Features\Events\Queries\Models\" />
-  </ItemGroup>
-
 </Project>

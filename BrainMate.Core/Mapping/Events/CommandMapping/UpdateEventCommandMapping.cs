@@ -1,12 +1,11 @@
 ﻿using BrainMate.Core.Features.Events.Commands.Models;
 using BrainMate.Data.Entities;
 
-
 namespace BrainMate.Core.Mapping.Events;
 public partial class EventProfile
 {
-	public void AddEventCommandMapping()
+	public void UpdateEventCommandMapping()
 	{
-		CreateMap<AddEventCommand, Event>();
+		CreateMap<UpdateEventCommand, Event>();
 	}
 }

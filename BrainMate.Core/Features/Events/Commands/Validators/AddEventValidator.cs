@@ -1,6 +1,5 @@
 ﻿using BrainMate.Core.Features.Events.Commands.Models;
 using BrainMate.Core.Resources;
-using BrainMate.Service.Abstracts;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 
@@ -13,7 +12,7 @@ public class AddEventValidator : AbstractValidator<AddEventCommand>
 
 	#endregion
 	#region Constructors
-	public AddEventValidator(IStringLocalizer<SharedResources> localizer, IRelativesService relativesService)
+	public AddEventValidator(IStringLocalizer<SharedResources> localizer)
 	{
 		_localizer = localizer;
 		ApplyValidationsRules();
