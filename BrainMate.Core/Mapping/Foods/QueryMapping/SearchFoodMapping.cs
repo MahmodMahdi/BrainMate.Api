@@ -3,7 +3,7 @@ using BrainMate.Data.Entities;
 
 namespace BrainMate.Core.Mapping.Foods;
 
-public partial class FoodMapping
+public partial class FoodProfile
 {
 	public void SearchFoodMapping()
 	{

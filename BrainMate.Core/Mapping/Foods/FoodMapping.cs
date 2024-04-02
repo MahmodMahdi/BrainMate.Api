@@ -2,9 +2,9 @@
 
 namespace BrainMate.Core.Mapping.Foods
 {
-	public partial class FoodMapping : Profile
+	public partial class FoodProfile : Profile
 	{
-		public FoodMapping()
+		public FoodProfile()
 		{
 			GetFoodListMapping();
 			GetFoodByIdMapping();
