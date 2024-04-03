@@ -19,16 +19,14 @@ namespace BrainMate.Service.Implementations
 		#endregion
 		#region Handle Functions
 
-		public IQueryable<Event> FilterEventsPaginatedQueryable()
+		public IQueryable<Event> FilterEventsPaginatedQueryable(string search)
 		{
 			var queryable = _unitOfWork.events.GetTableNoTracking().OrderBy(x => x.Time).AsQueryable();
+			if (search != null)
+			{
+				queryable = queryable.Where(x => x.TaskEn!.Contains(search) || x.TaskAr!.Contains(search));
+			}
 			return queryable;
-		}
-
-		public IQueryable<Event> FilterEventsSearchQueryable(string search)
-		{
-			var SearchString = _unitOfWork.events.GetTableNoTracking().Where(x => x.TaskEn == search || x.TaskAr == search).AsQueryable();
-			return SearchString;
 		}
 
 		public async Task<Event> GetEventByIdAsync(int id)

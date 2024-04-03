@@ -8,5 +8,6 @@ namespace BrainMate.Core.Features.Medicines.Queries.Modes
 	{
 		public int PageNumber { get; set; }
 		public int PageSize { get; set; }
+		public string? search { get; set; }
 	}
 }

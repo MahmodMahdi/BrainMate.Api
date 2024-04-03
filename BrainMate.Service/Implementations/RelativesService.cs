@@ -29,14 +29,16 @@ namespace BrainMate.Service.Implementations
 		}
 		#endregion
 		#region Handle Functions
-		public IQueryable<Relatives> FilterRelativesPaginatedQueryable()
+		public IQueryable<Relatives> FilterRelativesPaginatedQueryable(string search)
 		{
 			var queryable = _unitOfWork.relatives.GetTableNoTracking().OrderBy(x => x.RelationShipDegree).AsQueryable();
+			if (search != null)
+				queryable = queryable.Where(x => x.NameEn!.Contains(search) || x.NameAr!.Contains(search));
 			return queryable;
 		}
 		public IQueryable<Relatives> FilterRelativesSearchQueryable(string search)
 		{
-			var SearchString = _unitOfWork.relatives.GetTableNoTracking().Where(x => x.NameEn == search || x.NameAr == search).AsQueryable();
+			var SearchString = _unitOfWork.relatives.GetTableNoTracking().Where(x => x.NameEn!.Contains(search) || x.NameAr!.Contains(search)).AsQueryable();
 			return SearchString;
 		}
 		public async Task<Relatives> GetByIdAsync(int id)

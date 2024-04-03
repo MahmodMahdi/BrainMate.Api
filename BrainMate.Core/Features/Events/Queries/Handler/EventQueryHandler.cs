@@ -34,7 +34,7 @@ namespace BrainMate.Core.Features.Events.Queries.Handler
 		#region Handle Functions
 		public async Task<PaginateResult<GetEventsPaginatedListResponse>> Handle(GetEventsPaginatedListQuery request, CancellationToken cancellationToken)
 		{
-			var FilterQuery = _eventService.FilterEventsPaginatedQueryable();
+			var FilterQuery = _eventService.FilterEventsPaginatedQueryable(request.search);
 			var paginatedList = await _mapper.ProjectTo<GetEventsPaginatedListResponse>(FilterQuery).ToPaginatedListAsync(request.PageNumber, request.PageSize);
 			paginatedList.Meta = new { Count = paginatedList.Data!.Count };
 			return paginatedList;

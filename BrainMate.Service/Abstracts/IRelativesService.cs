@@ -13,7 +13,7 @@ namespace BrainMate.Service.Abstracts
 		public Task<string> UpdateAsync(Relatives relatives, IFormFile file);
 		public Task<string> DeleteAsync(Relatives relatives);
 
-		public IQueryable<Relatives> FilterRelativesPaginatedQueryable();
+		public IQueryable<Relatives> FilterRelativesPaginatedQueryable(string search);
 		public IQueryable<Relatives> FilterRelativesSearchQueryable(string search);
 		public Task<bool> IsPhoneExist(string phone);
 		public Task<bool> IsPhoneExcludeSelf(string phone, int id);

@@ -8,8 +8,7 @@ namespace BrainMate.Service.Abstracts
 		public Task<string> AddAsync(Event Event);
 		public Task<string> UpdateAsync(Event Event);
 		public Task<string> DeleteAsync(Event Event);
-		public IQueryable<Event> FilterEventsPaginatedQueryable();
-		public IQueryable<Event> FilterEventsSearchQueryable(string search);
+		public IQueryable<Event> FilterEventsPaginatedQueryable(string search);
 		public Task<bool> IsNameExist(string name);
 		public Task<bool> IsNameExcludeSelf(string name, int id);
 	}

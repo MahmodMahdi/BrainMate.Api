@@ -13,7 +13,7 @@ namespace BrainMate.Service.Abstracts
 
 		public Task<bool> IsNameExist(string name);
 		public Task<bool> IsNameExcludeSelf(string name, int id);
-		public IQueryable<Medicine> FilterMedicinesPaginatedQueryable();
+		public IQueryable<Medicine> FilterMedicinesPaginatedQueryable(string search);
 		public Task<List<Medicine>> SearchAsync(string search);
 	}
 }

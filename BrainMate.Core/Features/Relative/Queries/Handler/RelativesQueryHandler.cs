@@ -43,7 +43,7 @@ namespace BrainMate.Core.Features.Relative.Queries.Handler
 			// delegate (first way)
 			//Expression<Func<Relatives, GetRelativesPaginatedListResponse>> expression = (e => new GetRelativesPaginatedListResponse(e.Id,
 			// e.Localize(e.NameAr!, e.NameEn!), e.Address!, e.Age,
-			var FilterQuery = _relativesService.FilterRelativesPaginatedQueryable();
+			var FilterQuery = _relativesService.FilterRelativesPaginatedQueryable(request.Search!);
 
 			// second way
 			//await FilterQuery.Select(x => new GetRelativesPaginatedListResponse(x.Id, x.Localize(x.NameAr!, x.NameEn!), x.Address!, x.Age!)))

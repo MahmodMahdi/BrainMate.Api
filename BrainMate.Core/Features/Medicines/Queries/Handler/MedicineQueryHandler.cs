@@ -41,7 +41,7 @@ namespace BrainMate.Core.Features.Medicines.Queries.Handler
 		{
 			var context = _httpContextAccessor.HttpContext!.Request;
 			var baseUrl = context.Scheme + "://" + context.Host;
-			var FilterQuery = _medicineService.FilterMedicinesPaginatedQueryable();
+			var FilterQuery = _medicineService.FilterMedicinesPaginatedQueryable(request.search!);
 			var paginatedList = await _mapper.ProjectTo<GetMedicinePaginatedListResponse>(FilterQuery).ToPaginatedListAsync(request.PageNumber, request.PageSize);
 			paginatedList.Meta = new { Count = paginatedList.Data!.Count };
 			foreach (var relative in paginatedList.Data)
