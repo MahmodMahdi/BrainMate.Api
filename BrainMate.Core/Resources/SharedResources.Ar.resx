@@ -249,6 +249,9 @@
   <data name="SuperVisorId" xml:space="preserve">
     <value>رقم المشرف</value>
   </data>
+  <data name="ThereIsAnotherCaregiverOnThisPatientEmail" xml:space="preserve">
+    <value>يوجد مرافق اخر مسجل علي إيميل المريض هذا</value>
+  </data>
   <data name="TokenIsExpired" xml:space="preserve">
     <value>رمز الوصول منتهي الصلاحية</value>
   </data>

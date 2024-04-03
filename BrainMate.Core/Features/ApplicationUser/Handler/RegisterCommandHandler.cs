@@ -69,6 +69,7 @@ namespace BrainMate.Core.Features.ApplicationUser.Handler
 			switch (Result)
 			{
 				case "EmailIsExist": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.EmailIsExist]);
+				case "ThereIsAnotherCaregiverOnThisPatientEmail": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.ThereIsAnotherCaregiverOnThisPatientEmail]);
 				case "PhoneExist": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.PhoneExist]);
 				case "Failed": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.SomeThingGoesWrong]);
 				case "Success": return Success<string>("");

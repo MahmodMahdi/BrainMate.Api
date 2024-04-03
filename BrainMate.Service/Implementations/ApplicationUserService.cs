@@ -4,8 +4,10 @@ using BrainMate.Service.Abstracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using SchoolProject.Service.Abstracts;
+using System.Text;
 
 namespace SchoolProject.Service.Implementations
 {
@@ -82,7 +84,8 @@ namespace SchoolProject.Service.Implementations
 				var OldUser = await _userManager.FindByEmailAsync(caregiver.Email!);
 				// Email is Already Exist
 				if (OldUser != null) return "EmailIsExist";
-
+				var OldPatient = await _userManager.FindByEmailAsync(caregiver.PatientEmail!);
+				if (OldPatient != null) return "ThereIsAnotherCaregiverOnThisPatientEmail";
 				var SearchByPhone = await _userManager.Users.FirstOrDefaultAsync(x => x.PhoneNumber == caregiver.PhoneNumber);
 				if (SearchByPhone != null) return "PhoneExist";
 
@@ -97,6 +100,7 @@ namespace SchoolProject.Service.Implementations
 					await _userManager.AddToRoleAsync(caregiver, "Caregiver");
 					// Send Confirm Email
 					var code = await _userManager.GenerateEmailConfirmationTokenAsync(caregiver);
+					code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 					var requestAccessor = _httpContextAccessor.HttpContext!.Request;
 					var returnUrl = requestAccessor.Scheme + "://" + requestAccessor.Host + _urlHelper
 						.Action("ConfirmEmail", "Authentication", new { userId = caregiver.Id, Code = code });
