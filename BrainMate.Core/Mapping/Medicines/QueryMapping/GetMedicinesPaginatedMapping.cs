@@ -4,7 +4,7 @@ using BrainMate.Data.Entities;
 
 namespace BrainMate.Core.Mapping.Medicines
 {
-	public partial class MedicineMapping
+	public partial class MedicineProfile
 	{
 		public void GetMedicinePaginationMapping()
 		{

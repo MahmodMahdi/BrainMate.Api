@@ -2,9 +2,9 @@
 
 namespace BrainMate.Core.Mapping.Medicines
 {
-	public partial class MedicineMapping : Profile
+	public partial class MedicineProfile : Profile
 	{
-		public MedicineMapping()
+		public MedicineProfile()
 		{
 			GetMedicinePaginationMapping();
 			GetMedicineByIdMapping();
