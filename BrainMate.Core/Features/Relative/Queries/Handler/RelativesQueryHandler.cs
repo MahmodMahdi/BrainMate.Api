@@ -6,7 +6,6 @@ using BrainMate.Core.Resources;
 using BrainMate.Core.Wrappers;
 using BrainMate.Service.Abstracts;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 
 namespace BrainMate.Core.Features.Relative.Queries.Handler
@@ -20,29 +19,33 @@ namespace BrainMate.Core.Features.Relative.Queries.Handler
 		#region Fields
 		private readonly IRelativesService _relativesService;
 		private readonly IMapper _mapper;
-		private readonly IHttpContextAccessor _httpContextAccessor;
+		//private readonly IHttpContextAccessor _httpContextAccessor;
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 		#endregion
 		#region Constructors
 		public RelativesQueryHandler(IRelativesService relativesService,
 								   IMapper mapper,
-								   IStringLocalizer<SharedResources> stringLocalizer,
-								   IHttpContextAccessor httpContextAccessor) : base(stringLocalizer)
+								   IStringLocalizer<SharedResources> stringLocalizer
+								  /* IHttpContextAccessor httpContextAccessor*/) : base(stringLocalizer)
 		{
 			_relativesService = relativesService;
 			_mapper = mapper;
 			_stringLocalizer = stringLocalizer;
-			_httpContextAccessor = httpContextAccessor;
+			//_httpContextAccessor = httpContextAccessor;
 		}
 		#endregion
 		#region Handle Functions
 		public async Task<PaginateResult<GetRelativesPaginatedListResponse>> Handle(GetRelativesPaginatedListQuery request, CancellationToken cancellationToken)
 		{
-			var context = _httpContextAccessor.HttpContext!.Request;
-			var baseUrl = context.Scheme + "://" + context.Host;
+			#region Another Ways
+			//var context = _httpContextAccessor.HttpContext!.Request;
+			//var baseUrl = context.Scheme + "://" + context.Host;
+
 			// delegate (first way)
 			//Expression<Func<Relatives, GetRelativesPaginatedListResponse>> expression = (e => new GetRelativesPaginatedListResponse(e.Id,
 			// e.Localize(e.NameAr!, e.NameEn!), e.Address!, e.Age,
+			#endregion
+			var baseUrl = "https://localhost:7043";
 			var FilterQuery = _relativesService.FilterRelativesPaginatedQueryable(request.Search!);
 
 			// second way
@@ -73,8 +76,9 @@ namespace BrainMate.Core.Features.Relative.Queries.Handler
 
 		public async Task<PaginateResult<SearchRelativesResponse>> Handle(SearchRelativesQuery request, CancellationToken cancellationToken)
 		{
-			var context = _httpContextAccessor.HttpContext!.Request;
-			var baseUrl = context.Scheme + "://" + context.Host;
+			//var context = _httpContextAccessor.HttpContext!.Request;
+			//var baseUrl = context.Scheme + "://" + context.Host;
+			var baseUrl = "https://localhost:7043";
 			var FilterQuery = _relativesService.FilterRelativesSearchQueryable(request.Search!);
 			var paginatedList = await _mapper.ProjectTo<SearchRelativesResponse>(FilterQuery).ToPaginatedListAsync(request.PageNumber, request.PageSize);
 

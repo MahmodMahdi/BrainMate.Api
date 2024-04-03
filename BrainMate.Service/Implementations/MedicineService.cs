@@ -34,7 +34,7 @@ namespace BrainMate.Service.Implementations
 			var queryable = _unitOfWork.medicines.GetTableNoTracking().OrderBy(x => x.NameEn).AsQueryable();
 			if (search != null)
 				queryable = queryable.Where(x => x.NameEn!.Contains(search) || x.NameAr!.Contains(search));
-			return queryable;
+			return queryable!;
 		}
 		public async Task<List<Medicine>> SearchAsync(string search)
 		{

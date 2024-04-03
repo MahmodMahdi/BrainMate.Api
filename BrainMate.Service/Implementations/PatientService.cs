@@ -31,7 +31,7 @@ namespace BrainMate.Service.Implementations
 		#endregion
 		#region Handle Functions
 
-		public async Task<Patient> GetPatientByIdAsync(int id)
+		public async Task<Patient> GetByIdAsync(int id)
 		{
 			var context = _httpContextAccessor.HttpContext!.Request;
 			var baseUrl = context.Scheme + "://" + context.Host;

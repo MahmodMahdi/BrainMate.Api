@@ -9,7 +9,7 @@ using Microsoft.Extensions.Localization;
 
 namespace BrainMate.Core.Features.AlzheimerPatient.Queries.Handler
 {
-	internal class PatientQueryHandler : ResponseHandler,
+	public class PatientQueryHandler : ResponseHandler,
 									   IRequestHandler<GetPatientByIdQuery, Response<GetPatientResponse>>
 
 	{
@@ -32,7 +32,7 @@ namespace BrainMate.Core.Features.AlzheimerPatient.Queries.Handler
 		#region Handle Functions
 		public async Task<Response<GetPatientResponse>> Handle(GetPatientByIdQuery request, CancellationToken cancellationToken)
 		{
-			var Patient = await _patientService.GetPatientByIdAsync(request.Id);
+			var Patient = await _patientService.GetByIdAsync(request.Id);
 			if (Patient == null)
 			{
 				return NotFound<GetPatientResponse>(_stringLocalizer[SharedResourcesKeys.NotFound]);

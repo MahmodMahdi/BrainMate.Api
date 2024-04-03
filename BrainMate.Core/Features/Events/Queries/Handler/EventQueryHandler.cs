@@ -12,7 +12,6 @@ namespace BrainMate.Core.Features.Events.Queries.Handler
 {
 	public class EventQueryHandler : ResponseHandler,
 	IRequestHandler<GetEventsPaginatedListQuery, PaginateResult<GetEventsPaginatedListResponse>>,
-	//IRequestHandler<SearchRelativesQuery, PaginateResult<SearchRelativesResponse>>,
 	IRequestHandler<GetEventByIdQuery, Response<GetEventResponse>>
 	{
 		// Mediator
@@ -34,14 +33,14 @@ namespace BrainMate.Core.Features.Events.Queries.Handler
 		#region Handle Functions
 		public async Task<PaginateResult<GetEventsPaginatedListResponse>> Handle(GetEventsPaginatedListQuery request, CancellationToken cancellationToken)
 		{
-			var FilterQuery = _eventService.FilterEventsPaginatedQueryable(request.search);
+			var FilterQuery = _eventService.FilterEventsPaginatedQueryable(request.search!);
 			var paginatedList = await _mapper.ProjectTo<GetEventsPaginatedListResponse>(FilterQuery).ToPaginatedListAsync(request.PageNumber, request.PageSize);
 			paginatedList.Meta = new { Count = paginatedList.Data!.Count };
 			return paginatedList;
 		}
 		public async Task<Response<GetEventResponse>> Handle(GetEventByIdQuery request, CancellationToken cancellationToken)
 		{
-			var Relative = await _eventService.GetEventByIdAsync(request.Id);
+			var Relative = await _eventService.GetByIdAsync(request.Id);
 			if (Relative == null)
 			{
 				// using the localization

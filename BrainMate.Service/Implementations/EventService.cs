@@ -29,7 +29,7 @@ namespace BrainMate.Service.Implementations
 			return queryable;
 		}
 
-		public async Task<Event> GetEventByIdAsync(int id)
+		public async Task<Event> GetByIdAsync(int id)
 		{
 			var Event = await _unitOfWork.events.GetByIdAsync(id);
 			return Event;

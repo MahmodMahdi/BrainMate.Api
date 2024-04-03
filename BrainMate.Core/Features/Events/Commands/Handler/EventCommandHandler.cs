@@ -53,7 +53,7 @@ namespace BrainMate.Core.Features.Events.Commands.Handler
 		public async Task<Response<string>> Handle(UpdateEventCommand request, CancellationToken cancellationToken)
 		{
 			// check if the id is exist or not 
-			var Event = await _eventService.GetEventByIdAsync(request.Id);
+			var Event = await _eventService.GetByIdAsync(request.Id);
 			// return notFound
 			if (Event == null) return NotFound<string>(_stringLocalizer[SharedResourcesKeys.NotFound]);
 			// mapping 
@@ -72,7 +72,7 @@ namespace BrainMate.Core.Features.Events.Commands.Handler
 		public async Task<Response<string>> Handle(DeleteEventCommand request, CancellationToken cancellationToken)
 		{
 			// check if the id is exist or not 
-			var Event = await _eventService.GetEventByIdAsync(request.Id);
+			var Event = await _eventService.GetByIdAsync(request.Id);
 			// return notFound
 			if (Event == null) return NotFound<string>(_stringLocalizer[SharedResourcesKeys.NotFound]);
 			// call service 
