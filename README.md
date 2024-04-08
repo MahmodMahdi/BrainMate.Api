@@ -6,12 +6,12 @@
 <h3>This project robust CQRS architecture,
 and security with JWT.</h3> 
 <h3>Technologies</h3> :
--Asp.Net Core 7
+-Asp.Net Core 8
 -Entity Framework Core
 -SQLServer
 -JWT
 
-<h3>Component and Tools</h3>:
+<h3>Component and Tools :</h3>
 
 - Design pattern
 
@@ -56,3 +56,5 @@ and security with JWT.</h3>
 - (Upload , Update , Delete) Image
 
 - Filters
+
+- Unit Test
