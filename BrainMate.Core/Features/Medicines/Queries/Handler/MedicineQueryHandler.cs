@@ -6,6 +6,7 @@ using BrainMate.Core.Resources;
 using BrainMate.Core.Wrappers;
 using BrainMate.Service.Abstracts;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 
 namespace BrainMate.Core.Features.Medicines.Queries.Handler
@@ -21,21 +22,26 @@ namespace BrainMate.Core.Features.Medicines.Queries.Handler
 		private readonly IMedicineService _medicineService;
 		private readonly IMapper _mapper;
 		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
+		private readonly IHttpContextAccessor _http;
 		#endregion
 		#region Constructors
 		public MedicineQueryHandler(IMedicineService medicineService,
 								   IMapper mapper,
-								   IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+								   IStringLocalizer<SharedResources> stringLocalizer,
+								   IHttpContextAccessor http) : base(stringLocalizer)
 		{
 			_medicineService = medicineService;
 			_mapper = mapper;
 			_stringLocalizer = stringLocalizer;
+			_http = http;
 		}
 		#endregion
 		#region Handle Functions
 		public async Task<PaginateResult<GetMedicinePaginatedListResponse>> Handle(GetMedicinePaginatedListQuery request, CancellationToken cancellationToken)
 		{
-			var baseUrl = "https://localhost:7043";
+
+			var context = _http.HttpContext!.Request;
+			var baseUrl = context.Scheme + "://" + context.Host;
 			var FilterQuery = _medicineService.FilterMedicinesPaginatedQueryable(request.search!);
 			var paginatedList = await _mapper.ProjectTo<GetMedicinePaginatedListResponse>(FilterQuery).ToPaginatedListAsync(request.PageNumber, request.PageSize);
 			paginatedList.Meta = new { Count = paginatedList.Data!.Count };
