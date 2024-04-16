@@ -41,8 +41,8 @@ namespace BrainMate.XUnitTest.CoreTests.Medicines.Queries
 		//	// Arrange 
 		//	var query = new GetMedicinePaginatedListQuery() { PageNumber = 1, PageSize = 10 };
 		//	_medicineServiceMock.Setup(x => x.FilterMedicinesPaginatedQueryable(query.search!)).Returns(medicineList.AsQueryable());
-
 		//	var handler = new MedicineQueryHandler(_medicineServiceMock.Object, _mapperMock, _localizerMock.Object, _httpContextAccessor.Object);
+
 		//	// Act 
 		//	var result = await handler.Handle(query, default);
 		//	// Assert
