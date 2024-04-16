@@ -18,7 +18,7 @@ namespace BrainMate.Service.Implementations
 	{
 		#region Fields
 		private readonly jwtSettings _jwtSettings;
-		private readonly SignInManager<User> _signInManager;
+		//private readonly SignInManager<User> _signInManager;
 		private readonly IRefreshTokenRepository _refreshTokenRepository;
 		private readonly UserManager<User> _userManager;
 		private readonly IEmailService _emailService;
@@ -31,13 +31,13 @@ namespace BrainMate.Service.Implementations
 		IRefreshTokenRepository refreshTokenRepository,
 			UserManager<User> userManager,
 			IEmailService emailService,
-			ApplicationDbContext context,
-			SignInManager<User> signInManager)
+			ApplicationDbContext context)
+		//SignInManager<User> signInManager))
 		{
 			_jwtSettings = jwtSettings;
 			_refreshTokenRepository = refreshTokenRepository;
 			_userManager = userManager;
-			_signInManager = signInManager;
+			//_signInManager = signInManager;
 			_emailService = emailService;
 			_context = context;
 			//_encryptionProvider = new GenerateEncryptionProvider("8a4dcaaec64d412380fe4b02193cd26f");

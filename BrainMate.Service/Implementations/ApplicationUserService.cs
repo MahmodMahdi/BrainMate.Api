@@ -4,10 +4,9 @@ using BrainMate.Service.Abstracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using SchoolProject.Service.Abstracts;
-using System.Text;
+using System.Text.Encodings.Web;
 
 namespace SchoolProject.Service.Implementations
 {
@@ -44,10 +43,10 @@ namespace SchoolProject.Service.Implementations
 			try
 			{
 				// If Email is exist
-				var Olduser = await _userManager.FindByEmailAsync(user.Email!);
+				var OldUser = await _userManager.FindByEmailAsync(user.Email!);
 
 				// Email is Already Exist
-				if (Olduser != null) return "EmailIsExist";
+				if (OldUser != null) return "EmailIsExist";
 
 				var SearchByPhone = await _userManager.Users.FirstOrDefaultAsync(x => x.PhoneNumber == user.PhoneNumber);
 				if (SearchByPhone != null) return "PhoneExist";
@@ -64,8 +63,8 @@ namespace SchoolProject.Service.Implementations
 				var requestAccessor = _httpContextAccessor.HttpContext!.Request;
 				var returnUrl = requestAccessor.Scheme + "://" + requestAccessor.Host + _urlHelper
 					.Action("ConfirmEmail", "Authentication", new { userId = user.Id, Code = code });
-				var message = $"To Confirm Email Click Link: {returnUrl}";
-				await _emailService.SendEmailAsync(user.Email!, message, "Confirm Email");
+				var message = $"Please Confirm your account by <a href='{HtmlEncoder.Default.Encode(returnUrl)}'>Click here</a>.";
+				await _emailService.SendEmailAsync(user.Email!, message, "Confirmation Email");
 				await transaction.CommitAsync();
 				return "Success";
 			}
@@ -82,17 +81,20 @@ namespace SchoolProject.Service.Implementations
 			{
 				// If Email is exist
 				var OldUser = await _userManager.FindByEmailAsync(caregiver.Email!);
-				// Email is Already Exist
+				// Caregiver Email is Already Exist
 				if (OldUser != null) return "EmailIsExist";
-				var OldPatient = await _userManager.FindByEmailAsync(caregiver.PatientEmail!);
+				// check if another caregiver exist with this patient email
+				var OldPatient = await _userManager.Users.FirstOrDefaultAsync(x => x.PatientEmail == caregiver.PatientEmail!);
 				if (OldPatient != null) return "ThereIsAnotherCaregiverOnThisPatientEmail";
+				// check if the phone number is exist (should be Unique)
 				var SearchByPhone = await _userManager.Users.FirstOrDefaultAsync(x => x.PhoneNumber == caregiver.PhoneNumber);
 				if (SearchByPhone != null) return "PhoneExist";
-
+				// check if there any email in db equal the entered patient email (access بيتأكد اذا فعلا فيه ايميل لمريض متسجل قبل كده وبيساوي الايميل اللى المرافق عايز ي )
 				var ExistUser = await _userManager.Users.AnyAsync(x => x.Email == caregiver.PatientEmail);
 				//Create
 				if (ExistUser == true)
 				{
+					// create email to db
 					var Result = await _userManager.CreateAsync(caregiver, password!);
 
 					// Failed
@@ -100,12 +102,13 @@ namespace SchoolProject.Service.Implementations
 					await _userManager.AddToRoleAsync(caregiver, "Caregiver");
 					// Send Confirm Email
 					var code = await _userManager.GenerateEmailConfirmationTokenAsync(caregiver);
-					code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+					//code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 					var requestAccessor = _httpContextAccessor.HttpContext!.Request;
 					var returnUrl = requestAccessor.Scheme + "://" + requestAccessor.Host + _urlHelper
 						.Action("ConfirmEmail", "Authentication", new { userId = caregiver.Id, Code = code });
-					var message = $"To Confirm Email Click Link: {returnUrl}";
-					await _emailService.SendEmailAsync(caregiver.PatientEmail!, message, "Confirm Email");
+					// send message to email with encrypt code
+					var message = $"Please Confirm your account by <a href='{HtmlEncoder.Default.Encode(returnUrl)}'>Click here</a>.";
+					await _emailService.SendEmailAsync(caregiver.PatientEmail!, message, "Confirmation Email");
 					await transaction.CommitAsync();
 					return "Success";
 				}

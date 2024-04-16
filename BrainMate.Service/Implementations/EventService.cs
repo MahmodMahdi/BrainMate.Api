@@ -37,11 +37,6 @@ namespace BrainMate.Service.Implementations
 		}
 		public async Task<string> AddAsync(Event Event)
 		{
-			var ExistEvent = _unitOfWork.events.
-				GetTableNoTracking()
-				.Where(x => x.TaskEn!.Equals(Event.TaskEn))
-				.FirstOrDefault();
-			if (ExistEvent != null) return "Exist";
 			// Add
 			try
 			{
@@ -84,19 +79,21 @@ namespace BrainMate.Service.Implementations
 		}
 		public async Task<bool> IsNameExist(string name)
 		{
-			var student = await _unitOfWork.events.GetTableNoTracking()
+			// check if the name exist or not
+			var Event = await _unitOfWork.events.GetTableNoTracking()
 												  .Where(x => x.TaskAr!.Equals(name) || x.TaskEn!.Equals(name))
 												  .FirstOrDefaultAsync();
-			if (student == null) { return false; }
+			if (Event == null) { return false; }
 			else return true;
 		}
 		public async Task<bool> IsNameExcludeSelf(string name, int id)
 		{
-			var Department = await _unitOfWork.events.GetTableNoTracking()
+			// check if Name exclude self or exist in another field
+			var Event = await _unitOfWork.events.GetTableNoTracking()
 										.Where(x => x.TaskEn!.Equals(name) && !x.Id.Equals(id)
 											|| x.TaskAr!.Equals(name) && !x.Id.Equals(id))
 										.FirstOrDefaultAsync();
-			if (Department == null) { return false; }
+			if (Event == null) { return false; }
 			else return true;
 		}
 		#endregion

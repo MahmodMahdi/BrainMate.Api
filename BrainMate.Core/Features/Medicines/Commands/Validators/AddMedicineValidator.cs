@@ -42,8 +42,8 @@ namespace BrainMate.Core.Features.Medicines.Commands.Validators
 				.WithMessage(_localizer[SharedResourcesKeys.IsExist]);
 
 			RuleFor(x => x.NameAr)
-	.MustAsync(async (Key, CancellationToken) => !await _medicineService.IsNameExist(Key!))
-	.WithMessage(_localizer[SharedResourcesKeys.IsExist]);
+				.MustAsync(async (Key, CancellationToken) => !await _medicineService.IsNameExist(Key!))
+				.WithMessage(_localizer[SharedResourcesKeys.IsExist]);
 		}
 		#endregion
 	}

@@ -39,7 +39,6 @@ namespace BrainMate.Core.Features.Medicines.Queries.Handler
 		#region Handle Functions
 		public async Task<PaginateResult<GetMedicinePaginatedListResponse>> Handle(GetMedicinePaginatedListQuery request, CancellationToken cancellationToken)
 		{
-
 			var context = _http.HttpContext!.Request;
 			var baseUrl = context.Scheme + "://" + context.Host;
 			var FilterQuery = _medicineService.FilterMedicinesPaginatedQueryable(request.search!);

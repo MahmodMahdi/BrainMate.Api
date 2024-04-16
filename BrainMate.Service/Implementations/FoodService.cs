@@ -122,6 +122,7 @@ namespace BrainMate.Service.Implementations
 			var transaction = await _unitOfWork.foods.BeginTransactionAsync();
 			try
 			{
+				// to delete item and remove the image 
 				var OldUrl = Food.Image!;
 				var UrlRoot = _webHost.WebRootPath;
 				var path = $"{UrlRoot}{OldUrl}";
@@ -138,19 +139,21 @@ namespace BrainMate.Service.Implementations
 		}
 		public async Task<bool> IsNameExist(string name)
 		{
-			var student = await _unitOfWork.foods.GetTableNoTracking()
+			// check if the name exist or not
+			var food = await _unitOfWork.foods.GetTableNoTracking()
 												  .Where(x => x.NameAr!.Equals(name) || x.NameEn!.Equals(name))
 												  .FirstOrDefaultAsync();
-			if (student == null) { return false; }
+			if (food == null) { return false; }
 			else return true;
 		}
 		public async Task<bool> IsNameExcludeSelf(string name, int id)
 		{
-			var Department = await _unitOfWork.foods.GetTableNoTracking()
+			// check if Name exclude self or exist in another field
+			var food = await _unitOfWork.foods.GetTableNoTracking()
 										.Where(x => x.NameEn!.Equals(name) && !x.Id.Equals(id)
 											|| x.NameAr!.Equals(name) && !x.Id.Equals(id))
 										.FirstOrDefaultAsync();
-			if (Department == null) { return false; }
+			if (food == null) { return false; }
 			else return true;
 		}
 		#endregion
