@@ -17,6 +17,7 @@ public static class SharedResourcesKeys
 	public const string PasswordNotEqualConfirmPassword = "PasswordNotEqualConfirmPassword";
 	public const string EmailIsExist = "EmailIsExist";
 	public const string ThereIsAnotherCaregiverOnThisPatientEmail = "ThereIsAnotherCaregiverOnThisPatientEmail";
+	public const string ThisPatientEmailIsExist = "ThisPatientEmailIsExist";
 	public const string FailedToAddUser = "FailedToAddUser";
 	public const string UpdatedFailed = "UpdatedFailed";
 	public const string DeletedFailed = "DeletedFailed";

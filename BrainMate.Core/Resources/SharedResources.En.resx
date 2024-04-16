@@ -262,7 +262,7 @@
     <value>Supervisor Id</value>
   </data>
   <data name="ThereIsAnotherCaregiverOnThisPatientEmail" xml:space="preserve">
-    <value>There is another caregiver registered by this PatientEmail</value>
+    <value>There is another caregiver on this patient email</value>
   </data>
   <data name="TokenIsNotExpired" xml:space="preserve">
     <value>Token Is Not Expired</value>
