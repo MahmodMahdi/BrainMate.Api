@@ -4,6 +4,7 @@ using BrainMate.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BrainMate.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240423152610_20240421145553_DeleteTableUserAndMakeTablePatientInheriteIdentityUserAndUpdatesInAspUserAddCaregiverIdToTables")]
+    partial class _20240421145553_DeleteTableUserAndMakeTablePatientInheriteIdentityUserAndUpdatesInAspUserAddCaregiverIdToTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +55,7 @@ namespace BrainMate.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("events", (string)null);
+                    b.ToTable("events");
                 });
 
             modelBuilder.Entity("BrainMate.Data.Entities.Food", b =>
@@ -91,7 +94,7 @@ namespace BrainMate.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("foods", (string)null);
+                    b.ToTable("foods");
                 });
 
             modelBuilder.Entity("BrainMate.Data.Entities.Identity.Patient", b =>
@@ -219,7 +222,7 @@ namespace BrainMate.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("patientRefreshTokens", (string)null);
+                    b.ToTable("patientRefreshTokens");
                 });
 
             modelBuilder.Entity("BrainMate.Data.Entities.Identity.Role", b =>
@@ -291,7 +294,7 @@ namespace BrainMate.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("medicines", (string)null);
+                    b.ToTable("medicines");
                 });
 
             modelBuilder.Entity("BrainMate.Data.Entities.Relatives", b =>
@@ -345,7 +348,7 @@ namespace BrainMate.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("relatives", (string)null);
+                    b.ToTable("relatives");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -17,10 +16,9 @@ namespace BrainMate.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NameAr = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NameEn = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Age = table.Column<int>(type: "int", nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Job = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -36,10 +34,10 @@ namespace BrainMate.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PatientId = table.Column<int>(type: "int", nullable: false)
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PatientId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -58,12 +56,12 @@ namespace BrainMate.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Frequency = table.Column<int>(type: "int", nullable: true),
-                    StartAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    EndAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PatientId = table.Column<int>(type: "int", nullable: false)
+                    StartAt = table.Column<DateOnly>(type: "datetime2", nullable: true),
+                    EndAt = table.Column<DateOnly>(type: "datetime2", nullable: true),
+                    PatientId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -82,17 +80,16 @@ namespace BrainMate.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NameAr = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NameEn = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Age = table.Column<int>(type: "int", nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Job = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RelationShip = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RelationShipDegree = table.Column<int>(type: "int", nullable: false),
-                    PatientId = table.Column<int>(type: "int", nullable: false)
+                    RelationShipDegree = table.Column<int>(type: "int", nullable: true),
+                    PatientId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {

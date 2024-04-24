@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -17,8 +16,7 @@ namespace BrainMate.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TaskAr = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TaskEn = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Task = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Time = table.Column<TimeOnly>(type: "time", nullable: true),
                     PatientId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -29,7 +27,8 @@ namespace BrainMate.Infrastructure.Migrations
                         name: "FK_events_patients_PatientId",
                         column: x => x.PatientId,
                         principalTable: "patients",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
