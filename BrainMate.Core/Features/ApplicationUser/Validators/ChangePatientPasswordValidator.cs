@@ -3,49 +3,45 @@ using BrainMate.Core.Resources;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 
-namespace BrainMate.Core.Features.ApplicationUser.Validators
+namespace SchoolProject.Core.Features.ApplicationUser.Commands.Validators
 {
-    public class CaregiverRegisterValidator : AbstractValidator<CaregiverRegisterCommand>
+    public class ChangePatientPasswordValidator : AbstractValidator<ChangePatientPasswordCommand>
     {
         #region Fields
         private readonly IStringLocalizer<SharedResources> _localizer;
         #endregion
         #region Constructors
-        public CaregiverRegisterValidator(IStringLocalizer<SharedResources> localizer)
+        public ChangePatientPasswordValidator(IStringLocalizer<SharedResources> localizer)
         {
             _localizer = localizer;
             ApplyValidationsRules();
+            ApplyCustomValidationsRules();
         }
         #endregion
         #region Actions
         public void ApplyValidationsRules()
         {
-            RuleFor(x => x.Name)
-               .NotEmpty().WithMessage(_localizer[SharedResourcesKeys.NotEmpty])
-               .NotNull().WithMessage(_localizer[SharedResourcesKeys.Required])
-               .MaximumLength(100).WithMessage(_localizer[SharedResourcesKeys.MaxLengthIs100]);
+            //RuleFor(x => x.Id)
+            //   .NotEmpty().WithMessage(_localizer[SharedResourcesKeys.NotEmpty])
+            //   .NotNull().WithMessage(_localizer[SharedResourcesKeys.Required]);
 
-            RuleFor(x => x.Email)
-               .NotEmpty().WithMessage(_localizer[SharedResourcesKeys.NotEmpty])
-               .NotNull().WithMessage(_localizer[SharedResourcesKeys.Required]);
 
-            RuleFor(x => x.PatientEmail)
+            RuleFor(x => x.CurrentPassword)
                .NotEmpty().WithMessage(_localizer[SharedResourcesKeys.NotEmpty])
                .NotNull().WithMessage(_localizer[SharedResourcesKeys.Required]);
 
-
-            RuleFor(x => x.Password)
+            RuleFor(x => x.NewPassword)
                .NotEmpty().WithMessage(_localizer[SharedResourcesKeys.NotEmpty])
                .NotNull().WithMessage(_localizer[SharedResourcesKeys.Required]);
 
             RuleFor(x => x.ConfirmPassword)
-            .Equal(x => x.Password).WithMessage(SharedResourcesKeys.PasswordNotEqualConfirmPassword)
+            .Equal(x => x.NewPassword).WithMessage(SharedResourcesKeys.PasswordNotEqualConfirmPassword)
             .NotEmpty().WithMessage(_localizer[SharedResourcesKeys.NotEmpty])
             .NotNull().WithMessage(_localizer[SharedResourcesKeys.Required]);
-
         }
-
-
+        public void ApplyCustomValidationsRules()
+        {
+        }
         #endregion
     }
 }
