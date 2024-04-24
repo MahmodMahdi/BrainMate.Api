@@ -2,70 +2,100 @@
 using BrainMate.Core.Bases;
 using BrainMate.Core.Features.AlzheimerPatient.Commands.Models;
 using BrainMate.Core.Resources;
-using BrainMate.Data.Entities;
+using BrainMate.Data.Entities.Identity;
+using BrainMate.Infrastructure.UnitofWork;
 using BrainMate.Service.Abstracts;
 using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using System.Security.Claims;
 
 namespace BrainMate.Core.Features.AlzheimerPatient.Commands.Handler
 {
-	public class PatientCommandHandler : ResponseHandler,
-										IRequestHandler<AddPatientCommand, Response<string>>,
-										IRequestHandler<UpdatePatientCommand, Response<string>>
+    public class PatientCommandHandler : ResponseHandler,
+                                        IRequestHandler<UpdatePatientCommand, Response<string>>,
+                                        IRequestHandler<DeletePatientCommand, Response<string>>
 
-	{
-		#region Fields
-		private readonly IPatientService _patientService;
-		private readonly IMapper _mapper;
-		private readonly IStringLocalizer<SharedResources> _stringLocalizer;
-		#endregion
-		#region Constructor
-		public PatientCommandHandler(IPatientService patientService,
-									 IMapper mapper,
-									 IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
-		{
-			_patientService = patientService;
-			_mapper = mapper;
-			_stringLocalizer = stringLocalizer;
-		}
-		#endregion
-		#region Handle Functions
-		public async Task<Response<string>> Handle(AddPatientCommand request, CancellationToken cancellationToken)
-		{
-			// mapping
-			var patientMapper = _mapper.Map<Patient>(request);
-			// Add
-			var result = await _patientService.AddAsync(patientMapper, request.Image!);
 
-			// return response
-			switch (result)
-			{
-				case "NoImage": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.NoImage]);
-				case "FailedToUploadImage": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUploadImage]);
-				case "FailedToAdd": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToAdd]);
-			}
-			return Created("Added Successfully");
-		}
+    {
+        #region Fields
+        private readonly IPatientService _patientService;
+        private readonly IMapper _mapper;
+        private readonly IStringLocalizer<SharedResources> _stringLocalizer;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UserManager<Patient> _userManager;
+        private readonly IUnitOfWork _unitOfWork;
+        #endregion
+        #region Constructor
+        public PatientCommandHandler(IPatientService patientService,
+                                     IMapper mapper,
+                                     IStringLocalizer<SharedResources> stringLocalizer,
+                                     IHttpContextAccessor httpContextAccessor,
+                                     UserManager<Patient> userManager,
+                                     IUnitOfWork unitOfWork) : base(stringLocalizer)
+        {
+            _patientService = patientService;
+            _mapper = mapper;
+            _stringLocalizer = stringLocalizer;
+            _httpContextAccessor = httpContextAccessor;
+            _userManager = userManager;
+            _unitOfWork = unitOfWork;
+        }
+        #endregion
+        #region Handle Functions
 
-		public async Task<Response<string>> Handle(UpdatePatientCommand request, CancellationToken cancellationToken)
-		{
-			// check if the id is exist or not 
-			var patient = await _patientService.GetPatientAsync(request.Id);
-			// return notFound
-			if (patient == null) return NotFound<string>("patient is not found");
-			// mapping 
-			var patientMapper = _mapper.Map(request, patient);
-			// call service 
-			var result = await _patientService.UpdateAsync(patientMapper, request.Image!);
-			//return response
-			switch (result)
-			{
-				case "NoImage": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.NoImage]);
-				case "FailedToUpdateImage": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdateImage]);
-				case "FailedToUpdate": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]);
-			}
-			return Success($"{patientMapper.Id} Updated Successfully");
-		}
-		#endregion
-	}
+        public async Task<Response<string>> Handle(UpdatePatientCommand request, CancellationToken cancellationToken)
+        {
+            var patientEmailClaim = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.Email);
+            var caregiver = await _userManager.FindByEmailAsync(patientEmailClaim!);
+            var UserEmail = caregiver!.PatientEmail;
+            var user = _userManager.Users.FirstOrDefault(x => x.Email == UserEmail);
+            // check if the id is exist or not 
+            var patient = await _patientService.GetPatientAsync(user!.Id);
+            // return notFound
+            if (patient == null) return NotFound<string>("patient is not found");
+            // mapping 
+            var patientMapper = _mapper.Map(request, patient);
+            // call service 
+            var result = await _patientService.UpdateAsync(patientMapper, request.Image!);
+            //return response
+            switch (result)
+            {
+                case "NoImage": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.NoImage]);
+                case "FailedToUpdateImage": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdateImage]);
+                case "FailedToUpdate": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToUpdate]);
+                case "PhoneExist": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.PhoneExist]);
+            }
+            return Success($"{patientMapper.Id} Updated Successfully");
+        }
+
+        public async Task<Response<string>> Handle(DeletePatientCommand request, CancellationToken cancellationToken)
+        {
+            var patientEmailClaim = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.Email);
+            var user = await _userManager.FindByEmailAsync(patientEmailClaim!);
+            // Check if user exist 
+            // var user = await _userManager.FindByIdAsync(request.Id.ToString());
+            var User = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == user!.Id);
+
+            // Not exist
+            if (User == null) return NotFound<string>();
+
+            /// Delete the item
+            //var Medicines = await _unitOfWork.medicines.GetTableNoTracking().Where(x => x.PatientId == user!.Id).ToListAsync();
+            //var Foods = await _unitOfWork.foods.GetTableNoTracking().Where(x => x.PatientId == user!.Id).ToListAsync();
+            //var Events = await _unitOfWork.events.GetTableNoTracking().Where(x => x.PatientId == user!.Id).ToListAsync();
+            //var Relatives = await _unitOfWork.relatives.GetTableNoTracking().Where(x => x.PatientId == user!.Id).ToListAsync();
+            var result = await _patientService.DeleteAsync(User);
+            //var result = await _userManager.DeleteAsync(User);
+            switch (result)
+            {
+                case "Failed": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.DeletedFailed]);
+            }
+            //Success message
+            return Success<string>(_stringLocalizer[SharedResourcesKeys.Deleted]);
+        }
+        #endregion
+    }
 }
