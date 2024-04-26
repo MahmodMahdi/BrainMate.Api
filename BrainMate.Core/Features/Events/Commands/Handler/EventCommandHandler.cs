@@ -44,6 +44,7 @@ namespace BrainMate.Core.Features.Events.Commands.Handler
             switch (result)
             {
                 case "Exist": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.NameIsExist]);
+                case "PatientDeleteHisEmail": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.PatientDeleteAccount]);
                 case "FailedToAdd": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.FailedToAdd]);
             }
             return Created("Added Successfully");

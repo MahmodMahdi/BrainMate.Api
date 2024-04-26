@@ -5,6 +5,5 @@
         public int Id { get; set; }
         public string? Task { get; set; }
         public TimeOnly? Time { get; set; }
-        // public int PatientId { get; set; }
     }
 }
