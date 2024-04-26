@@ -1,10 +1,6 @@
 ﻿using BrainMate.Core.Features.AlzheimerPatient.Commands.Models;
 using BrainMate.Core.Resources;
-using BrainMate.Data.Entities.Identity;
-using BrainMate.Service.Abstracts;
 using FluentValidation;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
 
 namespace BrainMate.Core.Features.AlzheimerPatient.Commands.Validators
@@ -13,20 +9,11 @@ namespace BrainMate.Core.Features.AlzheimerPatient.Commands.Validators
     {
         #region Fields
         private readonly IStringLocalizer<SharedResources> _localizer;
-        private readonly IPatientService _patientService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly UserManager<Patient> _userManager;
         #endregion
         #region Constructors
-        public UpdatePatientValidator(IStringLocalizer<SharedResources> localizer,
-            IPatientService patientService,
-            IHttpContextAccessor httpContextAccessor,
-            UserManager<Patient> userManager)
+        public UpdatePatientValidator(IStringLocalizer<SharedResources> localizer)
         {
             _localizer = localizer;
-            _patientService = patientService;
-            _httpContextAccessor = httpContextAccessor;
-            _userManager = userManager;
             ApplyValidationsRules();
         }
         #endregion

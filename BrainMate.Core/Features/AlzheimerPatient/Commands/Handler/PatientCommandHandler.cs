@@ -3,7 +3,6 @@ using BrainMate.Core.Bases;
 using BrainMate.Core.Features.AlzheimerPatient.Commands.Models;
 using BrainMate.Core.Resources;
 using BrainMate.Data.Entities.Identity;
-using BrainMate.Infrastructure.UnitofWork;
 using BrainMate.Service.Abstracts;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +14,7 @@ using System.Security.Claims;
 namespace BrainMate.Core.Features.AlzheimerPatient.Commands.Handler
 {
     public class PatientCommandHandler : ResponseHandler,
-                                        IRequestHandler<UpdatePatientCommand, Response<string>>,
+                                          IRequestHandler<UpdatePatientCommand, Response<string>>,
                                         IRequestHandler<DeletePatientCommand, Response<string>>
 
 
@@ -26,22 +25,19 @@ namespace BrainMate.Core.Features.AlzheimerPatient.Commands.Handler
         private readonly IStringLocalizer<SharedResources> _stringLocalizer;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserManager<Patient> _userManager;
-        private readonly IUnitOfWork _unitOfWork;
         #endregion
         #region Constructor
         public PatientCommandHandler(IPatientService patientService,
                                      IMapper mapper,
                                      IStringLocalizer<SharedResources> stringLocalizer,
                                      IHttpContextAccessor httpContextAccessor,
-                                     UserManager<Patient> userManager,
-                                     IUnitOfWork unitOfWork) : base(stringLocalizer)
+                                     UserManager<Patient> userManager) : base(stringLocalizer)
         {
             _patientService = patientService;
             _mapper = mapper;
             _stringLocalizer = stringLocalizer;
             _httpContextAccessor = httpContextAccessor;
             _userManager = userManager;
-            _unitOfWork = unitOfWork;
         }
         #endregion
         #region Handle Functions
@@ -52,7 +48,7 @@ namespace BrainMate.Core.Features.AlzheimerPatient.Commands.Handler
             var caregiver = await _userManager.FindByEmailAsync(patientEmailClaim!);
             var UserEmail = caregiver!.PatientEmail;
             var user = _userManager.Users.FirstOrDefault(x => x.Email == UserEmail);
-            // check if the id is exist or not 
+            // check if the id is exist or not
             var patient = await _patientService.GetPatientAsync(user!.Id);
             // return notFound
             if (patient == null) return NotFound<string>("patient is not found");
@@ -76,7 +72,6 @@ namespace BrainMate.Core.Features.AlzheimerPatient.Commands.Handler
             var patientEmailClaim = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.Email);
             var user = await _userManager.FindByEmailAsync(patientEmailClaim!);
             // Check if user exist 
-            // var user = await _userManager.FindByIdAsync(request.Id.ToString());
             var User = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == user!.Id);
 
             // Not exist
@@ -93,7 +88,7 @@ namespace BrainMate.Core.Features.AlzheimerPatient.Commands.Handler
             {
                 case "Failed": return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.DeletedFailed]);
             }
-            //Success message
+            // Success message
             return Success<string>(_stringLocalizer[SharedResourcesKeys.Deleted]);
         }
         #endregion

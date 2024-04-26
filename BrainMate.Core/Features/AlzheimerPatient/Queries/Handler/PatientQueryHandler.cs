@@ -61,9 +61,7 @@ namespace BrainMate.Core.Features.AlzheimerPatient.Queries.Handler
                 var Result = await _userManager.FindByEmailAsync(PatientEmail);
                 if (Result == null) return NotFound<GetPatientResponse>(_stringLocalizer[SharedResourcesKeys.PatientDeleteAccount]);
                 var Patient = await _patientService.GetByIdAsync(Result!.Id);
-
                 var result = _mapper.Map<GetPatientResponse>(Patient);
-
                 return Success(result);
             }
         }
@@ -85,8 +83,6 @@ namespace BrainMate.Core.Features.AlzheimerPatient.Queries.Handler
                 return Success<string>(_stringLocalizer[SharedResourcesKeys.Success]);
             }
             else return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.SomeThingGoesWrong]);
-
-
         }
         #endregion
     }
