@@ -3,12 +3,12 @@ using BrainMate.Core.Bases;
 using BrainMate.Core.Features.ApplicationUser.Models;
 using BrainMate.Core.Resources;
 using BrainMate.Data.Entities.Identity;
+using BrainMate.Service.Abstracts;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
-using SchoolProject.Service.Abstracts;
 using System.Security.Claims;
 
 namespace BrainMate.Core.Features.ApplicationUser.Handler
@@ -16,7 +16,6 @@ namespace BrainMate.Core.Features.ApplicationUser.Handler
     public class RegisterCommandHandler : ResponseHandler,
         IRequestHandler<RegisterCommand, Response<string>>,
         IRequestHandler<CaregiverRegisterCommand, Response<string>>,
-
         IRequestHandler<ChangePatientPasswordCommand, Response<string>>
     {
         #region Fields
@@ -72,31 +71,6 @@ namespace BrainMate.Core.Features.ApplicationUser.Handler
                 default: return BadRequest<string>(Result);
             }
         }
-        //public async Task<Response<string>> Handle(UpdatePatientCommand request, CancellationToken cancellationToken)
-        //{
-        //    // Check if user exist 
-        //    // var user = await _userManager.FindByIdAsync(request.Id.ToString());
-        //    var existUser = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == request.Id);
-
-        //    // Not exist
-        //    if (existUser == null) return NotFound<string>();
-
-        //    // mapping
-        //    var newUser = _mapper.Map(request, existUser);
-
-        //    //Check on Phone Number (can't duplicate)
-        //    var SearchByPhone = await _userManager.Users.FirstOrDefaultAsync(x => x.PhoneNumber == newUser.PhoneNumber && x.Id != newUser.Id);
-        //    if (SearchByPhone != null) return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.PhoneExist]);
-
-        //    //update
-        //    var result = await _userManager.UpdateAsync(newUser);
-
-        //    //Not success 
-        //    if (!result.Succeeded) return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.UpdatedFailed]);
-
-        //    //Success message
-        //    return Success<string>(_stringLocalizer[SharedResourcesKeys.Updated]);
-        //}
 
         public async Task<Response<string>> Handle(ChangePatientPasswordCommand request, CancellationToken cancellationToken)
         {

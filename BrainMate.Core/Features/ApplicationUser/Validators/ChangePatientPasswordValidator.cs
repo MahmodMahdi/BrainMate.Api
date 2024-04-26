@@ -15,17 +15,11 @@ namespace SchoolProject.Core.Features.ApplicationUser.Commands.Validators
         {
             _localizer = localizer;
             ApplyValidationsRules();
-            ApplyCustomValidationsRules();
         }
         #endregion
         #region Actions
         public void ApplyValidationsRules()
         {
-            //RuleFor(x => x.Id)
-            //   .NotEmpty().WithMessage(_localizer[SharedResourcesKeys.NotEmpty])
-            //   .NotNull().WithMessage(_localizer[SharedResourcesKeys.Required]);
-
-
             RuleFor(x => x.CurrentPassword)
                .NotEmpty().WithMessage(_localizer[SharedResourcesKeys.NotEmpty])
                .NotNull().WithMessage(_localizer[SharedResourcesKeys.Required]);
@@ -39,9 +33,7 @@ namespace SchoolProject.Core.Features.ApplicationUser.Commands.Validators
             .NotEmpty().WithMessage(_localizer[SharedResourcesKeys.NotEmpty])
             .NotNull().WithMessage(_localizer[SharedResourcesKeys.Required]);
         }
-        public void ApplyCustomValidationsRules()
-        {
-        }
+
         #endregion
     }
 }
