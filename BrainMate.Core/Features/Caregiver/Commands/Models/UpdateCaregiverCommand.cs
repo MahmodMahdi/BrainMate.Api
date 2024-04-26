@@ -7,7 +7,6 @@ namespace BrainMate.Core.Features.Caregiver.Commands.Models
 {
     public class UpdateCaregiverCommand : IRequest<Response<string>>
     {
-        // public int Id { get; set; }
         public string? Name { get; set; }
         public string? Address { get; set; }
         public DateOnly? BirthDate { get; set; }

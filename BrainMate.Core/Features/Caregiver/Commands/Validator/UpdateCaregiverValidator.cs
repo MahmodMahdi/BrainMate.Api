@@ -1,6 +1,5 @@
 ﻿using BrainMate.Core.Features.Caregiver.Commands.Models;
 using BrainMate.Core.Resources;
-using BrainMate.Service.Abstracts;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 
@@ -10,13 +9,11 @@ namespace BrainMate.Core.Features.Caregiver.Commands.Validator
     {
         #region Fields
         private readonly IStringLocalizer<SharedResources> _localizer;
-        private readonly ICaregiverService _caregiverService;
         #endregion
         #region Constructors
-        public UpdateCaregiverValidator(IStringLocalizer<SharedResources> localizer, ICaregiverService caregiverService)
+        public UpdateCaregiverValidator(IStringLocalizer<SharedResources> localizer)
         {
             _localizer = localizer;
-            _caregiverService = caregiverService;
             ApplyValidationsRules();
         }
         #endregion
