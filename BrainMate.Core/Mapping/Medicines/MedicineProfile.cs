@@ -2,15 +2,14 @@
 
 namespace BrainMate.Core.Mapping.Medicines
 {
-	public partial class MedicineProfile : Profile
-	{
-		public MedicineProfile()
-		{
-			GetMedicinePaginationMapping();
-			GetMedicineByIdMapping();
-			AddMedicineCommandMapping();
-			UpdateMedicineCommandMapping();
-			SearchMedicineMapping();
-		}
-	}
+    public partial class MedicineProfile : Profile
+    {
+        public MedicineProfile()
+        {
+            GetMedicinePaginationMapping();
+            GetMedicineByIdMapping();
+            AddMedicineCommandMapping();
+            UpdateMedicineCommandMapping();
+        }
+    }
 }

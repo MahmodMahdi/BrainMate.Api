@@ -4,12 +4,11 @@ using BrainMate.Data.Entities;
 
 namespace BrainMate.Core.Mapping.Medicines
 {
-	public partial class MedicineProfile
-	{
-		public void GetMedicinePaginationMapping()
-		{
-			CreateMap<Medicine, GetMedicinePaginatedListResponse>()
-		   .ForMember(dest => dest.Name, op => op.MapFrom(src => src.Localize(src.NameAr!, src.NameEn!)));
-		}
-	}
+    public partial class MedicineProfile
+    {
+        public void GetMedicinePaginationMapping()
+        {
+            CreateMap<Medicine, GetMedicinePaginatedListResponse>();
+        }
+    }
 }

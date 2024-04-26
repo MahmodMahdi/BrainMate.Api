@@ -2,13 +2,13 @@
 
 namespace BrainMate.Core.Mapping.AlzheimerPatient
 {
-	public partial class PatientProfile : Profile
-	{
-		public PatientProfile()
-		{
-			GetPatientByIdMapping();
-			AddPatientCommandMapping();
-			UpdatePatientCommandMapping();
-		}
-	}
+    public partial class PatientProfile : Profile
+    {
+        public PatientProfile()
+        {
+            GetPatientByIdMapping();
+            UpdatePatientCommandMapping();
+
+        }
+    }
 }

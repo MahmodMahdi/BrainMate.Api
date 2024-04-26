@@ -2,13 +2,12 @@
 
 namespace BrainMate.Core.Mapping.Authentication.ApplicationUser
 {
-	public partial class ApplicationUserProfile : Profile
-	{
-		public ApplicationUserProfile()
-		{
-			RegisterMapping();
-			CaregiverRegisterMapping();
-			UpdateUserMapping();
-		}
-	}
+    public partial class ApplicationUserProfile : Profile
+    {
+        public ApplicationUserProfile()
+        {
+            RegisterMapping();
+            CaregiverRegisterMapping();
+        }
+    }
 }

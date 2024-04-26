@@ -2,15 +2,14 @@
 
 namespace BrainMate.Core.Mapping.Relative
 {
-	public partial class RelativesProfile : Profile
-	{
-		public RelativesProfile()
-		{
-			GetRelativesPaginationMapping();
-			GetRelativeByIdMapping();
-			AddRelativeCommandMapping();
-			UpdateRelativeCommandMapping();
-			SearchRelativesMapping();
-		}
-	}
+    public partial class RelativesProfile : Profile
+    {
+        public RelativesProfile()
+        {
+            GetRelativesPaginationMapping();
+            GetRelativeByIdMapping();
+            AddRelativeCommandMapping();
+            UpdateRelativeCommandMapping();
+        }
+    }
 }

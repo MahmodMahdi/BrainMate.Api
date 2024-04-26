@@ -4,9 +4,9 @@ using BrainMate.Data.Entities;
 namespace BrainMate.Core.Mapping.Relative;
 public partial class RelativesProfile
 {
-	public void AddRelativeCommandMapping()
-	{
-		CreateMap<AddRelativeCommand, Relatives>()
-				.ForMember(dest => dest.Image, op => op.Ignore());
-	}
+    public void AddRelativeCommandMapping()
+    {
+        CreateMap<AddRelativeCommand, Relatives>()
+                .ForMember(dest => dest.Image, op => op.Ignore());
+    }
 }
