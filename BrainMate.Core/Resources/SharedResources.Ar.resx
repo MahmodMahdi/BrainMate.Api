@@ -195,6 +195,9 @@
   <data name="IsNotExist" xml:space="preserve">
     <value>غير موجود</value>
   </data>
+  <data name="LockedDone" xml:space="preserve">
+    <value>تم قفل الحساب بنجاح</value>
+  </data>
   <data name="MaxLengthIs100" xml:space="preserve">
     <value>عدد الحروف المسموح بها 100 حرف</value>
   </data>
@@ -203,6 +206,9 @@
   </data>
   <data name="Name" xml:space="preserve">
     <value>الاسم</value>
+  </data>
+  <data name="NameIsExist" xml:space="preserve">
+    <value>هذا الاسم موجود بالفعل</value>
   </data>
   <data name="NoImage" xml:space="preserve">
     <value>من فضلك قم بإختيار صورة</value>
@@ -221,6 +227,9 @@
   </data>
   <data name="PasswordNotEqualConfirmPassword" xml:space="preserve">
     <value>تأكيد الباسورد يجب أن يطابق الباسورد</value>
+  </data>
+  <data name="PatientDeleteAccount" xml:space="preserve">
+    <value>هذا المريض حذف حسابه</value>
   </data>
   <data name="PhoneExist" xml:space="preserve">
     <value>رقم الهاتف هذا موجود بالفعل</value>
@@ -252,6 +261,12 @@
   <data name="ThereIsAnotherCaregiverOnThisPatientEmail" xml:space="preserve">
     <value>يوجد مرافق اخر مسجل علي إيميل المريض هذا</value>
   </data>
+  <data name="ThereIsNoCaregiver" xml:space="preserve">
+    <value>لا يوجد مرافق مسجل علي هذا الحساب</value>
+  </data>
+  <data name="ThereIsNoCaregiverٌRegisteredOnYourAccount" xml:space="preserve">
+    <value>لا يوجد شخص مرافق مسجل على حسابك</value>
+  </data>
   <data name="TokenIsExpired" xml:space="preserve">
     <value>رمز الوصول منتهي الصلاحية</value>
   </data>
@@ -260,6 +275,9 @@
   </data>
   <data name="UnAuthorized" xml:space="preserve">
     <value>لا تمتلك الصلاحية للدخول</value>
+  </data>
+  <data name="UnLockDone" xml:space="preserve">
+    <value>تم فك قفل الحساب بنجاح</value>
   </data>
   <data name="UnprocessableEntity" xml:space="preserve">
     <value>يوجد خطأ في نوع الداتا </value>
@@ -272,5 +290,8 @@
   </data>
   <data name="UserIsNotFound" xml:space="preserve">
     <value>هذا المستخدم غير موجود</value>
+  </data>
+  <data name="YourAccountISLockedByPatient" xml:space="preserve">
+    <value>تم قفل حسابك بواسطة المريض</value>
   </data>
 </root>

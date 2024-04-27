@@ -204,6 +204,9 @@
   <data name="IsNotExist" xml:space="preserve">
     <value>Is not Exist</value>
   </data>
+  <data name="LockedDone" xml:space="preserve">
+    <value>Lock Done Successfully</value>
+  </data>
   <data name="MaxLengthIs100" xml:space="preserve">
     <value>Max Length must be Less Than 100 character</value>
   </data>
@@ -212,6 +215,9 @@
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="NameIsExist" xml:space="preserve">
+    <value>Name is already exist</value>
   </data>
   <data name="NoImage" xml:space="preserve">
     <value>Please Select Image</value>
@@ -231,8 +237,11 @@
   <data name="PasswordNotEqualConfirmPassword" xml:space="preserve">
     <value>Password Not Equal Confirm Password</value>
   </data>
+  <data name="PatientDeleteAccount" xml:space="preserve">
+    <value>The Patient delete his account</value>
+  </data>
   <data name="PhoneExist" xml:space="preserve">
-    <value>Phone Is already Exist</value>
+    <value>Phone Number is already exist</value>
   </data>
   <data name="RefreshTokenIsExpired" xml:space="preserve">
     <value>Refresh Token Is Expired</value>
@@ -264,11 +273,20 @@
   <data name="ThereIsAnotherCaregiverOnThisPatientEmail" xml:space="preserve">
     <value>There is another caregiver on this patient email</value>
   </data>
+  <data name="ThereIsNoCaregiver" xml:space="preserve">
+    <value>There is no caregiver register on your account</value>
+  </data>
+  <data name="ThereIsNoCaregiverOnYourAccount" xml:space="preserve">
+    <value>There is no caregiver registered on your account</value>
+  </data>
   <data name="TokenIsNotExpired" xml:space="preserve">
     <value>Token Is Not Expired</value>
   </data>
   <data name="UnAuthorized" xml:space="preserve">
     <value>You are not Authorized to Access This Resources</value>
+  </data>
+  <data name="UnLockDone" xml:space="preserve">
+    <value>UnLock Done Successfully</value>
   </data>
   <data name="UnprocessableEntity" xml:space="preserve">
     <value>There are Validation Errors Or Syntax Errors</value>
@@ -281,5 +299,8 @@
   </data>
   <data name="UserIsNotFound" xml:space="preserve">
     <value>User is not Found</value>
+  </data>
+  <data name="YourAccountIsLockedByPatient" xml:space="preserve">
+    <value>Your account is locked by patient</value>
   </data>
 </root>
