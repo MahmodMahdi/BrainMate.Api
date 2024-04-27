@@ -49,13 +49,13 @@ namespace BrainMate.Core.Features.Caregiver.Queries.Handler
             {
                 var caregiver = await _userManager.Users.FirstOrDefaultAsync(x => x.PatientEmail == user.Email);
                 if (caregiver == null) { return NotFound<GetCaregiverResponse>(_stringLocalizer[SharedResourcesKeys.ThereIsNoCaregiverOnYourAccount]); }
-                var result = await _caregiverService.GetCaregiverAsync(caregiver!.Id);
+                var result = await _caregiverService.GetCaregiverByIdAsync(caregiver!.Id);
                 var response = _mapper.Map<GetCaregiverResponse>(result);
                 return Success(response);
             }
             else
             {
-                var Caregiver = await _caregiverService.GetCaregiverAsync(user!.Id);
+                var Caregiver = await _caregiverService.GetCaregiverByIdAsync(user!.Id);
                 if (Caregiver == null)
                 {
                     return NotFound<GetCaregiverResponse>(_stringLocalizer[SharedResourcesKeys.NotFound]);
