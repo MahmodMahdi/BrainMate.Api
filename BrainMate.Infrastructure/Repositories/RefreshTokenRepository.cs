@@ -6,16 +6,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BrainMate.Infrastructure.Repositories
 {
-	public class RefreshTokenRepository : GenericRepositoryAsync<UserRefreshToken>, IRefreshTokenRepository
-	{
-		#region fields
-		private readonly DbSet<UserRefreshToken> _userRefreshToken;
-		#endregion
-		#region Constructors
-		public RefreshTokenRepository(ApplicationDbContext _context) : base(_context)
-		{
-			_userRefreshToken = _context.Set<UserRefreshToken>();
-		}
-		#endregion
-	}
+    public class RefreshTokenRepository : GenericRepositoryAsync<PatientRefreshToken>, IRefreshTokenRepository
+    {
+        #region fields
+        private readonly DbSet<PatientRefreshToken> _patientRefreshToken;
+        #endregion
+        #region Constructors
+        public RefreshTokenRepository(ApplicationDbContext _context) : base(_context)
+        {
+            _patientRefreshToken = _context.Set<PatientRefreshToken>();
+        }
+        #endregion
+    }
 }

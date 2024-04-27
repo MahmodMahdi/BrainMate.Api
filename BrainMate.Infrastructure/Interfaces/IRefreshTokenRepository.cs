@@ -3,7 +3,7 @@ using BrainMate.Infrastructure.InfrastructureBases;
 
 namespace BrainMate.Infrastructure.Interfaces
 {
-	public interface IRefreshTokenRepository : IGenericRepositoryAsync<UserRefreshToken>
-	{
-	}
+    public interface IRefreshTokenRepository : IGenericRepositoryAsync<PatientRefreshToken>
+    {
+    }
 }
