@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace SchoolProject.Service.Abstracts
+namespace BrainMate.Service.Abstracts
 {
-	public interface IFileService
-	{
-		public Task<string> UploadImage(string location, IFormFile file);
-	}
+    public interface IFileService
+    {
+        public Task<string> UploadImage(string location, IFormFile file);
+    }
 }

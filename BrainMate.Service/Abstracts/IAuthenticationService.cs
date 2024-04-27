@@ -4,24 +4,24 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace BrainMate.Service.Abstracts
 {
-	public interface IAuthenticationService
-	{
-		#region User 
-		public Task<JwtAuthenticationResponse> GetJWTToken(User user);
-		public JwtSecurityToken ReadJwtToken(string Token);
-		public Task<JwtAuthenticationResponse> GetRefreshToken(User user, JwtSecurityToken JwtToken, DateTime? ExpireDate, string RefreshToken);
-		public Task<string> ValidateToken(string Token);
-		public Task<(string, DateTime?)> ValidateDetails(JwtSecurityToken jwtToken, string Token, string refreshToken);
-		#endregion
-		#region Email Confirmation
-		public Task<string> ConfirmEmail(int? UserId, string Code);
-		#endregion
-		#region Reset Password
-		public Task<string> SendResetPasswordCode(string Email);
-		public Task<string> SendCaregiverResetPasswordCode(string Email);
-		public Task<string> ConfirmResetPassword(string Code, string Email);
-		public Task<string> ResetPassword(string Email, string Password);
-		#endregion
-		//public Task<string> Logout();
-	}
+    public interface IAuthenticationService
+    {
+        #region User 
+        public Task<JwtAuthenticationResponse> GetJWTToken(Patient user);
+        public JwtSecurityToken ReadJwtToken(string Token);
+        public Task<JwtAuthenticationResponse> GetRefreshToken(Patient user, JwtSecurityToken JwtToken, DateTime? ExpireDate, string RefreshToken);
+        public Task<string> ValidateToken(string Token);
+        public Task<(string, DateTime?)> ValidateDetails(JwtSecurityToken jwtToken, string Token, string refreshToken);
+        #endregion
+        #region Email Confirmation
+        public Task<string> ConfirmEmail(int? PatientId, string Code);
+        #endregion
+        #region Reset Password
+        public Task<string> SendResetPasswordCode(string Email);
+        public Task<string> SendCaregiverResetPasswordCode(string Email);
+        public Task<string> ConfirmResetPassword(string Code, string Email);
+        public Task<string> ResetPassword(string Email, string Password);
+        #endregion
+        //public Task<string> Logout();
+    }
 }

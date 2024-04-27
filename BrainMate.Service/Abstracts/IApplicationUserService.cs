@@ -1,8 +1,8 @@
 ﻿using BrainMate.Data.Entities.Identity;
 
-namespace SchoolProject.Service.Abstracts;
+namespace BrainMate.Service.Abstracts;
 public interface IApplicationUserService
 {
-	public Task<string> RegisterAsync(User user, string password);
-	public Task<string> CaregiverRegisterAsync(User Caregiver, string password);
+    public Task<string> RegisterAsync(Patient patient, string password);
+    public Task<string> CaregiverRegisterAsync(Patient Caregiver, string password);
 }
