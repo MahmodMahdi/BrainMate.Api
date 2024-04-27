@@ -1,19 +1,13 @@
-﻿using BrainMate.Data.Commons;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace BrainMate.Data.Entities
+﻿namespace BrainMate.Data.Entities
 {
-	public class Food : GeneralLocalizableEntity
-	{
-		public int Id { get; set; }
-		public string? NameAr { get; set; }
-		public string? NameEn { get; set; }
-		public string? Type { get; set; }
-		public TimeOnly? Time { get; set; }
-		public string? Image { get; set; }
-		public int? PatientId { get; set; }
-
-		[ForeignKey(nameof(PatientId))]
-		public virtual Patient? Patient { get; set; }
-	}
+    public class Food
+    {
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public string? Type { get; set; }
+        public TimeOnly? Time { get; set; }
+        public string? Image { get; set; }
+        public string? PatientEmail { get; set; }
+        public string? CaregiverEmail { get; set; }
+    }
 }
