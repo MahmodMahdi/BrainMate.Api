@@ -36,13 +36,7 @@ namespace BrainMate.Infrastructure.Migrations
                     b.Property<string>("PatientEmail")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PatientId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TaskAr")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TaskEn")
+                    b.Property<string>("Task")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<TimeOnly?>("Time")
@@ -50,9 +44,7 @@ namespace BrainMate.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("events", (string)null);
+                    b.ToTable("events");
                 });
 
             modelBuilder.Entity("BrainMate.Data.Entities.Food", b =>
@@ -69,17 +61,11 @@ namespace BrainMate.Infrastructure.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NameAr")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameEn")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PatientEmail")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("PatientId")
-                        .HasColumnType("int");
 
                     b.Property<TimeOnly?>("Time")
                         .HasColumnType("time");
@@ -89,9 +75,7 @@ namespace BrainMate.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("foods", (string)null);
+                    b.ToTable("foods");
                 });
 
             modelBuilder.Entity("BrainMate.Data.Entities.Identity.Patient", b =>
@@ -219,7 +203,7 @@ namespace BrainMate.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("patientRefreshTokens", (string)null);
+                    b.ToTable("patientRefreshTokens");
                 });
 
             modelBuilder.Entity("BrainMate.Data.Entities.Identity.Role", b =>
@@ -272,26 +256,18 @@ namespace BrainMate.Infrastructure.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NameAr")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameEn")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PatientEmail")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("PatientId")
-                        .HasColumnType("int");
 
                     b.Property<DateOnly?>("StartAt")
                         .HasColumnType("date");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("medicines", (string)null);
+                    b.ToTable("medicines");
                 });
 
             modelBuilder.Entity("BrainMate.Data.Entities.Relatives", b =>
@@ -320,19 +296,13 @@ namespace BrainMate.Infrastructure.Migrations
                     b.Property<string>("Job")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NameAr")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameEn")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PatientEmail")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PatientId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Phone")
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RelationShip")
@@ -343,9 +313,7 @@ namespace BrainMate.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("relatives", (string)null);
+                    b.ToTable("relatives");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -451,24 +419,6 @@ namespace BrainMate.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BrainMate.Data.Entities.Event", b =>
-                {
-                    b.HasOne("BrainMate.Data.Entities.Identity.Patient", "Patient")
-                        .WithMany("Events")
-                        .HasForeignKey("PatientId");
-
-                    b.Navigation("Patient");
-                });
-
-            modelBuilder.Entity("BrainMate.Data.Entities.Food", b =>
-                {
-                    b.HasOne("BrainMate.Data.Entities.Identity.Patient", "Patient")
-                        .WithMany("Foods")
-                        .HasForeignKey("PatientId");
-
-                    b.Navigation("Patient");
-                });
-
             modelBuilder.Entity("BrainMate.Data.Entities.Identity.PatientRefreshToken", b =>
                 {
                     b.HasOne("BrainMate.Data.Entities.Identity.Patient", "Patient")
@@ -476,24 +426,6 @@ namespace BrainMate.Infrastructure.Migrations
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Patient");
-                });
-
-            modelBuilder.Entity("BrainMate.Data.Entities.Medicine", b =>
-                {
-                    b.HasOne("BrainMate.Data.Entities.Identity.Patient", "Patient")
-                        .WithMany("Medicines")
-                        .HasForeignKey("PatientId");
-
-                    b.Navigation("Patient");
-                });
-
-            modelBuilder.Entity("BrainMate.Data.Entities.Relatives", b =>
-                {
-                    b.HasOne("BrainMate.Data.Entities.Identity.Patient", "Patient")
-                        .WithMany("Relatives")
-                        .HasForeignKey("PatientId");
 
                     b.Navigation("Patient");
                 });
@@ -551,15 +483,7 @@ namespace BrainMate.Infrastructure.Migrations
 
             modelBuilder.Entity("BrainMate.Data.Entities.Identity.Patient", b =>
                 {
-                    b.Navigation("Events");
-
-                    b.Navigation("Foods");
-
-                    b.Navigation("Medicines");
-
                     b.Navigation("PatientRefreshTokens");
-
-                    b.Navigation("Relatives");
                 });
 #pragma warning restore 612, 618
         }

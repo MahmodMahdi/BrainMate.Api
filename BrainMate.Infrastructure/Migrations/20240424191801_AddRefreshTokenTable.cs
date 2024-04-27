@@ -6,18 +6,18 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BrainMate.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class RefreshTokenTable : Migration
+    public partial class AddRefreshTokenTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "userRefreshTokens",
+                name: "patientRefreshTokens",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    PatientId = table.Column<int>(type: "int", nullable: false),
                     Token = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     JwtId = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -28,26 +28,26 @@ namespace BrainMate.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_userRefreshTokens", x => x.Id);
+                    table.PrimaryKey("PK_patientRefreshTokens", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_userRefreshTokens_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_patientRefreshTokens_AspNetUsers_PatientId",
+                        column: x => x.PatientId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_userRefreshTokens_UserId",
-                table: "userRefreshTokens",
-                column: "UserId");
+                name: "IX_patientRefreshTokens_PatientId",
+                table: "patientRefreshTokens",
+                column: "PatientId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "userRefreshTokens");
+                name: "patientRefreshTokens");
         }
     }
 }
