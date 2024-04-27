@@ -62,7 +62,7 @@ namespace BrainMate.XUnitTest.ServiceTest.ExtensionMethod
             // try to test a fake data
             var relativeList = new AsyncEnumerable<Relatives>(new List<Relatives>
             {
-                new Relatives(){Id = 1,Name = "Mohamed",RelationShip= "Brother",RelationShipDegree=1,Description="The closest person to me",Age = 30,Address = "Tanta",Phone="0123333",Job = "Pilot",Image="/Foods/8bc70c2ef11540b3b8725f9d2d2f7734.jpg"}
+                new Relatives(){Id = 1,Name = "Mohamed",RelationShip= "Brother",RelationShipDegree=1,Description="The closest person to me",Age = 30,Address = "Tanta",PhoneNumber="0123333",Job = "Pilot",Image="/Foods/8bc70c2ef11540b3b8725f9d2d2f7734.jpg"}
             });
             var PaginatedResult = new PaginateResult<Relatives>(relativeList.ToList());
             _relativePaginatedServiceMock.Setup(x => x.ReturnPaginatedResult(relativeList, pageNumber, pageSize)).Returns(Task.FromResult(PaginatedResult));
