@@ -27,7 +27,7 @@ namespace BrainMate.Api.Controllers
             var user = NewResult(await _mediator.Send(new LockUnlockCaregiverQuery()));
             return user;
         }
-        [Authorize(Roles = "Caregiver")]
+        [Authorize]
         [HttpPut(Routing.PatientRouting.Update)]
         [SwaggerOperation(Summary = "تعديل بيانات المريض", OperationId = "Update")]
         public async Task<IActionResult> Update([FromForm] UpdatePatientCommand command)

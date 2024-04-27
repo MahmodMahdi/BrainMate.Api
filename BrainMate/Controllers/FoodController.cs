@@ -12,9 +12,9 @@ namespace BrainMate.Api.Controllers
     {
         [Authorize]
         [HttpGet(Routing.FoodRouting.GetAll)]
-        public async Task<IActionResult> GetInstructorList()
+        public async Task<IActionResult> GetFoodList([FromQuery] GetFoodListQuery query)
         {
-            var foods = NewResult(await _mediator.Send(new GetFoodListQuery()));
+            var foods = NewResult(await _mediator.Send(query));
             return foods;
         }
         [Authorize]
@@ -22,13 +22,6 @@ namespace BrainMate.Api.Controllers
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var food = NewResult(await _mediator.Send(new GetFoodByIdQuery(id)));
-            return food;
-        }
-        [Authorize]
-        [HttpGet(Routing.FoodRouting.Search)]
-        public async Task<IActionResult> Search([FromQuery] SearchFoodQuery query)
-        {
-            var food = NewResult(await _mediator.Send(query));
             return food;
         }
         [Authorize(Roles = "Caregiver")]
