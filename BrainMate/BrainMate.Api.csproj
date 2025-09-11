@@ -23,8 +23,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\Caregiver\" />
+    <Folder Include="wwwroot\Foods\" />
+    <Folder Include="wwwroot\Medicines\" />
     <Folder Include="wwwroot\Patient\" />
+    <Folder Include="wwwroot\Relatives\" />
   </ItemGroup>
 
 </Project>
