@@ -140,6 +140,16 @@ Ensures **code reliability and correctness** through automated tests.
 * Isolated and repeatable tests
 
 ---
+🔄 Request Lifecycle
+Client
+→ Controller
+→ MediatR
+→ Validation Behavior
+→ Command / Query Handler
+→ UnitOfWork / Repository
+→ ResponseHandler
+→ API Response
+---
 
 ## ⚙️ Technologies
 
