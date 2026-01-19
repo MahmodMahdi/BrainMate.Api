@@ -1,60 +1,280 @@
-# BrainMate.Api
+# 🧠 BrainMate.Api
 
-## <h1>Description</h1>
-<h2>BrainMate.Api Using Asp.net Core Web Api Using Clean Architecture Based On Code First</h2>
+## 📌 Overview
 
-<h3>This project robust CQRS architecture,
-and security with JWT.</h3> 
-<h3>Technologies</h3> :
--Asp.Net Core 8
--Entity Framework Core
--SQLServer
--JWT
+**BrainMate.Api** is a scalable and secure **ASP.NET Core 8 Web API** built using **Clean Architecture** and a **robust CQRS pattern**. The project is designed for enterprise-level applications with a strong focus on **maintainability**, **testability**, and **separation of concerns**.
 
-<h3>Component and Tools :</h3>
+The system supports **authentication & authorization using JWT**, **role and claim management**, **localization**, **image handling**, and is fully **Dockerized** with **Unit Testing** applied.
 
-- Design pattern
+---
 
-- Repository Pattern and UnitOfWork
+## 🏗 Architecture
 
-- mediator to handle requests
+The project follows **Clean Architecture** with a **modular CQRS-based design**, clearly separating responsibilities across multiple layers to ensure scalability, maintainability, and testability.
 
-- separate between Queries and Commands of Endpoints
+---
 
-- Solid Principles 
+### 🔹 API Layer (Presentation)
 
-- Dependency Injection
+Contains **8 dedicated API Controllers**, each responsible for a specific business domain:
 
-- Generic(Repository)
+* `AppUserController`
+* `AuthController`
+* `CaregiverController`
+* `EventController`
+* `FoodController`
+* `MedicineController`
+* `PatientController`
+* `RelativesController`
 
-- Pagination Schema
+**Responsibilities:**
 
-- Localizations Of Data And Responses (Arabic , English)
+* Expose RESTful endpoints
+* Handle HTTP requests & responses
+* Authorization & role-based access
+* Delegate logic to Application layer via MediatR
 
-- Fluent Validations
+---
 
-- Auto Mapper
+### 🔹 Core Layer (Application + Domain Core)
 
-- Configurations Using Data Annotations
+This is the **heart of the system**, containing all business logic and application rules.
 
-- EndPoints Of Operations.   -Allow CORS
+#### 1️⃣ Bases
 
-- Using Identity
+* `Response<T>`
+* `ResponseHandler`
 
-- Added Authentication
+Used to provide **consistent and unified API responses**.
 
-- Added JWT Token And SwaggerGen
+#### 2️⃣ Behaviors
 
-- Authorizations(Roles,Claims)
+* Validation Behavior (Pipeline Behavior)
+* Centralized request validation using **FluentValidation**
 
-- Claims and Roles Operations
+#### 3️⃣ Features (CQRS)
 
-- Reset Password by Sending code to Email 
+* Commands & Queries per endpoint
+* Dedicated Handlers for each operation
+* FluentValidation for Commands & Queries
 
-- Service Like Send Email
+#### 4️⃣ Mapping
 
-- (Upload , Update , Delete) Image
+* AutoMapper Profiles per Entity
+* Clear separation between Entities & DTOs
 
-- Filters
+#### 5️⃣ Middleware
 
-- Unit Test
+* `ErrorHandlerMiddleware`
+* Global exception handling
+
+#### 6️⃣ Localization & Resources
+
+* Resource files for **Arabic (ar)** and **English (en)**
+* Localized responses & validation messages
+
+#### 7️⃣ Wrappers
+
+* Pagination Wrapper
+* Standardized paging & metadata response
+
+---
+
+### 🔹 Data Layer (Domain + Shared Configurations)
+
+Contains all **entities and shared domain-related configurations**.
+
+* Base Entity with Localization Support
+* Identity Entities (ASP.NET Core Identity Tables)
+* Helpers:
+
+  * Data Converters
+  * Email Settings
+  * JWT Settings
+* JWT Authentication Responses
+* Routing Helper Classes
+
+---
+
+### 🔹 Infrastructure Layer (Persistence)
+
+Handles **data access and external concerns**.
+
+* `ApplicationDbContext`
+* Infrastructure Base:
+
+  * Generic Repository Implementation
+* Repository Interfaces
+* Concrete Repository Implementations
+* Database Migrations
+* Data Seeding Classes
+* Unit of Work Pattern
+
+---
+
+### 🔹 Service Layer
+
+Encapsulates **business services and integrations**.
+
+* Service Abstractions (Interfaces)
+* Service Implementations
+* Email Service
+* Image Upload / Management Service
+* Other domain-related services
+
+---
+
+### 🔹 Testing Layer (xUnit)
+
+Ensures **code reliability and correctness** through automated tests.
+
+* Core Entity Tests
+* Service Layer Tests
+* Test Models
+* Pagination & Response Wrapper Tests
+
+**Testing Principles:**
+
+* AAA Pattern (Arrange / Act / Assert)
+* Mocking dependencies
+* Isolated and repeatable tests
+
+---
+
+## ⚙️ Technologies
+
+* **ASP.NET Core 8**
+* **Entity Framework Core (Code First)**
+* **SQL Server**
+* **JWT Authentication**
+* **Docker & Docker Compose**
+* **xUnit / Unit Testing**
+
+---
+
+## 🧩 Design Patterns & Principles
+
+* Clean Architecture
+* CQRS Pattern
+* Mediator Pattern (MediatR)
+* Repository Pattern
+* Generic Repository
+* Unit of Work
+* Specification Pattern (Ready for Extension)
+* SOLID Principles
+* Dependency Injection
+* Separation of Concerns
+
+---
+
+## 🔐 Security
+
+* ASP.NET Core Identity
+* JWT Authentication
+* Role-based Authorization
+* Claims-based Authorization
+* Secure Password Hashing
+* Reset Password via Email Verification Code
+
+---
+
+## 🌍 Features
+
+* ✅ Authentication & Authorization
+* ✅ JWT Token & Swagger Integration
+* ✅ Role & Claims Management
+* ✅ Localization (Arabic 🇪🇬 / English 🇺🇸)
+* ✅ Pagination Schema (Reusable & Generic)
+* ✅ Fluent Validation
+* ✅ AutoMapper
+* ✅ Data Annotations Configuration
+* ✅ CORS Enabled
+* ✅ Email Service (Reset Password & Notifications)
+* ✅ Image Handling (Upload / Update / Delete)
+* ✅ Global Exception Handling & Custom Error Responses
+* ✅ API Response Wrapper (Consistent Response Structure)
+* ✅ Logging & Monitoring Ready
+* ✅ Clean & Versioned Endpoints Design
+
+---
+
+## 🧪 Testing Layer
+
+The project includes a dedicated **Testing Layer** to ensure code quality and long-term maintainability.
+
+### Testing Architecture
+
+* Separate **Testing Project** aligned with Clean Architecture
+* Tests are isolated from infrastructure concerns
+* Uses **Arrange / Act / Assert (AAA)** pattern
+
+### Covered Areas
+
+* ✅ CQRS Handlers (Commands & Queries)
+* ✅ Business Rules & Domain Logic
+* ✅ Validation Logic (FluentValidation)
+* ✅ Services (Email, Image Handling, etc.)
+* ✅ Repository & Unit of Work behavior (mocked)
+
+### Testing Tools
+
+* xUnit
+* Moq
+* FluentAssertions
+
+---
+
+## 🐳 Docker Support
+
+The application is fully **Dockerized**:
+
+* Multi-stage Dockerfile for optimized builds
+* Ready for deployment in containerized environments
+* Easy setup for local development & production
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+* .NET SDK 8
+* Docker Desktop
+* SQL Server
+
+### Run Locally
+
+```bash
+dotnet restore
+dotnet build
+dotnet run
+```
+
+### Run with Docker
+
+```bash
+docker build -t brainmate.api .
+docker run -p 8080:8080 brainmate.api
+```
+
+---
+
+## 📖 API Documentation
+
+* Swagger UI enabled
+* JWT Authentication supported directly in Swagger
+
+---
+
+## 📬 Contact
+
+**Author:** Mahmoud Elmahdy
+**Project:** BrainMate.Api
+
+---
+
+## ⭐ Notes
+
+This project is designed as a **production-ready backend** and a strong foundation for scalable systems following modern .NET best practices.
+
+Feel free to fork, contribute, or extend 🚀
