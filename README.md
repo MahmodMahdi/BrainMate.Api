@@ -141,6 +141,7 @@ Ensures **code reliability and correctness** through automated tests.
 
 ---
 *** 🔹 Request Lifecycle
+```
 
           ┌───────────┐
           │  Client   │
@@ -198,7 +199,7 @@ Ensures **code reliability and correctness** through automated tests.
        │API Response│
        └────────────┘
 
-
+```
 ---
 
 ## ⚙️ Technologies
