@@ -220,7 +220,6 @@ The project includes a dedicated **Testing Layer** to ensure code quality and lo
 
 * xUnit
 * Moq
-* FluentAssertions
 
 ---
 
@@ -268,7 +267,7 @@ docker run -p 8080:8080 brainmate.api
 
 ## 📬 Contact
 
-**Author:** Mahmoud Elmahdy
+**Author:** Mahmoud Amin
 **Project:** BrainMate.Api
 
 ---
