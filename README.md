@@ -140,19 +140,18 @@ Ensures **code reliability and correctness** through automated tests.
 * Isolated and repeatable tests
 
 ---
-Client
-  └─▶ API Controller
-        └─▶ MediatR
-              └─▶ Pipeline Behaviors
-                    ├─ Validation (FluentValidation)
-                    └─ Cross-Cutting Concerns
-                          └─▶ Command / Query Handler
-                                └─▶ Service Layer (Optional)
-                                      └─▶ Unit of Work
-                                            └─▶ Repository
-                                                  └─▶ DbContext (EF Core)
-                                                        └─▶ ResponseHandler
-                                                              └─▶ API Response
+**Client:**
+ * -> API Controller
+ * -> MediatR
+ * -> Validation Behavior (FluentValidation)
+ * -> Command / Query Handler
+ * -> Service Layer (Optional)
+ * -> Unit of Work
+ * -> Repository
+ * -> DbContext (EF Core)
+ * -> ResponseHandler
+ * -> API Response
+
 
 ---
 
