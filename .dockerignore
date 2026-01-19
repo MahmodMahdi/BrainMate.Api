@@ -1,0 +1,22 @@
+# تجاهل فولدرات الـ Build المحلية (أهم حاجة عشان الـ Error يختفي)
+**/bin/
+**/obj/
+
+# تجاهل إعدادات Visual Studio
+**/.vs/
+**/.user/
+
+# تجاهل ملفات الـ Git (عشان حجم الـ Image ميكبرش)
+.git/
+.gitignore
+.github/
+
+# تجاهل ملفات الـ Docker نفسها
+Dockerfile
+.dockerignore
+docker-compose*
+
+# تجاهل أي ملفات Log أو إعدادات شخصية
+*.user
+*.db
+*.log
