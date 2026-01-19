@@ -255,7 +255,8 @@ dotnet run
 docker build -t brainmate.api .
 docker run -p 8080:8080 brainmate.api
 ```
-
+# Run the whole infrastructure (API + SQL Server + Logging)
+docker-compose up -d
 ---
 
 ## 📖 API Documentation
