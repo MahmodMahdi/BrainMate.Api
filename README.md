@@ -140,15 +140,15 @@ Ensures **code reliability and correctness** through automated tests.
 * Isolated and repeatable tests
 
 ---
-🔄 Request Lifecycle
-Client
-→ Controller
-→ MediatR
-→ Validation Behavior
-→ Command / Query Handler
-→ UnitOfWork / Repository
-→ ResponseHandler
-→ API Response
+##🔄 Request Lifecycle
+###Client
+*→ Controller
+*→ MediatR
+*→ Validation Behavior
+*→ Command / Query Handler
+*→ UnitOfWork / Repository
+*→ ResponseHandler
+*→ API Response
 ---
 
 ## ⚙️ Technologies
@@ -265,9 +265,11 @@ dotnet run
 docker build -t brainmate.api .
 docker run -p 8080:8080 brainmate.api
 ```
-# Run the whole infrastructure (API + SQL Server + Logging)
+### Run the whole infrastructure (API + SQL Server + Logging)
+
+```bash
 docker-compose up -d
----
+```
 
 ## 📖 API Documentation
 
