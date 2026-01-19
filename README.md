@@ -142,27 +142,27 @@ Ensures **code reliability and correctness** through automated tests.
 ---
 *** 🔹 Request Lifecycle
 
-Client
-  v
-API Controller
-  v
-MediatR
-  v
-Validation Behavior (FluentValidation)
-  v
-Command / Query Handler
-  v
-Service Layer (Optional)
-  v
-Unit of Work
-  v
-Repository
-  v
-DbContext (EF Core)
-  v
-ResponseHandler
-  v
-API Response
+* Client
+*   v
+* API Controller
+*   v
+* MediatR
+*   v
+* Validation Behavior (FluentValidation)
+*   v
+* Command / Query Handler
+*   v
+* Service Layer (Optional)
+*   v
+* Unit of Work
+*   v
+* Repository
+*   v
+* DbContext (EF Core)
+*   v
+* ResponseHandler
+*   v
+* API Response
 
 
 ---
