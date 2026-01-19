@@ -276,7 +276,8 @@ docker-compose up -d
 Feel free to reach out for collaborations or just a friendly tech chat!
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mahmoud-amin-145272290)
-[![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:MahmoudElmahdy555@gmail.com)
+
+MahmoudElmahdy555@gmail.com
 
 ---
 
