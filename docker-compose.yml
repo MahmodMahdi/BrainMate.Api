@@ -1,0 +1,37 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: brainmate-db
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+    networks:
+      - brainmate-net
+
+  web-app:
+    restart: always
+    build: .
+    container_name: brainmate-api
+    depends_on:
+      - db
+    ports:
+      - "8081:8080"
+    env_file:
+      - .env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+    networks:
+      - brainmate-net
+
+networks:
+  brainmate-net:
+    driver: bridge
+
+volumes:
+  sql_data:
